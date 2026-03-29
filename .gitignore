@@ -1,0 +1,13 @@
+# software-architect: repositório apenas de Markdown
+*
+!*/
+!.gitignore
+!**/*.md
+!**/*.ipynb
+
+# Lixo de sistema/editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
