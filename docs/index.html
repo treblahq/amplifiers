@@ -1,37 +1,145 @@
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Amplifiers — Reusable AI Capabilities</title>
     <meta
       name="description"
-      content="Amplifiers is an open-source collection of reusable AI capability modules you can paste into any agent prompt."
+      content="Amplifiers is a collection of reusable skills for AI agents. Pick a module, paste the SKILL.md into your instructions, and keep moving."
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700&family=Space+Grotesk:wght@600;700&display=swap"
+      rel="stylesheet"
     />
     <link rel="icon" type="image/png" href="./assets/images/logo.png" />
     <meta property="og:image" content="./assets/images/trebla-amplifiers.png" />
 
+    <script>
+      (function applyInitialTheme() {
+        const storageKey = 'trebla-theme';
+        let theme = 'dark';
+
+        try {
+          const stored = window.localStorage.getItem(storageKey);
+          if (stored === 'dark' || stored === 'light') {
+            theme = stored;
+          } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            theme = 'dark';
+          } else {
+            theme = 'light';
+          }
+        } catch {
+          theme = 'dark';
+        }
+
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+    <style>
+      :root,
+      [data-theme="dark"] {
+        color-scheme: dark;
+        --doc-bg: #010101;
+        --doc-bg2: #101114;
+        --doc-surface: #1c1c1e;
+        --doc-surface2: #24262c;
+        --doc-text: #f5f7fb;
+        --doc-text2: #c7ccd9;
+        --doc-muted: #8d93a4;
+        --doc-border: #31333b;
+        --doc-border-strong: #272931;
+        --doc-accent: #2f6cff;
+        --doc-gradient:
+          radial-gradient(circle at 14% 22%, rgba(47, 108, 255, 0.3), transparent 52%),
+          radial-gradient(circle at 84% 84%, rgba(124, 167, 255, 0.2), transparent 50%);
+      }
+
+      [data-theme="light"] {
+        color-scheme: light;
+        --doc-bg: #f7f8fb;
+        --doc-bg2: #f1f3f7;
+        --doc-surface: #ffffff;
+        --doc-surface2: #fbfcfe;
+        --doc-text: #151821;
+        --doc-text2: #50576a;
+        --doc-muted: #6d758a;
+        --doc-border: #dde2eb;
+        --doc-border-strong: #e7ebf2;
+        --doc-accent: #2f6cff;
+        --doc-gradient:
+          radial-gradient(circle at 12% 20%, rgba(47, 108, 255, 0.15), transparent 46%),
+          radial-gradient(circle at 84% 84%, rgba(80, 130, 255, 0.12), transparent 52%);
+      }
+
+      [data-theme="light"] [class*="border-white/10"] {
+        border-color: rgba(148, 163, 184, 0.26) !important;
+      }
+
+      [data-theme="light"] [class*="border-white/15"] {
+        border-color: rgba(148, 163, 184, 0.36) !important;
+      }
+
+      [data-theme="light"] [class*="bg-white/5"] {
+        background-color: rgba(148, 163, 184, 0.12) !important;
+      }
+
+      .footer-logo {
+        display: none;
+      }
+
+      [data-theme="dark"] .footer-logo-dark {
+        display: block;
+      }
+
+      [data-theme="light"] .footer-logo-light {
+        display: block;
+      }
+    </style>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
+              brand: {
+                50: "#eef4ff",
+                100: "#dbe7ff",
+                200: "#bfd4ff",
+                300: "#94b7ff",
+                400: "#5f90ff",
+                500: "#2f6cff",
+                600: "#1e55df",
+                700: "#1b46b6",
+              },
               doc: {
-                bg: "#0d0d0f",
-                bg2: "#111114",
-                surface: "#16161a",
-                surface2: "#1e1e24",
-                text: "#e2e2ec",
-                text2: "#9898b3",
-                muted: "#5a5a72",
-                border: "rgba(255,255,255,0.08)",
-                borderStrong: "rgba(255,255,255,0.14)",
-                accent: "#7c6af7",
+                bg: "var(--doc-bg)",
+                bg2: "var(--doc-bg2)",
+                surface: "var(--doc-surface)",
+                surface2: "var(--doc-surface2)",
+                text: "var(--doc-text)",
+                text2: "var(--doc-text2)",
+                muted: "var(--doc-muted)",
+                border: "var(--doc-border)",
+                borderStrong: "var(--doc-border-strong)",
+                accent: "var(--doc-accent)",
               },
             },
+            fontFamily: {
+              sans: ["Inter", "Manrope", "ui-sans-serif", "system-ui", "-apple-system", "sans-serif"],
+              display: ["Space Grotesk", "Inter", "ui-sans-serif", "system-ui", "-apple-system", "sans-serif"],
+            },
             boxShadow: {
-              soft: "0 1px 0 rgba(255,255,255,0.04), 0 10px 30px rgba(0,0,0,0.35)",
+              soft: "0 12px 30px -22px rgba(15,23,42,0.12), 0 24px 52px -28px rgba(15,23,42,0.16)",
             },
           },
         },
@@ -39,18 +147,21 @@
     </script>
     <script src="./assets/js/main.js" defer></script>
   </head>
-  <body
-    class="min-h-screen bg-doc-bg text-doc-text antialiased selection:bg-violet-500/30"
-  >
+  <body class="min-h-screen bg-doc-bg font-sans text-doc-text antialiased selection:bg-brand-500/30">
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-3 focus:z-[300] focus:rounded-md focus:border focus:border-violet-400/40 focus:bg-doc-surface focus:px-3 focus:py-2 focus:text-sm"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-3 focus:z-[300] focus:rounded-md focus:border focus:border-brand-400/40 focus:bg-doc-surface focus:px-3 focus:py-2 focus:text-sm"
     >
       Skip to main content
     </a>
+    <div
+      aria-hidden="true"
+      style="background: var(--doc-gradient)"
+      class="pointer-events-none fixed inset-0 -z-10"
+    ></div>
 
     <header
-      class="fixed inset-x-0 top-0 z-[200] flex h-[60px] items-center gap-4 border-b border-white/10 bg-doc-bg/90 px-4 backdrop-blur md:px-6"
+      class="fixed inset-x-0 top-0 z-[200] flex h-[60px] items-center gap-4 border-b border-white/10 bg-doc-bg px-4 backdrop-blur md:px-6"
     >
       <a href="#overview" class="flex min-w-0 items-center gap-3">
         <span
@@ -61,7 +172,7 @@
         </span>
         <span class="truncate text-sm font-semibold tracking-tight">
           trebla <span class="text-doc-muted">/</span>
-          <span class="text-violet-300">amplifiers</span>
+          <span class="text-brand-300">amplifiers</span>
         </span>
       </a>
 
@@ -70,7 +181,9 @@
           id="search-trigger"
           type="button"
           aria-label="Search amplifiers documentation"
-          class="hidden min-w-[180px] items-center gap-2 rounded-md border border-white/15 bg-doc-surface px-3 py-1.5 text-left text-xs text-doc-muted transition hover:border-violet-400/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60 md:flex"
+          aria-haspopup="dialog"
+          aria-expanded="false"
+          class="hidden min-w-[180px] items-center gap-2 rounded-md border border-white/15 bg-doc-surface px-3 py-1.5 text-left text-xs text-doc-muted transition hover:border-brand-400/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/60 md:flex"
         >
           <svg
             width="13"
@@ -102,6 +215,19 @@
             ⌘K
           </kbd>
         </button>
+        <button
+          id="search-trigger-mobile"
+          type="button"
+          aria-label="Open search"
+          aria-haspopup="dialog"
+          aria-expanded="false"
+          class="inline-flex items-center justify-center rounded-md border border-white/15 bg-doc-surface p-2 text-doc-muted transition hover:border-brand-400/40 hover:text-doc-text focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/60 md:hidden"
+        >
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.5" />
+            <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+        </button>
 
         <nav aria-label="Primary" class="hidden items-center gap-1 md:flex">
           <a
@@ -112,16 +238,57 @@
             Docs
           </a>
           <a
-            href="https://github.com/treblahq/amplifiers"
+            href="../CHANGELOG.md"
             class="rounded px-2.5 py-1 text-xs text-doc-text2 transition hover:bg-doc-surface hover:text-doc-text"
           >
             Changelog
           </a>
         </nav>
 
+        <button
+          id="theme-toggle"
+          type="button"
+          aria-label="Switch theme"
+          title="Switch theme"
+          aria-pressed="true"
+          class="inline-flex items-center rounded-lg border border-white/15 bg-doc-surface p-1 text-doc-text transition hover:border-brand-400/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/60"
+        >
+          <span
+            class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-brand-500/10 text-doc-text"
+          >
+            <svg
+              id="theme-icon-dark"
+              width="15"
+              height="15"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M8.79 1.13A.75.75 0 008 2v.03a5.97 5.97 0 100 11.94h.1a.75.75 0 00.76-.96A5.5 5.5 0 018.79 1.13z"
+                stroke="currentColor"
+                stroke-width="1.4"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <svg
+              id="theme-icon-light"
+              width="15"
+              height="15"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+              class="hidden"
+            >
+              <circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4" />
+              <path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.2 3.2l1.4 1.4M11.4 11.4l1.4 1.4M12.8 3.2l-1.4 1.4M4.6 11.4l-1.4 1.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+            </svg>
+          </span>
+        </button>
+
         <a
           href="https://github.com/treblahq/amplifiers"
-          class="inline-flex items-center gap-1.5 rounded-md border border-white/15 bg-doc-surface px-3 py-1.5 text-xs font-semibold text-doc-text transition hover:border-violet-400/40 hover:bg-doc-surface2"
+          class="inline-flex items-center gap-1.5 rounded-md border border-white/15 bg-doc-surface px-3 py-1.5 text-xs font-semibold text-doc-text transition hover:border-brand-400/40 hover:bg-doc-surface2"
         >
           <svg
             width="14"
@@ -139,90 +306,217 @@
       </div>
     </header>
 
-    <div class="flex pt-[60px]">
+    <div
+      id="docs-layout"
+      data-sidebar-collapsed="false"
+      style="--docs-sidebar-width: 272px"
+      class="flex pt-[60px]"
+    >
       <aside
-        class="sidebar fixed bottom-0 left-0 top-[60px] hidden w-[272px] overflow-y-auto border-r border-white/10 bg-doc-bg2 py-6 md:block"
+        class="sidebar fixed bottom-0 left-0 top-[60px] hidden overflow-y-auto border-r border-white/10 bg-doc-bg2 py-6 md:block md:[width:var(--docs-sidebar-width)]"
         aria-label="Sidebar navigation"
       >
-        <nav aria-label="Documentation sections">
-          <div class="mb-7">
+        <nav aria-label="Documentation sections" class="px-3">
+          <div class="mb-4 flex items-center justify-between px-1">
             <p
-              class="mb-1.5 px-5 text-[11px] font-bold uppercase tracking-wider text-doc-muted"
+              data-sidebar-section-title
+              class="px-2 text-[11px] font-bold uppercase tracking-wider text-doc-muted"
+            >
+              Navigation
+            </p>
+            <button
+              id="sidebar-toggle"
+              type="button"
+              aria-label="Collapse sidebar"
+              aria-expanded="true"
+              class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/15 bg-doc-surface text-doc-muted transition hover:border-brand-400/40 hover:text-doc-text focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/60"
+            >
+              <svg
+                id="sidebar-toggle-icon"
+                width="14"
+                height="14"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+                class="transition-transform"
+              >
+                <path
+                  d="M9.75 3.25L5.25 8L9.75 12.75"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div class="mb-6">
+            <p
+              data-sidebar-section-title
+              class="mb-1.5 px-3 text-[11px] font-bold uppercase tracking-wider text-doc-muted"
             >
               Getting started
             </p>
-            <a
-              href="#overview"
-              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
-            >
-              <span aria-hidden="true">🏠</span> Overview
-            </a>
-            <a
-              href="#usage"
-              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
-            >
-              <span aria-hidden="true">🚀</span> Quick start
-            </a>
+            <div class="space-y-1">
+              <a
+                href="#overview"
+                data-sidebar-item-label="Overview"
+                class="sidebar-item group/item flex items-center gap-2 rounded-lg border border-transparent px-3 py-1.5 text-[13px] text-doc-text2 transition hover:border-white/10 hover:bg-white/5 hover:text-doc-text [&.active]:border-brand-400/40 [&.active]:bg-brand-500/10 [&.active]:font-semibold [&.active]:text-brand-300 [&.active_.sidebar-hash]:opacity-100"
+              >
+                <span aria-hidden="true">🏠</span>
+                <span data-sidebar-label class="truncate">Overview</span>
+                <span
+                  class="sidebar-hash ml-auto rounded border border-brand-400/20 px-1.5 py-0.5 font-mono text-[10px] text-brand-300 opacity-0 transition group-hover/item:opacity-100"
+                  >#overview</span
+                >
+              </a>
+              <a
+                href="#usage"
+                data-sidebar-item-label="Quick start"
+                class="sidebar-item group/item flex items-center gap-2 rounded-lg border border-transparent px-3 py-1.5 text-[13px] text-doc-text2 transition hover:border-white/10 hover:bg-white/5 hover:text-doc-text [&.active]:border-brand-400/40 [&.active]:bg-brand-500/10 [&.active]:font-semibold [&.active]:text-brand-300 [&.active_.sidebar-hash]:opacity-100"
+              >
+                <span aria-hidden="true">🚀</span>
+                <span data-sidebar-label class="truncate">Quick start</span>
+                <span
+                  class="sidebar-hash ml-auto rounded border border-brand-400/20 px-1.5 py-0.5 font-mono text-[10px] text-brand-300 opacity-0 transition group-hover/item:opacity-100"
+                  >#usage</span
+                >
+              </a>
+            </div>
           </div>
 
-          <div class="mb-7">
+          <div class="mb-6">
             <p
-              class="mb-1.5 px-5 text-[11px] font-bold uppercase tracking-wider text-doc-muted"
+              data-sidebar-section-title
+              class="mb-1.5 px-3 text-[11px] font-bold uppercase tracking-wider text-doc-muted"
             >
               Amplifiers
             </p>
-            <a
-              href="#humanize-writing"
-              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
-              ><span aria-hidden="true">✍️</span> Humanize Writing</a
-            >
-            <a
-              href="#prompt-engineering"
-              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
-              ><span aria-hidden="true">⚡</span> Prompt Engineering</a
-            >
-            <a
-              href="#knowledge-writing"
-              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
-              ><span aria-hidden="true">📚</span> Knowledge Writing</a
-            >
-            <a
-              href="#sales-copywriting"
-              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
-              ><span aria-hidden="true">💬</span> Sales Copywriting</a
-            >
-            <a
-              href="#django-drf"
-              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
-              ><span aria-hidden="true">🐍</span> Django + DRF</a
-            >
-            <a
-              href="#react-ecosystem"
-              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
-              ><span aria-hidden="true">⚛️</span> React Ecosystem</a
-            >
+            <div class="space-y-1">
+              <a
+                href="#humanize-writing"
+                data-sidebar-item-label="Humanize Writing"
+                class="sidebar-item group/item flex items-center gap-2 rounded-lg border border-transparent px-3 py-1.5 text-[13px] text-doc-text2 transition hover:border-white/10 hover:bg-white/5 hover:text-doc-text [&.active]:border-brand-400/40 [&.active]:bg-brand-500/10 [&.active]:font-semibold [&.active]:text-brand-300 [&.active_.sidebar-hash]:opacity-100"
+              >
+                <span aria-hidden="true">✍️</span>
+                <span data-sidebar-label class="truncate">Humanize Writing</span>
+                <span
+                  class="sidebar-hash ml-auto rounded border border-brand-400/20 px-1.5 py-0.5 font-mono text-[10px] text-brand-300 opacity-0 transition group-hover/item:opacity-100"
+                  >#humanize-writing</span
+                >
+              </a>
+              <a
+                href="#prompt-engineering"
+                data-sidebar-item-label="Prompt Engineering"
+                class="sidebar-item group/item flex items-center gap-2 rounded-lg border border-transparent px-3 py-1.5 text-[13px] text-doc-text2 transition hover:border-white/10 hover:bg-white/5 hover:text-doc-text [&.active]:border-brand-400/40 [&.active]:bg-brand-500/10 [&.active]:font-semibold [&.active]:text-brand-300 [&.active_.sidebar-hash]:opacity-100"
+              >
+                <span aria-hidden="true">⚡</span>
+                <span data-sidebar-label class="truncate">Prompt Engineering</span>
+                <span
+                  class="sidebar-hash ml-auto rounded border border-brand-400/20 px-1.5 py-0.5 font-mono text-[10px] text-brand-300 opacity-0 transition group-hover/item:opacity-100"
+                  >#prompt-engineering</span
+                >
+              </a>
+              <a
+                href="#knowledge-writing"
+                data-sidebar-item-label="Knowledge Writing"
+                class="sidebar-item group/item flex items-center gap-2 rounded-lg border border-transparent px-3 py-1.5 text-[13px] text-doc-text2 transition hover:border-white/10 hover:bg-white/5 hover:text-doc-text [&.active]:border-brand-400/40 [&.active]:bg-brand-500/10 [&.active]:font-semibold [&.active]:text-brand-300 [&.active_.sidebar-hash]:opacity-100"
+              >
+                <span aria-hidden="true">📚</span>
+                <span data-sidebar-label class="truncate">Knowledge Writing</span>
+                <span
+                  class="sidebar-hash ml-auto rounded border border-brand-400/20 px-1.5 py-0.5 font-mono text-[10px] text-brand-300 opacity-0 transition group-hover/item:opacity-100"
+                  >#knowledge-writing</span
+                >
+              </a>
+              <a
+                href="#sales-copywriting"
+                data-sidebar-item-label="Sales Copywriting"
+                class="sidebar-item group/item flex items-center gap-2 rounded-lg border border-transparent px-3 py-1.5 text-[13px] text-doc-text2 transition hover:border-white/10 hover:bg-white/5 hover:text-doc-text [&.active]:border-brand-400/40 [&.active]:bg-brand-500/10 [&.active]:font-semibold [&.active]:text-brand-300 [&.active_.sidebar-hash]:opacity-100"
+              >
+                <span aria-hidden="true">💬</span>
+                <span data-sidebar-label class="truncate">Sales Copywriting</span>
+                <span
+                  class="sidebar-hash ml-auto rounded border border-brand-400/20 px-1.5 py-0.5 font-mono text-[10px] text-brand-300 opacity-0 transition group-hover/item:opacity-100"
+                  >#sales-copywriting</span
+                >
+              </a>
+              <a
+                href="#django-drf"
+                data-sidebar-item-label="Django + DRF"
+                class="sidebar-item group/item flex items-center gap-2 rounded-lg border border-transparent px-3 py-1.5 text-[13px] text-doc-text2 transition hover:border-white/10 hover:bg-white/5 hover:text-doc-text [&.active]:border-brand-400/40 [&.active]:bg-brand-500/10 [&.active]:font-semibold [&.active]:text-brand-300 [&.active_.sidebar-hash]:opacity-100"
+              >
+                <span aria-hidden="true">🐍</span>
+                <span data-sidebar-label class="truncate">Django + DRF</span>
+                <span
+                  class="sidebar-hash ml-auto rounded border border-brand-400/20 px-1.5 py-0.5 font-mono text-[10px] text-brand-300 opacity-0 transition group-hover/item:opacity-100"
+                  >#django-drf</span
+                >
+              </a>
+              <a
+                href="#react-ecosystem"
+                data-sidebar-item-label="React Ecosystem"
+                class="sidebar-item group/item flex items-center gap-2 rounded-lg border border-transparent px-3 py-1.5 text-[13px] text-doc-text2 transition hover:border-white/10 hover:bg-white/5 hover:text-doc-text [&.active]:border-brand-400/40 [&.active]:bg-brand-500/10 [&.active]:font-semibold [&.active]:text-brand-300 [&.active_.sidebar-hash]:opacity-100"
+              >
+                <span aria-hidden="true">⚛️</span>
+                <span data-sidebar-label class="truncate">React Ecosystem</span>
+                <span
+                  class="sidebar-hash ml-auto rounded border border-brand-400/20 px-1.5 py-0.5 font-mono text-[10px] text-brand-300 opacity-0 transition group-hover/item:opacity-100"
+                  >#react-ecosystem</span
+                >
+              </a>
+            </div>
           </div>
 
           <div>
             <p
-              class="mb-1.5 px-5 text-[11px] font-bold uppercase tracking-wider text-doc-muted"
+              data-sidebar-section-title
+              class="mb-1.5 px-3 text-[11px] font-bold uppercase tracking-wider text-doc-muted"
             >
               Resources
             </p>
-            <a
-              href="https://github.com/treblahq/amplifiers"
-              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text"
-              ><span aria-hidden="true">⭐</span> GitHub
-              <span
-                class="ml-auto rounded border border-violet-400/30 bg-violet-500/10 px-1.5 text-[10px] text-violet-300"
-                >↗</span
-              ></a
-            >
-            <a
-              href="https://github.com/treblahq/amplifiers/blob/main/CONTRIBUTING.md"
-              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text"
-              ><span aria-hidden="true">🤝</span> Contributing</a
-            >
+            <div class="space-y-1">
+              <a
+                href="../CHANGELOG.md"
+                data-sidebar-item-label="Changelog (.md)"
+                class="sidebar-item flex items-center gap-2 rounded-lg border border-transparent px-3 py-1.5 text-[13px] text-doc-text2 transition hover:border-white/10 hover:bg-white/5 hover:text-doc-text"
+              >
+                <span aria-hidden="true">📝</span>
+                <span data-sidebar-label>Changelog</span>
+                <span
+                  data-sidebar-label
+                  class="ml-auto rounded border border-brand-400/30 bg-brand-500/10 px-1.5 text-[10px] font-mono text-brand-300"
+                  >.md</span
+                >
+              </a>
+              <a
+                href="https://github.com/treblahq/amplifiers"
+                data-sidebar-item-label="GitHub"
+                class="sidebar-item flex items-center gap-2 rounded-lg border border-transparent px-3 py-1.5 text-[13px] text-doc-text2 transition hover:border-white/10 hover:bg-white/5 hover:text-doc-text"
+              >
+                <span aria-hidden="true">⭐</span>
+                <span data-sidebar-label>GitHub</span>
+                <span
+                  data-sidebar-label
+                  class="ml-auto rounded border border-brand-400/30 bg-brand-500/10 px-1.5 text-[10px] text-brand-300"
+                  >↗</span
+                >
+              </a>
+              <a
+                href="../CONTRIBUTING.md"
+                data-sidebar-item-label="Contributing (.md)"
+                class="sidebar-item flex items-center gap-2 rounded-lg border border-transparent px-3 py-1.5 text-[13px] text-doc-text2 transition hover:border-white/10 hover:bg-white/5 hover:text-doc-text"
+              >
+                <span aria-hidden="true">🤝</span>
+                <span data-sidebar-label>Contributing</span>
+                <span
+                  data-sidebar-label
+                  class="ml-auto rounded border border-brand-400/30 bg-brand-500/10 px-1.5 text-[10px] font-mono text-brand-300"
+                  >.md</span
+                >
+              </a>
+            </div>
           </div>
         </nav>
       </aside>
@@ -230,7 +524,7 @@
       <main
         id="main-content"
         tabindex="-1"
-        class="main min-w-0 flex-1 md:ml-[272px] xl:mr-[224px]"
+        class="main min-w-0 flex-1 md:[margin-left:var(--docs-sidebar-width)] xl:mr-[224px]"
       >
         <div class="content mx-auto max-w-[800px] px-5 py-12 md:px-12 md:py-14">
           <header
@@ -241,27 +535,27 @@
               aria-label="Breadcrumb"
               class="breadcrumbs mb-5 flex items-center gap-2 text-xs text-doc-muted"
             >
-              <a href="#" class="hover:text-violet-300">trebla</a>
+              <a href="#" class="hover:text-brand-300">trebla</a>
               <span>/</span>
-              <a href="#" class="hover:text-violet-300">amplifiers</a>
+              <a href="#" class="hover:text-brand-300">amplifiers</a>
               <span>/</span>
               <span class="text-doc-text2">overview</span>
             </nav>
-            <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">
+            <h1 class="font-display text-4xl font-extrabold tracking-tight md:text-5xl">
               Amplifiers
             </h1>
             <p class="mt-4 max-w-2xl text-base leading-7 text-doc-text2">
-              Instruction blocks you paste into any AI agent to make it better
-              at one specific thing. No packages. No config. Just a
+              Reusable instruction blocks for AI agents. Each amplifier handles one
+              job well. No packages, no setup, just a
               <code
-                class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-violet-300"
+                class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-brand-300"
                 >SKILL.md</code
               >
-              and a system prompt.
+              file you can drop into your system prompt.
             </p>
             <div class="page-meta mt-5 flex flex-wrap gap-2">
               <span
-                class="rounded border border-violet-400/30 bg-violet-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-widest text-violet-300"
+                class="rounded border border-brand-400/30 bg-brand-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-widest text-brand-300"
                 >Open Source</span
               >
               <span
@@ -281,21 +575,21 @@
           >
             <span aria-hidden="true">💡</span>
             <span>
-              <strong>No installation.</strong> Every amplifier is plain text.
-              Paste the contents of any
+              <strong>No install step.</strong> Amplifiers are plain text.
+              Copy the contents of
               <code
-                class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-violet-300"
+                class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-brand-300"
                 >SKILL.md</code
               >
-              into your agent's system prompt,
+              into your agent instructions,
               <code
-                class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-violet-300"
+                class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-brand-300"
                 >AGENTS.md</code
               >, or
               <code
-                class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-violet-300"
+                class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-brand-300"
                 >CLAUDE.md</code
-              >.
+              > and run.
             </span>
           </aside>
 
@@ -306,22 +600,20 @@
           >
             <h2
               id="amplifiers-heading"
-              class="mb-4 border-b border-white/10 pb-2 text-2xl font-bold tracking-tight"
+              class="font-display mb-4 border-b border-white/10 pb-2 text-2xl font-bold tracking-tight"
             >
               Available amplifiers
               <a
                 href="#amplifiers"
-                class="ml-1 text-doc-muted hover:text-violet-300"
+                class="ml-1 text-doc-muted hover:text-brand-300"
                 >#</a
               >
             </h2>
-            <p class="mb-5 text-doc-text2">
-              Each one does one thing. They stack well in the same prompt.
-            </p>
+            <p class="mb-5 text-doc-text2">Each one solves a specific problem. Use one or combine several.</p>
 
             <article
               id="humanize-writing"
-              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-violet-400/40"
+              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-brand-400/40"
               aria-labelledby="humanize-writing-title"
             >
               <div class="flex items-start gap-4 px-5 pb-0 pt-5">
@@ -335,19 +627,19 @@
                   <div class="mb-1 flex flex-wrap items-center gap-2">
                     <h3
                       id="humanize-writing-title"
-                      class="amp-title text-[15px] font-bold tracking-tight"
+                      class="amp-title font-display text-[15px] font-bold tracking-tight"
                     >
                       Humanize Writing
                     </h3>
                     <span
-                      class="amp-slug rounded border border-violet-400/30 bg-violet-500/10 px-2 py-0.5 font-mono text-[11px] text-violet-300"
+                      class="amp-slug rounded border border-brand-400/30 bg-brand-500/10 px-2 py-0.5 font-mono text-[11px] text-brand-300"
                       >humanize-writing</span
                     >
                   </div>
                   <p class="amp-desc text-[13px] leading-6 text-doc-text2">
-                    Strips 24 documented AI writing patterns and puts voice back
-                    in. Significance inflation, vague attributions, em dash
-                    overuse, sycophantic tone — each one caught and fixed.
+                    Rewrites robotic copy into natural language. It removes common
+                    AI tells like inflated claims, vague attribution, repetitive
+                    cadence, and generic closings.
                   </p>
                 </div>
               </div>
@@ -383,7 +675,7 @@
                 >
                 <a
                   href="../amplifiers/humanize-writing/SKILL.md"
-                  class="rounded-md border border-violet-400/30 bg-violet-500/10 px-3 py-1.5 text-xs font-semibold text-violet-300 transition hover:border-violet-300 hover:bg-violet-500/20"
+                  class="rounded-md border border-brand-400/30 bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-300 transition hover:border-brand-300 hover:bg-brand-500/20"
                   >View SKILL.md ↗</a
                 >
               </div>
@@ -391,7 +683,7 @@
 
             <article
               id="prompt-engineering"
-              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-violet-400/40"
+              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-brand-400/40"
               aria-labelledby="prompt-engineering-title"
             >
               <div class="flex items-start gap-4 px-5 pb-0 pt-5">
@@ -405,19 +697,18 @@
                   <div class="mb-1 flex flex-wrap items-center gap-2">
                     <h3
                       id="prompt-engineering-title"
-                      class="amp-title text-[15px] font-bold tracking-tight"
+                      class="amp-title font-display text-[15px] font-bold tracking-tight"
                     >
                       Prompt Engineering
                     </h3>
                     <span
-                      class="amp-slug rounded border border-violet-400/30 bg-violet-500/10 px-2 py-0.5 font-mono text-[11px] text-violet-300"
+                      class="amp-slug rounded border border-brand-400/30 bg-brand-500/10 px-2 py-0.5 font-mono text-[11px] text-brand-300"
                       >prompt-engineering</span
                     >
                   </div>
                   <p class="amp-desc text-[13px] leading-6 text-doc-text2">
-                    Takes a rough idea and turns it into a prompt that works.
-                    Covers image, video, audio, and text generation for major AI
-                    platforms.
+                    Turns rough ideas into prompts that are ready to run for text,
+                    image, audio, and video models.
                   </p>
                 </div>
               </div>
@@ -458,7 +749,7 @@
                 >
                 <a
                   href="../amplifiers/prompt-engineering/SKILL.md"
-                  class="rounded-md border border-violet-400/30 bg-violet-500/10 px-3 py-1.5 text-xs font-semibold text-violet-300 transition hover:border-violet-300 hover:bg-violet-500/20"
+                  class="rounded-md border border-brand-400/30 bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-300 transition hover:border-brand-300 hover:bg-brand-500/20"
                   >View SKILL.md ↗</a
                 >
               </div>
@@ -466,7 +757,7 @@
 
             <article
               id="knowledge-writing"
-              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-violet-400/40"
+              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-brand-400/40"
               aria-labelledby="knowledge-writing-title"
             >
               <div class="flex items-start gap-4 px-5 pb-0 pt-5">
@@ -480,18 +771,18 @@
                   <div class="mb-1 flex flex-wrap items-center gap-2">
                     <h3
                       id="knowledge-writing-title"
-                      class="amp-title text-[15px] font-bold tracking-tight"
+                      class="amp-title font-display text-[15px] font-bold tracking-tight"
                     >
                       Knowledge Writing
                     </h3>
                     <span
-                      class="amp-slug rounded border border-violet-400/30 bg-violet-500/10 px-2 py-0.5 font-mono text-[11px] text-violet-300"
+                      class="amp-slug rounded border border-brand-400/30 bg-brand-500/10 px-2 py-0.5 font-mono text-[11px] text-brand-300"
                       >knowledge-writing</span
                     >
                   </div>
                   <p class="amp-desc text-[13px] leading-6 text-doc-text2">
-                    Maps a codebase and writes documentation by topic in clear,
-                    modular markdown files.
+                    Maps a codebase and writes documentation by topic, with clear
+                    structure and factual tone.
                   </p>
                 </div>
               </div>
@@ -522,7 +813,7 @@
                 >
                 <a
                   href="../amplifiers/knowledge-writing/SKILL.md"
-                  class="rounded-md border border-violet-400/30 bg-violet-500/10 px-3 py-1.5 text-xs font-semibold text-violet-300 transition hover:border-violet-300 hover:bg-violet-500/20"
+                  class="rounded-md border border-brand-400/30 bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-300 transition hover:border-brand-300 hover:bg-brand-500/20"
                   >View SKILL.md ↗</a
                 >
               </div>
@@ -530,7 +821,7 @@
 
             <article
               id="sales-copywriting"
-              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-violet-400/40"
+              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-brand-400/40"
               aria-labelledby="sales-copywriting-title"
             >
               <div class="flex items-start gap-4 px-5 pb-0 pt-5">
@@ -544,18 +835,18 @@
                   <div class="mb-1 flex flex-wrap items-center gap-2">
                     <h3
                       id="sales-copywriting-title"
-                      class="amp-title text-[15px] font-bold tracking-tight"
+                      class="amp-title font-display text-[15px] font-bold tracking-tight"
                     >
                       Sales Copywriting
                     </h3>
                     <span
-                      class="amp-slug rounded border border-violet-400/30 bg-violet-500/10 px-2 py-0.5 font-mono text-[11px] text-violet-300"
+                      class="amp-slug rounded border border-brand-400/30 bg-brand-500/10 px-2 py-0.5 font-mono text-[11px] text-brand-300"
                       >sales-copywriting</span
                     >
                   </div>
                   <p class="amp-desc text-[13px] leading-6 text-doc-text2">
-                    Writes conversion copy from a brief: ads, VSLs, landing
-                    pages, emails, and funnel sequences.
+                    Builds conversion-focused copy from a brief: ads, landing
+                    pages, VSL scripts, emails, and funnel flows.
                   </p>
                 </div>
               </div>
@@ -591,7 +882,7 @@
                 >
                 <a
                   href="../amplifiers/sales-copywriting/SKILL.md"
-                  class="rounded-md border border-violet-400/30 bg-violet-500/10 px-3 py-1.5 text-xs font-semibold text-violet-300 transition hover:border-violet-300 hover:bg-violet-500/20"
+                  class="rounded-md border border-brand-400/30 bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-300 transition hover:border-brand-300 hover:bg-brand-500/20"
                   >View SKILL.md ↗</a
                 >
               </div>
@@ -599,7 +890,7 @@
 
             <article
               id="django-drf"
-              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-violet-400/40"
+              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-brand-400/40"
               aria-labelledby="django-drf-title"
             >
               <div class="flex items-start gap-4 px-5 pb-0 pt-5">
@@ -613,19 +904,19 @@
                   <div class="mb-1 flex flex-wrap items-center gap-2">
                     <h3
                       id="django-drf-title"
-                      class="amp-title text-[15px] font-bold tracking-tight"
+                      class="amp-title font-display text-[15px] font-bold tracking-tight"
                     >
                       Django + DRF
                     </h3>
                     <span
-                      class="amp-slug rounded border border-violet-400/30 bg-violet-500/10 px-2 py-0.5 font-mono text-[11px] text-violet-300"
+                      class="amp-slug rounded border border-brand-400/30 bg-brand-500/10 px-2 py-0.5 font-mono text-[11px] text-brand-300"
                       >django-drf</span
                     >
                   </div>
                   <p class="amp-desc text-[13px] leading-6 text-doc-text2">
-                    Architecture rules for Django REST Framework:
-                    services/selectors, naming conventions, project structure,
-                    and anti-patterns.
+                    Practical architecture guidance for Django REST Framework,
+                    including service boundaries, naming, API structure, and
+                    common pitfalls.
                   </p>
                 </div>
               </div>
@@ -664,7 +955,7 @@
                 <span class="text-xs text-doc-muted">django-drf/SKILL.md</span>
                 <a
                   href="../amplifiers/django-drf/SKILL.md"
-                  class="rounded-md border border-violet-400/30 bg-violet-500/10 px-3 py-1.5 text-xs font-semibold text-violet-300 transition hover:border-violet-300 hover:bg-violet-500/20"
+                  class="rounded-md border border-brand-400/30 bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-300 transition hover:border-brand-300 hover:bg-brand-500/20"
                   >View SKILL.md ↗</a
                 >
               </div>
@@ -672,7 +963,7 @@
 
             <article
               id="react-ecosystem"
-              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-violet-400/40"
+              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-brand-400/40"
               aria-labelledby="react-ecosystem-title"
             >
               <div class="flex items-start gap-4 px-5 pb-0 pt-5">
@@ -686,18 +977,19 @@
                   <div class="mb-1 flex flex-wrap items-center gap-2">
                     <h3
                       id="react-ecosystem-title"
-                      class="amp-title text-[15px] font-bold tracking-tight"
+                      class="amp-title font-display text-[15px] font-bold tracking-tight"
                     >
                       React Ecosystem
                     </h3>
                     <span
-                      class="amp-slug rounded border border-violet-400/30 bg-violet-500/10 px-2 py-0.5 font-mono text-[11px] text-violet-300"
+                      class="amp-slug rounded border border-brand-400/30 bg-brand-500/10 px-2 py-0.5 font-mono text-[11px] text-brand-300"
                       >react-ecosystem</span
                     >
                   </div>
                   <p class="amp-desc text-[13px] leading-6 text-doc-text2">
-                    Architecture rules for React, Next.js, and React Native
-                    covering hooks, services, state, naming, and performance.
+                    Architecture guidance for React, Next.js, and React Native:
+                    component boundaries, hooks, state management, and
+                    performance.
                   </p>
                 </div>
               </div>
@@ -738,7 +1030,7 @@
                 >
                 <a
                   href="../amplifiers/react-ecosystem/SKILL.md"
-                  class="rounded-md border border-violet-400/30 bg-violet-500/10 px-3 py-1.5 text-xs font-semibold text-violet-300 transition hover:border-violet-300 hover:bg-violet-500/20"
+                  class="rounded-md border border-brand-400/30 bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-300 transition hover:border-brand-300 hover:bg-brand-500/20"
                   >View SKILL.md ↗</a
                 >
               </div>
@@ -752,15 +1044,15 @@
           >
             <h2
               id="usage-heading"
-              class="mb-4 border-b border-white/10 pb-2 text-2xl font-bold tracking-tight"
+              class="font-display mb-4 border-b border-white/10 pb-2 text-2xl font-bold tracking-tight"
             >
               Quick start
-              <a href="#usage" class="ml-1 text-doc-muted hover:text-violet-300"
+              <a href="#usage" class="ml-1 text-doc-muted hover:text-brand-300"
                 >#</a
               >
             </h2>
             <p class="mb-6 text-doc-text2">
-              No packages. No CLI. Pick one, paste it, done.
+              No package install, no CLI, no setup flow.
             </p>
 
             <ol class="relative ml-2 space-y-0 pl-12">
@@ -770,52 +1062,51 @@
               ></span>
               <li class="relative pb-5">
                 <span
-                  class="absolute -left-12 top-0 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-doc-surface font-mono text-xs font-bold text-violet-300"
+                  class="absolute -left-12 top-0 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-doc-surface font-mono text-xs font-bold text-brand-300"
                   >01</span
                 >
                 <h3 class="text-sm font-bold">Pick an amplifier</h3>
                 <p class="mt-1 text-sm text-doc-text2">
-                  Find the one that matches what your agent needs to be better
-                  at.
+                  Start with the bottleneck your agent has right now.
                 </p>
               </li>
               <li class="relative pb-5">
                 <span
-                  class="absolute -left-12 top-0 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-doc-surface font-mono text-xs font-bold text-violet-300"
+                  class="absolute -left-12 top-0 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-doc-surface font-mono text-xs font-bold text-brand-300"
                   >02</span
                 >
                 <h3 class="text-sm font-bold">Open the SKILL.md</h3>
                 <p class="mt-1 text-sm text-doc-text2">
-                  One file. The full instruction set is in there.
+                  Every module is self-contained in one file.
                 </p>
               </li>
               <li class="relative pb-5">
                 <span
-                  class="absolute -left-12 top-0 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-doc-surface font-mono text-xs font-bold text-violet-300"
+                  class="absolute -left-12 top-0 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-doc-surface font-mono text-xs font-bold text-brand-300"
                   >03</span
                 >
                 <h3 class="text-sm font-bold">Paste into your agent</h3>
                 <p class="mt-1 text-sm text-doc-text2">
-                  Into the system prompt,
+                  Paste into your system prompt,
                   <code
-                    class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-violet-300"
+                    class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-brand-300"
                     >AGENTS.md</code
                   >, or
                   <code
-                    class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-violet-300"
+                    class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-brand-300"
                     >CLAUDE.md</code
                   >.
                 </p>
               </li>
               <li class="relative pb-0">
                 <span
-                  class="absolute -left-12 top-0 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-doc-surface font-mono text-xs font-bold text-violet-300"
+                  class="absolute -left-12 top-0 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-doc-surface font-mono text-xs font-bold text-brand-300"
                   >04</span
                 >
                 <h3 class="text-sm font-bold">Stack as many as you need</h3>
                 <p class="mt-1 text-sm text-doc-text2">
-                  Multiple amplifiers in the same prompt work fine. They are
-                  built to coexist.
+                  Combine modules when your workflow spans writing, backend, and
+                  frontend concerns.
                 </p>
               </li>
             </ol>
@@ -827,7 +1118,7 @@
                 class="flex items-center border-b border-white/10 bg-doc-bg2 px-2"
               >
                 <span
-                  class="border-b-2 border-violet-400 px-3 py-2 font-mono text-xs text-violet-300"
+                  class="border-b-2 border-brand-400 px-3 py-2 font-mono text-xs text-brand-300"
                   >AGENTS.md</span
                 >
                 <span class="px-3 py-2 font-mono text-xs text-doc-muted"
@@ -838,7 +1129,7 @@
                     id="copy-code-btn"
                     type="button"
                     aria-label="Copy code example"
-                    class="inline-flex items-center gap-1 rounded border border-white/15 px-2 py-1 text-[11px] text-doc-muted transition hover:border-violet-400/40 hover:text-doc-text"
+                    class="inline-flex items-center gap-1 rounded border border-white/15 px-2 py-1 text-[11px] text-doc-muted transition hover:border-brand-400/40 hover:text-doc-text"
                   >
                     <svg
                       width="11"
@@ -877,8 +1168,8 @@
             >
               <span aria-hidden="true">ℹ️</span>
               <span>
-                The amplifiers are plain text. If your model takes a system
-                prompt, they work. Claude, GPT, Gemini, local models.
+                If your model supports system instructions, amplifiers work out
+                of the box.
               </span>
             </aside>
           </section>
@@ -887,38 +1178,139 @@
             <div></div>
             <a
               href="https://github.com/treblahq/amplifiers"
-              class="rounded-2xl border border-white/10 px-5 py-4 text-right transition hover:border-violet-400/40 hover:bg-violet-500/10"
+              class="rounded-2xl border border-white/10 px-5 py-4 text-right transition hover:border-brand-400/40 hover:bg-brand-500/10"
             >
               <p
                 class="text-[11px] font-semibold uppercase tracking-widest text-doc-muted"
               >
                 Next →
               </p>
-              <p class="text-sm font-semibold text-violet-300">
+              <p class="text-sm font-semibold text-brand-300">
                 Contributing on GitHub
               </p>
             </a>
           </div>
 
           <footer
-            class="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-doc-muted"
+            class="mt-12 overflow-hidden rounded-3xl border border-white/10 bg-doc-surface/80 shadow-soft"
           >
-            <p>
-              Built by
-              <a
-                class="text-violet-300 hover:underline"
-                href="https://github.com/treblahq"
-                >Trebla</a
-              >
-              · MIT License
-            </p>
-            <p>
-              <a
-                class="text-violet-300 hover:underline"
-                href="https://github.com/treblahq/amplifiers"
-                >Contribute on GitHub</a
-              >
-            </p>
+            <div
+              class="grid gap-8 border-b border-white/10 px-6 py-8 md:grid-cols-[minmax(0,1.4fr)_repeat(2,minmax(0,1fr))] md:px-8"
+            >
+              <div>
+                <a
+                  href="https://github.com/treblahq"
+                  class="inline-flex items-center"
+                  aria-label="Trebla"
+                >
+                  <img
+                    src="./assets/images/branding/trebla-logo-inline.svg"
+                    alt="Trebla"
+                    class="footer-logo footer-logo-dark h-7 w-auto"
+                  />
+                  <img
+                    src="./assets/images/branding/trebla-logo-inline-gradient.svg"
+                    alt="Trebla"
+                    class="footer-logo footer-logo-light h-7 w-auto"
+                  />
+                </a>
+                <p class="mt-4 max-w-md text-sm leading-6 text-doc-text2">
+                  Trebla builds focused tools for creators and teams. Amplifiers is
+                  the open-source layer: reusable capabilities you can plug into
+                  your agents without extra setup.
+                </p>
+                <div class="mt-4 flex flex-wrap gap-2">
+                  <span
+                    class="rounded border border-brand-400/30 bg-brand-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-widest text-brand-300"
+                    >Open Source</span
+                  >
+                  <span
+                    class="rounded border border-emerald-400/30 bg-emerald-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-widest text-emerald-300"
+                    >MIT License</span
+                  >
+                </div>
+              </div>
+
+              <div>
+                <p
+                  class="text-[11px] font-bold uppercase tracking-wider text-doc-muted"
+                >
+                  Product
+                </p>
+                <ul class="mt-3 space-y-2 text-sm text-doc-text2">
+                  <li>
+                    <a href="#overview" class="transition hover:text-brand-300"
+                      >Documentation</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#usage" class="transition hover:text-brand-300"
+                      >Quick start</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#amplifiers" class="transition hover:text-brand-300"
+                      >Available amplifiers</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="../CHANGELOG.md"
+                      class="transition hover:text-brand-300"
+                      >Changelog</a
+                    >
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <p
+                  class="text-[11px] font-bold uppercase tracking-wider text-doc-muted"
+                >
+                  Community
+                </p>
+                <ul class="mt-3 space-y-2 text-sm text-doc-text2">
+                  <li>
+                    <a
+                      href="https://github.com/treblahq/amplifiers"
+                      class="transition hover:text-brand-300"
+                      >GitHub repository</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="../CONTRIBUTING.md"
+                      class="transition hover:text-brand-300"
+                      >Contributing guide</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="../CODE_OF_CONDUCT.md"
+                      class="transition hover:text-brand-300"
+                      >Code of Conduct</a
+                    >
+                  </li>
+                  <li>
+                    <a href="../LICENSE" class="transition hover:text-brand-300"
+                      >License</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div
+              class="flex flex-wrap items-center justify-between gap-3 px-6 py-4 text-xs text-doc-muted md:px-8"
+            >
+              <p>© 2026 Trebla. Built for agents, maintained by the community.</p>
+              <p>
+                Amplifiers is released under
+                <a href="../LICENSE" class="text-brand-300 hover:underline"
+                  >MIT License</a
+                >.
+              </p>
+            </div>
           </footer>
         </div>
       </main>
@@ -936,68 +1328,119 @@
           <li>
             <a
               href="#overview"
-              class="toc-link block border-l-2 border-white/10 py-1 pl-3 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-3 text-xs text-doc-text2 transition hover:border-brand-400 hover:text-doc-text [&.active]:border-brand-400 [&.active]:text-brand-300"
               >Overview</a
             >
           </li>
           <li>
             <a
               href="#amplifiers"
-              class="toc-link block border-l-2 border-white/10 py-1 pl-3 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-3 text-xs text-doc-text2 transition hover:border-brand-400 hover:text-doc-text [&.active]:border-brand-400 [&.active]:text-brand-300"
               >Available amplifiers</a
             >
           </li>
           <li>
             <a
               href="#humanize-writing"
-              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-brand-400 hover:text-doc-text [&.active]:border-brand-400 [&.active]:text-brand-300"
               >Humanize Writing</a
             >
           </li>
           <li>
             <a
               href="#prompt-engineering"
-              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-brand-400 hover:text-doc-text [&.active]:border-brand-400 [&.active]:text-brand-300"
               >Prompt Engineering</a
             >
           </li>
           <li>
             <a
               href="#knowledge-writing"
-              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-brand-400 hover:text-doc-text [&.active]:border-brand-400 [&.active]:text-brand-300"
               >Knowledge Writing</a
             >
           </li>
           <li>
             <a
               href="#sales-copywriting"
-              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-brand-400 hover:text-doc-text [&.active]:border-brand-400 [&.active]:text-brand-300"
               >Sales Copywriting</a
             >
           </li>
           <li>
             <a
               href="#django-drf"
-              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-brand-400 hover:text-doc-text [&.active]:border-brand-400 [&.active]:text-brand-300"
               >Django + DRF</a
             >
           </li>
           <li>
             <a
               href="#react-ecosystem"
-              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-brand-400 hover:text-doc-text [&.active]:border-brand-400 [&.active]:text-brand-300"
               >React Ecosystem</a
             >
           </li>
           <li>
             <a
               href="#usage"
-              class="toc-link block border-l-2 border-white/10 py-1 pl-3 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-3 text-xs text-doc-text2 transition hover:border-brand-400 hover:text-doc-text [&.active]:border-brand-400 [&.active]:text-brand-300"
               >Quick start</a
             >
           </li>
         </ul>
       </aside>
+    </div>
+
+    <div
+      id="search-modal"
+      class="fixed inset-0 z-[260] hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="search-modal-title"
+    >
+      <button
+        id="search-backdrop"
+        type="button"
+        aria-label="Close search"
+        class="absolute inset-0 bg-black/70 backdrop-blur-sm"
+      ></button>
+
+      <div
+        class="relative mx-auto mt-16 w-[min(92vw,720px)] overflow-hidden rounded-2xl border border-white/10 bg-doc-surface shadow-soft md:mt-20"
+      >
+        <h2 id="search-modal-title" class="sr-only">Search docs</h2>
+
+        <div class="flex items-center gap-3 border-b border-white/10 px-4 py-3">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" class="text-doc-muted">
+            <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.5" />
+            <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+          <label for="search-input" class="sr-only">Search</label>
+          <input
+            id="search-input"
+            type="text"
+            autocomplete="off"
+            placeholder="Search by section, amplifier, or slug..."
+            class="w-full bg-transparent text-sm text-doc-text placeholder:text-doc-muted focus:outline-none"
+          />
+          <kbd class="rounded border border-white/15 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[10px] text-doc-muted">Esc</kbd>
+          <button
+            id="search-close"
+            type="button"
+            class="rounded-md border border-white/15 px-2 py-1 text-[11px] font-medium text-doc-muted transition hover:border-brand-400/40 hover:text-doc-text"
+          >
+            Close
+          </button>
+        </div>
+
+        <div class="max-h-[60vh] overflow-y-auto p-2">
+          <ul id="search-results" role="listbox" aria-label="Search results" class="space-y-1"></ul>
+          <p id="search-empty" class="hidden px-3 py-5 text-sm text-doc-muted">
+            No results found. Try another keyword.
+          </p>
+        </div>
+      </div>
     </div>
   </body>
 </html>
