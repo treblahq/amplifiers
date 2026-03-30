@@ -1,1247 +1,1003 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Amplifiers — Reusable AI Capabilities</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --sidebar-width: 272px;
-      --toc-width: 224px;
-      --navbar-height: 60px;
-
-      --bg: #0d0d0f;
-      --bg-secondary: #111114;
-      --surface: #16161a;
-      --surface-2: #1e1e24;
-      --border: rgba(255,255,255,0.08);
-      --border-strong: rgba(255,255,255,0.14);
-      --text: #e2e2ec;
-      --text-secondary: #9898b3;
-      --text-muted: #5a5a72;
-      --accent: #7c6af7;
-      --accent-hover: #6b59e8;
-      --accent-soft: rgba(124,106,247,0.1);
-      --accent-border: rgba(124,106,247,0.25);
-      --green: #4ade80;
-      --blue: #60a5fa;
-      --orange: #fb923c;
-      --pink: #f472b6;
-      --yellow: #facc15;
-      --teal: #2dd4bf;
-      --red: #f87171;
-
-      --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif;
-      --font-mono: "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", monospace;
-      --radius: 8px;
-      --radius-lg: 12px;
-    }
-
-    html { scroll-behavior: smooth; font-size: 15px; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-sans);
-      line-height: 1.65;
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    code {
-      font-family: var(--font-mono);
-      font-size: 0.85em;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 0.15em 0.4em;
-      color: var(--accent);
-    }
-
-    /* ── Navbar ───────────────────────────── */
-    .navbar {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: var(--navbar-height);
-      z-index: 200;
-      background: rgba(13, 13, 15, 0.88);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      padding: 0 1.5rem;
-      gap: 1rem;
-    }
-
-    .navbar-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-weight: 700;
-      font-size: 0.9375rem;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      white-space: nowrap;
-      text-decoration: none;
-    }
-
-    .navbar-brand .logo-icon {
-      width: 30px; height: 30px;
-      background: linear-gradient(135deg, var(--accent) 0%, #a78bfa 100%);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.875rem;
-      flex-shrink: 0;
-    }
-
-    .navbar-brand .brand-sep {
-      color: var(--text-muted);
-      font-weight: 400;
-      margin: 0 0.1rem;
-    }
-
-    .navbar-brand .brand-name {
-      color: var(--accent);
-    }
-
-    .navbar-version {
-      display: inline-flex;
-      align-items: center;
-      font-size: 0.7rem;
-      font-weight: 600;
-      font-family: var(--font-mono);
-      color: var(--text-secondary);
-      background: var(--surface-2);
-      border: 1px solid var(--border-strong);
-      border-radius: 4px;
-      padding: 0.15rem 0.45rem;
-      letter-spacing: 0.03em;
-    }
-
-    .navbar-spacer { flex: 1; }
-
-    .navbar-search {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--surface);
-      border: 1px solid var(--border-strong);
-      border-radius: var(--radius);
-      padding: 0.35rem 0.75rem;
-      font-size: 0.8125rem;
-      color: var(--text-muted);
-      cursor: pointer;
-      min-width: 180px;
-      transition: border-color 0.15s;
-    }
-
-    .navbar-search:hover { border-color: var(--accent-border); }
-
-    .navbar-search kbd {
-      margin-left: auto;
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      background: var(--surface-2);
-      border: 1px solid var(--border-strong);
-      border-radius: 3px;
-      padding: 0.1rem 0.35rem;
-      color: var(--text-muted);
-    }
-
-    .navbar-links {
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-
-    .navbar-link {
-      font-size: 0.8125rem;
-      color: var(--text-secondary);
-      padding: 0.35rem 0.65rem;
-      border-radius: var(--radius);
-      transition: color 0.15s, background 0.15s;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .navbar-link:hover {
-      color: var(--text);
-      background: var(--surface);
-    }
-
-    .navbar-link.active {
-      color: var(--accent);
-      background: var(--accent-soft);
-    }
-
-    .navbar-github {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: var(--text);
-      background: var(--surface);
-      border: 1px solid var(--border-strong);
-      border-radius: var(--radius);
-      padding: 0.35rem 0.75rem;
-      transition: border-color 0.15s, background 0.15s;
-    }
-
-    .navbar-github:hover {
-      border-color: var(--accent-border);
-      background: var(--surface-2);
-    }
-
-    /* ── Layout ───────────────────────────── */
-    .layout {
-      display: flex;
-      margin-top: var(--navbar-height);
-    }
-
-    /* ── Sidebar ──────────────────────────── */
-    .sidebar {
-      position: fixed;
-      top: var(--navbar-height);
-      left: 0;
-      bottom: 0;
-      width: var(--sidebar-width);
-      overflow-y: auto;
-      border-right: 1px solid var(--border);
-      background: var(--bg-secondary);
-      padding: 1.5rem 0 2rem;
-      scrollbar-width: thin;
-      scrollbar-color: var(--border) transparent;
-    }
-
-    .sidebar::-webkit-scrollbar { width: 4px; }
-    .sidebar::-webkit-scrollbar-track { background: transparent; }
-    .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-    .sidebar-section {
-      margin-bottom: 1.75rem;
-    }
-
-    .sidebar-label {
-      font-size: 0.6875rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      padding: 0 1.25rem;
-      margin-bottom: 0.35rem;
-    }
-
-    .sidebar-item {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.35rem 1.25rem;
-      font-size: 0.8375rem;
-      color: var(--text-secondary);
-      border-radius: 0;
-      transition: color 0.1s, background 0.1s;
-      border-left: 2px solid transparent;
-      cursor: pointer;
-    }
-
-    .sidebar-item:hover {
-      color: var(--text);
-      background: rgba(255,255,255,0.03);
-    }
-
-    .sidebar-item.active {
-      color: var(--accent);
-      background: var(--accent-soft);
-      border-left-color: var(--accent);
-      font-weight: 600;
-    }
-
-    .sidebar-item .item-icon {
-      font-size: 0.875rem;
-      width: 18px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .sidebar-item .item-badge {
-      margin-left: auto;
-      font-size: 0.65rem;
-      font-weight: 700;
-      background: var(--accent-soft);
-      color: var(--accent);
-      border: 1px solid var(--accent-border);
-      border-radius: 3px;
-      padding: 0.1rem 0.35rem;
-      font-family: var(--font-mono);
-      letter-spacing: 0.02em;
-    }
-
-    /* ── Main content ─────────────────────── */
-    .main {
-      margin-left: var(--sidebar-width);
-      margin-right: var(--toc-width);
-      min-width: 0;
-      flex: 1;
-    }
-
-    .content {
-      max-width: 800px;
-      padding: 3rem 3rem 5rem;
-    }
-
-    /* ── TOC ──────────────────────────────── */
-    .toc {
-      position: fixed;
-      top: var(--navbar-height);
-      right: 0;
-      bottom: 0;
-      width: var(--toc-width);
-      overflow-y: auto;
-      padding: 2rem 1.25rem;
-      border-left: 1px solid var(--border);
-      scrollbar-width: thin;
-      scrollbar-color: var(--border) transparent;
-    }
-
-    .toc-title {
-      font-size: 0.6875rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 0.75rem;
-    }
-
-    .toc-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.1rem;
-    }
-
-    .toc-link {
-      display: block;
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      padding: 0.25rem 0.6rem;
-      border-left: 2px solid var(--border);
-      transition: color 0.1s, border-color 0.1s;
-      line-height: 1.4;
-    }
-
-    .toc-link:hover, .toc-link.active {
-      color: var(--accent);
-      border-left-color: var(--accent);
-    }
-
-    .toc-link.l2 { padding-left: 1.25rem; }
-
-    /* ── Page header ──────────────────────── */
-    .page-header {
-      padding-bottom: 2rem;
-      margin-bottom: 2.5rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .breadcrumbs {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-bottom: 1.25rem;
-    }
-
-    .breadcrumbs a {
-      color: var(--text-muted);
-      transition: color 0.1s;
-    }
-
-    .breadcrumbs a:hover { color: var(--accent); }
-
-    .breadcrumbs .sep { color: var(--border-strong); }
-
-    .breadcrumbs .current { color: var(--text-secondary); }
-
-    .page-header h1 {
-      font-size: 2rem;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 1.15;
-      margin-bottom: 0.75rem;
-    }
-
-    .page-header p {
-      font-size: 1rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      max-width: 600px;
-    }
-
-    .page-meta {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.75rem;
-      margin-top: 1.25rem;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: 0.2rem 0.6rem;
-      border-radius: 4px;
-    }
-
-    .badge-purple { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border); }
-    .badge-green  { background: rgba(74,222,128,0.08); color: var(--green); border: 1px solid rgba(74,222,128,0.2); }
-    .badge-blue   { background: rgba(96,165,250,0.08); color: var(--blue); border: 1px solid rgba(96,165,250,0.2); }
-
-    /* ── Doc body sections ────────────────── */
-    .doc-section {
-      margin-bottom: 3rem;
-    }
-
-    .doc-section h2 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--border);
-      color: var(--text);
-      scroll-margin-top: calc(var(--navbar-height) + 1rem);
-    }
-
-    .doc-section h2 .anchor {
-      color: var(--text-muted);
-      margin-left: 0.4rem;
-      opacity: 0;
-      transition: opacity 0.1s;
-      font-weight: 400;
-    }
-
-    .doc-section h2:hover .anchor { opacity: 1; }
-
-    .doc-section p {
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: 1rem;
-    }
-
-    /* ── Callout ──────────────────────────── */
-    .callout {
-      display: flex;
-      gap: 0.75rem;
-      padding: 1rem 1.25rem;
-      border-radius: var(--radius);
-      border: 1px solid;
-      margin-bottom: 1.5rem;
-      font-size: 0.875rem;
-      line-height: 1.6;
-    }
-
-    .callout-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.05rem; }
-
-    .callout-info {
-      background: rgba(96,165,250,0.07);
-      border-color: rgba(96,165,250,0.2);
-      color: #93c5fd;
-    }
-
-    .callout-tip {
-      background: rgba(74,222,128,0.07);
-      border-color: rgba(74,222,128,0.2);
-      color: #86efac;
-    }
-
-    .callout strong { color: inherit; }
-
-    /* ── Amplifier entries ────────────────── */
-    .amp-entry {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      margin-bottom: 1rem;
-      transition: border-color 0.15s;
-    }
-
-    .amp-entry:hover { border-color: var(--accent-border); }
-
-    .amp-entry-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      padding: 1.25rem 1.25rem 0;
-    }
-
-    .amp-icon {
-      width: 38px; height: 38px;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.125rem;
-      flex-shrink: 0;
-    }
-
-    .amp-meta { flex: 1; min-width: 0; }
-
-    .amp-title-row {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      margin-bottom: 0.2rem;
-    }
-
-    .amp-title {
-      font-size: 0.9375rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--text);
-    }
-
-    .amp-slug {
-      font-size: 0.72rem;
-      font-family: var(--font-mono);
-      color: var(--accent);
-      background: var(--accent-soft);
-      border: 1px solid var(--accent-border);
-      border-radius: 4px;
-      padding: 0.1rem 0.45rem;
-    }
-
-    .amp-desc {
-      font-size: 0.845rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    .amp-entry-body {
-      padding: 0.75rem 1.25rem 1.25rem;
-    }
-
-    .amp-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.3rem;
-      margin-bottom: 1rem;
-    }
-
-    .amp-tag {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-      background: var(--surface-2);
-      border: 1px solid var(--border-strong);
-      color: var(--text-muted);
-    }
-
-    .amp-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 0.75rem 1.25rem;
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border);
-    }
-
-    .amp-footer-path {
-      font-size: 0.75rem;
-      font-family: var(--font-mono);
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .amp-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--accent);
-      padding: 0.3rem 0.75rem;
-      border: 1px solid var(--accent-border);
-      border-radius: var(--radius);
-      background: var(--accent-soft);
-      transition: background 0.15s, border-color 0.15s;
-    }
-
-    .amp-link:hover {
-      background: rgba(124,106,247,0.18);
-      border-color: var(--accent);
-    }
-
-    /* ── Steps ────────────────────────────── */
-    .steps-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      position: relative;
-    }
-
-    .steps-list::before {
-      content: '';
-      position: absolute;
-      left: 19px;
-      top: 24px;
-      bottom: 24px;
-      width: 1px;
-      background: var(--border);
-    }
-
-    .step-row {
-      display: flex;
-      gap: 1rem;
-      position: relative;
-    }
-
-    .step-num {
-      width: 38px; height: 38px;
-      border-radius: 50%;
-      background: var(--surface);
-      border: 1px solid var(--border-strong);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 700;
-      font-family: var(--font-mono);
-      color: var(--accent);
-      flex-shrink: 0;
-      z-index: 1;
-    }
-
-    .step-content {
-      padding: 0.5rem 0 1.5rem;
-    }
-
-    .step-content h4 {
-      font-size: 0.9rem;
-      font-weight: 700;
-      margin-bottom: 0.3rem;
-      letter-spacing: -0.01em;
-    }
-
-    .step-content p {
-      font-size: 0.845rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    /* ── Code block ──────────────────────── */
-    .code-block {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      margin-bottom: 1.5rem;
-      font-size: 0;
-    }
-
-    .code-tabs {
-      display: flex;
-      background: var(--bg-secondary);
-      border-bottom: 1px solid var(--border);
-      padding: 0 0.5rem;
-      gap: 0;
-    }
-
-    .code-tab {
-      font-size: 0.75rem;
-      font-family: var(--font-mono);
-      color: var(--text-muted);
-      padding: 0.55rem 0.85rem;
-      border-bottom: 2px solid transparent;
-      cursor: pointer;
-      transition: color 0.1s;
-    }
-
-    .code-tab.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
-
-    .code-toolbar {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0 0.5rem;
-    }
-
-    .copy-btn {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      background: none;
-      border: 1px solid var(--border-strong);
-      border-radius: 4px;
-      padding: 0.2rem 0.5rem;
-      cursor: pointer;
-      font-family: var(--font-sans);
-      transition: color 0.1s, border-color 0.1s;
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-
-    .copy-btn:hover { color: var(--text); border-color: var(--accent-border); }
-
-    .code-block pre {
-      padding: 1.25rem;
-      font-family: var(--font-mono);
-      font-size: 0.8125rem;
-      line-height: 1.7;
-      color: var(--text);
-      overflow-x: auto;
-      scrollbar-width: thin;
-      scrollbar-color: var(--border) transparent;
-    }
-
-    .tok-comment { color: var(--text-muted); font-style: italic; }
-    .tok-string  { color: var(--green); }
-    .tok-keyword { color: var(--accent); }
-    .tok-heading { color: var(--blue); font-weight: 600; }
-    .tok-punct   { color: var(--text-muted); }
-
-    /* ── Footer ──────────────────────────── */
-    .doc-footer {
-      margin-top: 4rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-
-    .doc-footer p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin: 0;
-    }
-
-    .doc-footer a {
-      color: var(--accent);
-    }
-
-    .doc-footer a:hover { text-decoration: underline; }
-
-    /* ── Prev/Next nav ─────────────────────── */
-    .page-nav {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-      margin-top: 3rem;
-    }
-
-    .page-nav-btn {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-      padding: 1rem 1.25rem;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      transition: border-color 0.15s, background 0.15s;
-      color: inherit;
-    }
-
-    .page-nav-btn:hover {
-      border-color: var(--accent-border);
-      background: var(--accent-soft);
-    }
-
-    .page-nav-btn.next { text-align: right; }
-
-    .page-nav-dir {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .page-nav-title {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--accent);
-    }
-
-    /* ── Responsive ──────────────────────── */
-    @media (max-width: 1100px) {
-      .toc { display: none; }
-      .main { margin-right: 0; }
-    }
-
-    @media (max-width: 768px) {
-      .sidebar { display: none; }
-      .main { margin-left: 0; }
-      .content { padding: 2rem 1.25rem 4rem; }
-      :root { --toc-width: 0px; }
-      .toc { display: none; }
-      .main { margin-right: 0; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Navbar -->
-  <nav class="navbar">
-    <a href="#" class="navbar-brand">
-      <div class="logo-icon">⚡</div>
-      <span>trebla<span class="brand-sep"> / </span><span class="brand-name">amplifiers</span></span>
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amplifiers — Reusable AI Capabilities</title>
+    <meta
+      name="description"
+      content="Amplifiers is an open-source collection of reusable AI capability modules you can paste into any agent prompt."
+    />
+    <link rel="icon" type="image/png" href="./assets/images/logo.png" />
+    <meta property="og:image" content="./assets/images/trebla-amplifiers.png" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              doc: {
+                bg: "#0d0d0f",
+                bg2: "#111114",
+                surface: "#16161a",
+                surface2: "#1e1e24",
+                text: "#e2e2ec",
+                text2: "#9898b3",
+                muted: "#5a5a72",
+                border: "rgba(255,255,255,0.08)",
+                borderStrong: "rgba(255,255,255,0.14)",
+                accent: "#7c6af7",
+              },
+            },
+            boxShadow: {
+              soft: "0 1px 0 rgba(255,255,255,0.04), 0 10px 30px rgba(0,0,0,0.35)",
+            },
+          },
+        },
+      };
+    </script>
+    <script src="./assets/js/main.js" defer></script>
+  </head>
+  <body
+    class="min-h-screen bg-doc-bg text-doc-text antialiased selection:bg-violet-500/30"
+  >
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-3 focus:z-[300] focus:rounded-md focus:border focus:border-violet-400/40 focus:bg-doc-surface focus:px-3 focus:py-2 focus:text-sm"
+    >
+      Skip to main content
     </a>
-    <span class="navbar-version">v1.0</span>
 
-    <div class="navbar-spacer"></div>
+    <header
+      class="fixed inset-x-0 top-0 z-[200] flex h-[60px] items-center gap-4 border-b border-white/10 bg-doc-bg/90 px-4 backdrop-blur md:px-6"
+    >
+      <a href="#overview" class="flex min-w-0 items-center gap-3">
+        <span
+          class="flex h-8 w-8 shrink-0 items-center justify-center"
+          aria-hidden="true"
+        >
+          <img src="./assets/images/logo.png" alt="Amplifiers Logo" />
+        </span>
+        <span class="truncate text-sm font-semibold tracking-tight">
+          trebla <span class="text-doc-muted">/</span>
+          <span class="text-violet-300">amplifiers</span>
+        </span>
+      </a>
 
-    <div class="navbar-search">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style="opacity:.5">
-        <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.5"/>
-        <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-      Search docs...
-      <kbd>⌘K</kbd>
-    </div>
+      <div class="ml-auto flex items-center gap-2 md:gap-3">
+        <button
+          id="search-trigger"
+          type="button"
+          aria-label="Search amplifiers documentation"
+          class="hidden min-w-[180px] items-center gap-2 rounded-md border border-white/15 bg-doc-surface px-3 py-1.5 text-left text-xs text-doc-muted transition hover:border-violet-400/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60 md:flex"
+        >
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+            class="opacity-60"
+          >
+            <circle
+              cx="6.5"
+              cy="6.5"
+              r="5"
+              stroke="currentColor"
+              stroke-width="1.5"
+            />
+            <path
+              d="M10.5 10.5L14 14"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </svg>
+          <span>Search docs...</span>
+          <kbd
+            class="ml-auto rounded border border-white/15 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[10px]"
+            aria-hidden="true"
+          >
+            ⌘K
+          </kbd>
+        </button>
 
-    <nav class="navbar-links">
-      <a href="#overview" class="navbar-link active">Docs</a>
-      <a href="https://github.com/trebla/amplifiers" class="navbar-link">Changelog</a>
-    </nav>
-
-    <a href="https://github.com/trebla/amplifiers" class="navbar-github">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.164 6.839 9.49.5.09.682-.218.682-.484 0-.236-.009-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.74 0 .269.18.579.688.481A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"/>
-      </svg>
-      GitHub
-    </a>
-  </nav>
-
-  <div class="layout">
-
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-section">
-        <div class="sidebar-label">Getting started</div>
-        <a href="#overview" class="sidebar-item active">
-          <span class="item-icon">🏠</span> Overview
-        </a>
-        <a href="#usage" class="sidebar-item">
-          <span class="item-icon">🚀</span> Quick start
-        </a>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="sidebar-label">Amplifiers</div>
-        <a href="#humanize-writing" class="sidebar-item">
-          <span class="item-icon">✍️</span> Humanize Writing
-        </a>
-        <a href="#prompt-engineering" class="sidebar-item">
-          <span class="item-icon">⚡</span> Prompt Engineering
-        </a>
-        <a href="#knowledge-writing" class="sidebar-item">
-          <span class="item-icon">📚</span> Knowledge Writing
-        </a>
-        <a href="#sales-copywriting" class="sidebar-item">
-          <span class="item-icon">💬</span> Sales Copywriting
-        </a>
-        <a href="#django-drf" class="sidebar-item">
-          <span class="item-icon">🐍</span> Django + DRF
-        </a>
-        <a href="#react-ecosystem" class="sidebar-item">
-          <span class="item-icon">⚛️</span> React Ecosystem
-        </a>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="sidebar-label">Resources</div>
-        <a href="https://github.com/trebla/amplifiers" class="sidebar-item">
-          <span class="item-icon">⭐</span> GitHub
-          <span class="item-badge">↗</span>
-        </a>
-        <a href="https://github.com/trebla/amplifiers/blob/main/CONTRIBUTING.md" class="sidebar-item">
-          <span class="item-icon">🤝</span> Contributing
-        </a>
-      </div>
-    </aside>
-
-    <!-- Main content -->
-    <main class="main">
-      <div class="content">
-
-        <!-- Page header -->
-        <div class="page-header" id="overview">
-          <div class="breadcrumbs">
-            <a href="#">trebla</a>
-            <span class="sep">/</span>
-            <a href="#">amplifiers</a>
-            <span class="sep">/</span>
-            <span class="current">overview</span>
-          </div>
-          <h1>Amplifiers</h1>
-          <p>
-            Instruction blocks you paste into any AI agent to make it better at one specific thing.
-            No packages. No config. Just a <code>SKILL.md</code> and a system prompt.
-          </p>
-          <div class="page-meta">
-            <span class="badge badge-purple">Open Source</span>
-            <span class="badge badge-green">MIT License</span>
-            <span class="badge badge-blue">6 amplifiers</span>
-          </div>
-        </div>
-
-        <!-- Overview callout -->
-        <div class="callout callout-tip">
-          <span class="callout-icon">💡</span>
-          <span><strong>No installation.</strong> Every amplifier is plain text. Paste the contents of any <code>SKILL.md</code> into your agent's system prompt, <code>AGENTS.md</code>, or <code>CLAUDE.md</code> and it works on any model — Claude, GPT, Gemini, anything that takes a system prompt.</span>
-        </div>
-
-        <!-- Available amplifiers -->
-        <div class="doc-section" id="amplifiers">
-          <h2>Available amplifiers <a href="#amplifiers" class="anchor">#</a></h2>
-          <p>Each one does one thing. They stack — multiple amplifiers in the same prompt work fine.</p>
-
-          <!-- Humanize Writing -->
-          <div class="amp-entry" id="humanize-writing">
-            <div class="amp-entry-header">
-              <div class="amp-icon" style="background: rgba(250,204,21,0.1);">✍️</div>
-              <div class="amp-meta">
-                <div class="amp-title-row">
-                  <span class="amp-title">Humanize Writing</span>
-                  <span class="amp-slug">humanize-writing</span>
-                </div>
-                <p class="amp-desc">Strips 24 documented AI writing patterns and puts voice back in. Significance inflation, vague attributions, em dash overuse, sycophantic tone — each one caught and fixed. Based on Wikipedia's Signs of AI Writing guide.</p>
-              </div>
-            </div>
-            <div class="amp-entry-body">
-              <div class="amp-tags">
-                <span class="amp-tag">writing</span>
-                <span class="amp-tag">editing</span>
-                <span class="amp-tag">content</span>
-                <span class="amp-tag">ai-patterns</span>
-              </div>
-            </div>
-            <div class="amp-footer">
-              <span class="amp-footer-path">
-                <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 010-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"/></svg>
-                humanize-writing/SKILL.md
-              </span>
-              <a href="../amplifiers/humanize-writing/SKILL.md" class="amp-link">View SKILL.md ↗</a>
-            </div>
-          </div>
-
-          <!-- Prompt Engineering -->
-          <div class="amp-entry" id="prompt-engineering">
-            <div class="amp-entry-header">
-              <div class="amp-icon" style="background: rgba(96,165,250,0.1);">⚡</div>
-              <div class="amp-meta">
-                <div class="amp-title-row">
-                  <span class="amp-title">Prompt Engineering</span>
-                  <span class="amp-slug">prompt-engineering</span>
-                </div>
-                <p class="amp-desc">Takes a rough idea and turns it into a prompt that works. Covers image, video, audio, and text generation — Gemini, Suno, Runway, and general LLMs. Knows what each platform responds to.</p>
-              </div>
-            </div>
-            <div class="amp-entry-body">
-              <div class="amp-tags">
-                <span class="amp-tag">prompting</span>
-                <span class="amp-tag">ai</span>
-                <span class="amp-tag">multimodal</span>
-                <span class="amp-tag">image</span>
-                <span class="amp-tag">audio</span>
-              </div>
-            </div>
-            <div class="amp-footer">
-              <span class="amp-footer-path">
-                <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 010-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"/></svg>
-                prompt-engineering/SKILL.md
-              </span>
-              <a href="../amplifiers/prompt-engineering/SKILL.md" class="amp-link">View SKILL.md ↗</a>
-            </div>
-          </div>
-
-          <!-- Knowledge Writing -->
-          <div class="amp-entry" id="knowledge-writing">
-            <div class="amp-entry-header">
-              <div class="amp-icon" style="background: rgba(45,212,191,0.1);">📚</div>
-              <div class="amp-meta">
-                <div class="amp-title-row">
-                  <span class="amp-title">Knowledge Writing</span>
-                  <span class="amp-slug">knowledge-writing</span>
-                </div>
-                <p class="amp-desc">Maps a codebase and writes documentation by topic — one file per concern, no sprawl. Outputs clean markdown in snake_case, indexed through a README. Factual only, no filler.</p>
-              </div>
-            </div>
-            <div class="amp-entry-body">
-              <div class="amp-tags">
-                <span class="amp-tag">documentation</span>
-                <span class="amp-tag">technical-writing</span>
-                <span class="amp-tag">knowledge-base</span>
-              </div>
-            </div>
-            <div class="amp-footer">
-              <span class="amp-footer-path">
-                <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 010-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"/></svg>
-                knowledge-writing/SKILL.md
-              </span>
-              <a href="../amplifiers/knowledge-writing/SKILL.md" class="amp-link">View SKILL.md ↗</a>
-            </div>
-          </div>
-
-          <!-- Sales Copywriting -->
-          <div class="amp-entry" id="sales-copywriting">
-            <div class="amp-entry-header">
-              <div class="amp-icon" style="background: rgba(244,114,182,0.1);">💬</div>
-              <div class="amp-meta">
-                <div class="amp-title-row">
-                  <span class="amp-title">Sales Copywriting</span>
-                  <span class="amp-slug">sales-copywriting</span>
-                </div>
-                <p class="amp-desc">Writes conversion copy from a brief. Ads, VSLs, landing pages, emails, full funnel sequences. Knows the difference between a hook and a headline, and when to use each.</p>
-              </div>
-            </div>
-            <div class="amp-entry-body">
-              <div class="amp-tags">
-                <span class="amp-tag">copywriting</span>
-                <span class="amp-tag">sales</span>
-                <span class="amp-tag">marketing</span>
-                <span class="amp-tag">conversion</span>
-              </div>
-            </div>
-            <div class="amp-footer">
-              <span class="amp-footer-path">
-                <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 010-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"/></svg>
-                sales-copywriting/SKILL.md
-              </span>
-              <a href="../amplifiers/sales-copywriting/SKILL.md" class="amp-link">View SKILL.md ↗</a>
-            </div>
-          </div>
-
-          <!-- Django + DRF -->
-          <div class="amp-entry" id="django-drf">
-            <div class="amp-entry-header">
-              <div class="amp-icon" style="background: rgba(74,222,128,0.1);">🐍</div>
-              <div class="amp-meta">
-                <div class="amp-title-row">
-                  <span class="amp-title">Django + DRF</span>
-                  <span class="amp-slug">django-drf</span>
-                </div>
-                <p class="amp-desc">Architecture rules for Django REST Framework. Services/selectors pattern, naming conventions, project structure. Includes the anti-patterns that get written over and over and shouldn't be.</p>
-              </div>
-            </div>
-            <div class="amp-entry-body">
-              <div class="amp-tags">
-                <span class="amp-tag">django</span>
-                <span class="amp-tag">python</span>
-                <span class="amp-tag">drf</span>
-                <span class="amp-tag">backend</span>
-                <span class="amp-tag">api</span>
-              </div>
-            </div>
-            <div class="amp-footer">
-              <span class="amp-footer-path">
-                <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 010-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"/></svg>
-                django-drf/SKILL.md
-              </span>
-              <a href="../amplifiers/django-drf/SKILL.md" class="amp-link">View SKILL.md ↗</a>
-            </div>
-          </div>
-
-          <!-- React Ecosystem -->
-          <div class="amp-entry" id="react-ecosystem">
-            <div class="amp-entry-header">
-              <div class="amp-icon" style="background: rgba(96,165,250,0.1);">⚛️</div>
-              <div class="amp-meta">
-                <div class="amp-title-row">
-                  <span class="amp-title">React Ecosystem</span>
-                  <span class="amp-slug">react-ecosystem</span>
-                </div>
-                <p class="amp-desc">Architecture rules for React, Next.js, and React Native. Hooks, services, state management, naming, performance. The decisions you'd make anyway — already made.</p>
-              </div>
-            </div>
-            <div class="amp-entry-body">
-              <div class="amp-tags">
-                <span class="amp-tag">react</span>
-                <span class="amp-tag">next.js</span>
-                <span class="amp-tag">react-native</span>
-                <span class="amp-tag">typescript</span>
-                <span class="amp-tag">frontend</span>
-              </div>
-            </div>
-            <div class="amp-footer">
-              <span class="amp-footer-path">
-                <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 010-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"/></svg>
-                react-ecosystem/SKILL.md
-              </span>
-              <a href="../amplifiers/react-ecosystem/SKILL.md" class="amp-link">View SKILL.md ↗</a>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Quick start -->
-        <div class="doc-section" id="usage">
-          <h2>Quick start <a href="#usage" class="anchor">#</a></h2>
-          <p>No packages. No CLI. Pick one, paste it, done.</p>
-
-          <div class="steps-list">
-            <div class="step-row">
-              <div class="step-num">01</div>
-              <div class="step-content">
-                <h4>Pick an amplifier</h4>
-                <p>Find the one that matches what your agent needs to be better at.</p>
-              </div>
-            </div>
-            <div class="step-row">
-              <div class="step-num">02</div>
-              <div class="step-content">
-                <h4>Open the SKILL.md</h4>
-                <p>One file. The full instruction set is in there.</p>
-              </div>
-            </div>
-            <div class="step-row">
-              <div class="step-num">03</div>
-              <div class="step-content">
-                <h4>Paste into your agent</h4>
-                <p>Into the system prompt, <code>AGENTS.md</code>, or <code>CLAUDE.md</code>. Works on any model.</p>
-              </div>
-            </div>
-            <div class="step-row">
-              <div class="step-num">04</div>
-              <div class="step-content">
-                <h4>Stack as many as you need</h4>
-                <p>Multiple amplifiers in the same prompt work fine. They're built to coexist.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="code-block" style="margin-top: 1.75rem;">
-            <div class="code-tabs">
-              <span class="code-tab active">AGENTS.md</span>
-              <span class="code-tab">CLAUDE.md</span>
-              <div class="code-toolbar">
-                <button class="copy-btn" onclick="copyCode(this)">
-                  <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"/></svg>
-                  Copy
-                </button>
-              </div>
-            </div>
-            <pre><code id="example-code"><span class="tok-heading"># My Agent Instructions</span>
-
-<span class="tok-heading">## Writing style</span>
-<span class="tok-comment"># ↓ paste contents of humanize-writing/SKILL.md</span>
-<span class="tok-comment"># [Humanize Writing skill content goes here]</span>
-
-<span class="tok-heading">## Backend architecture</span>
-<span class="tok-comment"># ↓ paste contents of django-drf/SKILL.md</span>
-<span class="tok-comment"># [Django + DRF skill content goes here]</span>
-</code></pre>
-          </div>
-
-          <div class="callout callout-info">
-            <span class="callout-icon">ℹ️</span>
-            <span>The amplifiers are plain text. If your model takes a system prompt, they work. Claude, GPT, Gemini, local models — no difference.</span>
-          </div>
-        </div>
-
-        <!-- Page footer -->
-        <div class="page-nav">
-          <div></div>
-          <a href="https://github.com/trebla/amplifiers" class="page-nav-btn next">
-            <span class="page-nav-dir">Next →</span>
-            <span class="page-nav-title">Contributing on GitHub</span>
+        <nav aria-label="Primary" class="hidden items-center gap-1 md:flex">
+          <a
+            href="#overview"
+            aria-current="page"
+            class="rounded px-2.5 py-1 text-xs text-doc-text2 transition hover:bg-doc-surface hover:text-doc-text"
+          >
+            Docs
           </a>
-        </div>
+          <a
+            href="https://github.com/treblahq/amplifiers"
+            class="rounded px-2.5 py-1 text-xs text-doc-text2 transition hover:bg-doc-surface hover:text-doc-text"
+          >
+            Changelog
+          </a>
+        </nav>
 
-        <div class="doc-footer">
-          <p>Built by <a href="https://github.com/trebla">trebla</a> · MIT License</p>
-          <p><a href="https://github.com/trebla/amplifiers">Contribute on GitHub</a></p>
-        </div>
-
+        <a
+          href="https://github.com/treblahq/amplifiers"
+          class="inline-flex items-center gap-1.5 rounded-md border border-white/15 bg-doc-surface px-3 py-1.5 text-xs font-semibold text-doc-text transition hover:border-violet-400/40 hover:bg-doc-surface2"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.164 6.839 9.49.5.09.682-.218.682-.484 0-.236-.009-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.74 0 .269.18.579.688.481A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"
+            />
+          </svg>
+          GitHub
+        </a>
       </div>
-    </main>
+    </header>
 
-    <!-- Table of contents -->
-    <aside class="toc">
-      <div class="toc-title">On this page</div>
-      <ul class="toc-list">
-        <li><a href="#overview" class="toc-link active">Overview</a></li>
-        <li><a href="#amplifiers" class="toc-link">Available amplifiers</a></li>
-        <li><a href="#humanize-writing" class="toc-link l2">Humanize Writing</a></li>
-        <li><a href="#prompt-engineering" class="toc-link l2">Prompt Engineering</a></li>
-        <li><a href="#knowledge-writing" class="toc-link l2">Knowledge Writing</a></li>
-        <li><a href="#sales-copywriting" class="toc-link l2">Sales Copywriting</a></li>
-        <li><a href="#django-drf" class="toc-link l2">Django + DRF</a></li>
-        <li><a href="#react-ecosystem" class="toc-link l2">React Ecosystem</a></li>
-        <li><a href="#usage" class="toc-link">Quick start</a></li>
-      </ul>
-    </aside>
+    <div class="flex pt-[60px]">
+      <aside
+        class="sidebar fixed bottom-0 left-0 top-[60px] hidden w-[272px] overflow-y-auto border-r border-white/10 bg-doc-bg2 py-6 md:block"
+        aria-label="Sidebar navigation"
+      >
+        <nav aria-label="Documentation sections">
+          <div class="mb-7">
+            <p
+              class="mb-1.5 px-5 text-[11px] font-bold uppercase tracking-wider text-doc-muted"
+            >
+              Getting started
+            </p>
+            <a
+              href="#overview"
+              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
+            >
+              <span aria-hidden="true">🏠</span> Overview
+            </a>
+            <a
+              href="#usage"
+              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
+            >
+              <span aria-hidden="true">🚀</span> Quick start
+            </a>
+          </div>
 
-  </div>
+          <div class="mb-7">
+            <p
+              class="mb-1.5 px-5 text-[11px] font-bold uppercase tracking-wider text-doc-muted"
+            >
+              Amplifiers
+            </p>
+            <a
+              href="#humanize-writing"
+              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
+              ><span aria-hidden="true">✍️</span> Humanize Writing</a
+            >
+            <a
+              href="#prompt-engineering"
+              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
+              ><span aria-hidden="true">⚡</span> Prompt Engineering</a
+            >
+            <a
+              href="#knowledge-writing"
+              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
+              ><span aria-hidden="true">📚</span> Knowledge Writing</a
+            >
+            <a
+              href="#sales-copywriting"
+              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
+              ><span aria-hidden="true">💬</span> Sales Copywriting</a
+            >
+            <a
+              href="#django-drf"
+              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
+              ><span aria-hidden="true">🐍</span> Django + DRF</a
+            >
+            <a
+              href="#react-ecosystem"
+              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text [&.active]:border-violet-400 [&.active]:bg-violet-500/10 [&.active]:font-semibold [&.active]:text-violet-300"
+              ><span aria-hidden="true">⚛️</span> React Ecosystem</a
+            >
+          </div>
 
-  <script>
-    // Active sidebar/TOC highlighting on scroll
-    const sections = document.querySelectorAll('[id]');
-    const sidebarItems = document.querySelectorAll('.sidebar-item');
-    const tocLinks = document.querySelectorAll('.toc-link');
+          <div>
+            <p
+              class="mb-1.5 px-5 text-[11px] font-bold uppercase tracking-wider text-doc-muted"
+            >
+              Resources
+            </p>
+            <a
+              href="https://github.com/treblahq/amplifiers"
+              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text"
+              ><span aria-hidden="true">⭐</span> GitHub
+              <span
+                class="ml-auto rounded border border-violet-400/30 bg-violet-500/10 px-1.5 text-[10px] text-violet-300"
+                >↗</span
+              ></a
+            >
+            <a
+              href="https://github.com/treblahq/amplifiers/blob/main/CONTRIBUTING.md"
+              class="sidebar-item flex items-center gap-2 border-l-2 border-transparent px-5 py-1.5 text-[13px] text-doc-text2 transition hover:bg-white/5 hover:text-doc-text"
+              ><span aria-hidden="true">🤝</span> Contributing</a
+            >
+          </div>
+        </nav>
+      </aside>
 
-    function getActiveId() {
-      const scrollY = window.scrollY + 80;
-      let active = null;
-      sections.forEach(el => {
-        if (el.offsetTop <= scrollY) active = el.id;
-      });
-      return active;
-    }
+      <main
+        id="main-content"
+        tabindex="-1"
+        class="main min-w-0 flex-1 md:ml-[272px] xl:mr-[224px]"
+      >
+        <div class="content mx-auto max-w-[800px] px-5 py-12 md:px-12 md:py-14">
+          <header
+            id="overview"
+            class="page-header mb-10 border-b border-white/10 pb-8"
+          >
+            <nav
+              aria-label="Breadcrumb"
+              class="breadcrumbs mb-5 flex items-center gap-2 text-xs text-doc-muted"
+            >
+              <a href="#" class="hover:text-violet-300">trebla</a>
+              <span>/</span>
+              <a href="#" class="hover:text-violet-300">amplifiers</a>
+              <span>/</span>
+              <span class="text-doc-text2">overview</span>
+            </nav>
+            <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">
+              Amplifiers
+            </h1>
+            <p class="mt-4 max-w-2xl text-base leading-7 text-doc-text2">
+              Instruction blocks you paste into any AI agent to make it better
+              at one specific thing. No packages. No config. Just a
+              <code
+                class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-violet-300"
+                >SKILL.md</code
+              >
+              and a system prompt.
+            </p>
+            <div class="page-meta mt-5 flex flex-wrap gap-2">
+              <span
+                class="rounded border border-violet-400/30 bg-violet-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-widest text-violet-300"
+                >Open Source</span
+              >
+              <span
+                class="rounded border border-emerald-400/30 bg-emerald-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-widest text-emerald-300"
+                >MIT License</span
+              >
+              <span
+                class="rounded border border-sky-400/30 bg-sky-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-widest text-sky-300"
+                >6 amplifiers</span
+              >
+            </div>
+          </header>
 
-    function updateActive() {
-      const id = getActiveId();
-      sidebarItems.forEach(el => {
-        const href = el.getAttribute('href');
-        el.classList.toggle('active', href === '#' + id);
-      });
-      tocLinks.forEach(el => {
-        const href = el.getAttribute('href');
-        el.classList.toggle('active', href === '#' + id);
-      });
-    }
+          <aside
+            role="note"
+            class="mb-6 flex gap-3 rounded-lg border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-sm leading-6 text-emerald-200"
+          >
+            <span aria-hidden="true">💡</span>
+            <span>
+              <strong>No installation.</strong> Every amplifier is plain text.
+              Paste the contents of any
+              <code
+                class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-violet-300"
+                >SKILL.md</code
+              >
+              into your agent's system prompt,
+              <code
+                class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-violet-300"
+                >AGENTS.md</code
+              >, or
+              <code
+                class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-violet-300"
+                >CLAUDE.md</code
+              >.
+            </span>
+          </aside>
 
-    window.addEventListener('scroll', updateActive, { passive: true });
-    updateActive();
+          <section
+            id="amplifiers"
+            class="doc-section mb-12"
+            aria-labelledby="amplifiers-heading"
+          >
+            <h2
+              id="amplifiers-heading"
+              class="mb-4 border-b border-white/10 pb-2 text-2xl font-bold tracking-tight"
+            >
+              Available amplifiers
+              <a
+                href="#amplifiers"
+                class="ml-1 text-doc-muted hover:text-violet-300"
+                >#</a
+              >
+            </h2>
+            <p class="mb-5 text-doc-text2">
+              Each one does one thing. They stack well in the same prompt.
+            </p>
 
-    // Copy button
-    function copyCode(btn) {
-      const code = document.getElementById('example-code').innerText;
-      navigator.clipboard.writeText(code).then(() => {
-        btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"/></svg> Copied!`;
-        setTimeout(() => {
-          btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"/></svg> Copy`;
-        }, 2000);
-      });
-    }
-  </script>
+            <article
+              id="humanize-writing"
+              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-violet-400/40"
+              aria-labelledby="humanize-writing-title"
+            >
+              <div class="flex items-start gap-4 px-5 pb-0 pt-5">
+                <div
+                  aria-hidden="true"
+                  class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-400/15 text-lg"
+                >
+                  ✍️
+                </div>
+                <div class="min-w-0 flex-1">
+                  <div class="mb-1 flex flex-wrap items-center gap-2">
+                    <h3
+                      id="humanize-writing-title"
+                      class="amp-title text-[15px] font-bold tracking-tight"
+                    >
+                      Humanize Writing
+                    </h3>
+                    <span
+                      class="amp-slug rounded border border-violet-400/30 bg-violet-500/10 px-2 py-0.5 font-mono text-[11px] text-violet-300"
+                      >humanize-writing</span
+                    >
+                  </div>
+                  <p class="amp-desc text-[13px] leading-6 text-doc-text2">
+                    Strips 24 documented AI writing patterns and puts voice back
+                    in. Significance inflation, vague attributions, em dash
+                    overuse, sycophantic tone — each one caught and fixed.
+                  </p>
+                </div>
+              </div>
+              <div class="px-5 pb-5 pt-3">
+                <ul class="mt-1 flex flex-wrap gap-1.5" aria-label="Tags">
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    writing
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    editing
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    content
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    ai-patterns
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="flex items-center justify-between gap-3 border-t border-white/10 bg-doc-bg2 px-5 py-3"
+              >
+                <span class="text-xs text-doc-muted"
+                  >humanize-writing/SKILL.md</span
+                >
+                <a
+                  href="../amplifiers/humanize-writing/SKILL.md"
+                  class="rounded-md border border-violet-400/30 bg-violet-500/10 px-3 py-1.5 text-xs font-semibold text-violet-300 transition hover:border-violet-300 hover:bg-violet-500/20"
+                  >View SKILL.md ↗</a
+                >
+              </div>
+            </article>
 
-</body>
+            <article
+              id="prompt-engineering"
+              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-violet-400/40"
+              aria-labelledby="prompt-engineering-title"
+            >
+              <div class="flex items-start gap-4 px-5 pb-0 pt-5">
+                <div
+                  aria-hidden="true"
+                  class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-400/15 text-lg"
+                >
+                  ⚡
+                </div>
+                <div class="min-w-0 flex-1">
+                  <div class="mb-1 flex flex-wrap items-center gap-2">
+                    <h3
+                      id="prompt-engineering-title"
+                      class="amp-title text-[15px] font-bold tracking-tight"
+                    >
+                      Prompt Engineering
+                    </h3>
+                    <span
+                      class="amp-slug rounded border border-violet-400/30 bg-violet-500/10 px-2 py-0.5 font-mono text-[11px] text-violet-300"
+                      >prompt-engineering</span
+                    >
+                  </div>
+                  <p class="amp-desc text-[13px] leading-6 text-doc-text2">
+                    Takes a rough idea and turns it into a prompt that works.
+                    Covers image, video, audio, and text generation for major AI
+                    platforms.
+                  </p>
+                </div>
+              </div>
+              <div class="px-5 pb-5 pt-3">
+                <ul class="mt-1 flex flex-wrap gap-1.5" aria-label="Tags">
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    prompting
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    ai
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    multimodal
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    image
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    audio
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="flex items-center justify-between gap-3 border-t border-white/10 bg-doc-bg2 px-5 py-3"
+              >
+                <span class="text-xs text-doc-muted"
+                  >prompt-engineering/SKILL.md</span
+                >
+                <a
+                  href="../amplifiers/prompt-engineering/SKILL.md"
+                  class="rounded-md border border-violet-400/30 bg-violet-500/10 px-3 py-1.5 text-xs font-semibold text-violet-300 transition hover:border-violet-300 hover:bg-violet-500/20"
+                  >View SKILL.md ↗</a
+                >
+              </div>
+            </article>
+
+            <article
+              id="knowledge-writing"
+              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-violet-400/40"
+              aria-labelledby="knowledge-writing-title"
+            >
+              <div class="flex items-start gap-4 px-5 pb-0 pt-5">
+                <div
+                  aria-hidden="true"
+                  class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-400/15 text-lg"
+                >
+                  📚
+                </div>
+                <div class="min-w-0 flex-1">
+                  <div class="mb-1 flex flex-wrap items-center gap-2">
+                    <h3
+                      id="knowledge-writing-title"
+                      class="amp-title text-[15px] font-bold tracking-tight"
+                    >
+                      Knowledge Writing
+                    </h3>
+                    <span
+                      class="amp-slug rounded border border-violet-400/30 bg-violet-500/10 px-2 py-0.5 font-mono text-[11px] text-violet-300"
+                      >knowledge-writing</span
+                    >
+                  </div>
+                  <p class="amp-desc text-[13px] leading-6 text-doc-text2">
+                    Maps a codebase and writes documentation by topic in clear,
+                    modular markdown files.
+                  </p>
+                </div>
+              </div>
+              <div class="px-5 pb-5 pt-3">
+                <ul class="mt-1 flex flex-wrap gap-1.5" aria-label="Tags">
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    documentation
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    technical-writing
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    knowledge-base
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="flex items-center justify-between gap-3 border-t border-white/10 bg-doc-bg2 px-5 py-3"
+              >
+                <span class="text-xs text-doc-muted"
+                  >knowledge-writing/SKILL.md</span
+                >
+                <a
+                  href="../amplifiers/knowledge-writing/SKILL.md"
+                  class="rounded-md border border-violet-400/30 bg-violet-500/10 px-3 py-1.5 text-xs font-semibold text-violet-300 transition hover:border-violet-300 hover:bg-violet-500/20"
+                  >View SKILL.md ↗</a
+                >
+              </div>
+            </article>
+
+            <article
+              id="sales-copywriting"
+              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-violet-400/40"
+              aria-labelledby="sales-copywriting-title"
+            >
+              <div class="flex items-start gap-4 px-5 pb-0 pt-5">
+                <div
+                  aria-hidden="true"
+                  class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-pink-400/15 text-lg"
+                >
+                  💬
+                </div>
+                <div class="min-w-0 flex-1">
+                  <div class="mb-1 flex flex-wrap items-center gap-2">
+                    <h3
+                      id="sales-copywriting-title"
+                      class="amp-title text-[15px] font-bold tracking-tight"
+                    >
+                      Sales Copywriting
+                    </h3>
+                    <span
+                      class="amp-slug rounded border border-violet-400/30 bg-violet-500/10 px-2 py-0.5 font-mono text-[11px] text-violet-300"
+                      >sales-copywriting</span
+                    >
+                  </div>
+                  <p class="amp-desc text-[13px] leading-6 text-doc-text2">
+                    Writes conversion copy from a brief: ads, VSLs, landing
+                    pages, emails, and funnel sequences.
+                  </p>
+                </div>
+              </div>
+              <div class="px-5 pb-5 pt-3">
+                <ul class="mt-1 flex flex-wrap gap-1.5" aria-label="Tags">
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    copywriting
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    sales
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    marketing
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    conversion
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="flex items-center justify-between gap-3 border-t border-white/10 bg-doc-bg2 px-5 py-3"
+              >
+                <span class="text-xs text-doc-muted"
+                  >sales-copywriting/SKILL.md</span
+                >
+                <a
+                  href="../amplifiers/sales-copywriting/SKILL.md"
+                  class="rounded-md border border-violet-400/30 bg-violet-500/10 px-3 py-1.5 text-xs font-semibold text-violet-300 transition hover:border-violet-300 hover:bg-violet-500/20"
+                  >View SKILL.md ↗</a
+                >
+              </div>
+            </article>
+
+            <article
+              id="django-drf"
+              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-violet-400/40"
+              aria-labelledby="django-drf-title"
+            >
+              <div class="flex items-start gap-4 px-5 pb-0 pt-5">
+                <div
+                  aria-hidden="true"
+                  class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-400/15 text-lg"
+                >
+                  🐍
+                </div>
+                <div class="min-w-0 flex-1">
+                  <div class="mb-1 flex flex-wrap items-center gap-2">
+                    <h3
+                      id="django-drf-title"
+                      class="amp-title text-[15px] font-bold tracking-tight"
+                    >
+                      Django + DRF
+                    </h3>
+                    <span
+                      class="amp-slug rounded border border-violet-400/30 bg-violet-500/10 px-2 py-0.5 font-mono text-[11px] text-violet-300"
+                      >django-drf</span
+                    >
+                  </div>
+                  <p class="amp-desc text-[13px] leading-6 text-doc-text2">
+                    Architecture rules for Django REST Framework:
+                    services/selectors, naming conventions, project structure,
+                    and anti-patterns.
+                  </p>
+                </div>
+              </div>
+              <div class="px-5 pb-5 pt-3">
+                <ul class="mt-1 flex flex-wrap gap-1.5" aria-label="Tags">
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    django
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    python
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    drf
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    backend
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    api
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="flex items-center justify-between gap-3 border-t border-white/10 bg-doc-bg2 px-5 py-3"
+              >
+                <span class="text-xs text-doc-muted">django-drf/SKILL.md</span>
+                <a
+                  href="../amplifiers/django-drf/SKILL.md"
+                  class="rounded-md border border-violet-400/30 bg-violet-500/10 px-3 py-1.5 text-xs font-semibold text-violet-300 transition hover:border-violet-300 hover:bg-violet-500/20"
+                  >View SKILL.md ↗</a
+                >
+              </div>
+            </article>
+
+            <article
+              id="react-ecosystem"
+              class="amp-entry mb-4 overflow-hidden rounded-2xl border border-white/10 transition hover:border-violet-400/40"
+              aria-labelledby="react-ecosystem-title"
+            >
+              <div class="flex items-start gap-4 px-5 pb-0 pt-5">
+                <div
+                  aria-hidden="true"
+                  class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-400/15 text-lg"
+                >
+                  ⚛️
+                </div>
+                <div class="min-w-0 flex-1">
+                  <div class="mb-1 flex flex-wrap items-center gap-2">
+                    <h3
+                      id="react-ecosystem-title"
+                      class="amp-title text-[15px] font-bold tracking-tight"
+                    >
+                      React Ecosystem
+                    </h3>
+                    <span
+                      class="amp-slug rounded border border-violet-400/30 bg-violet-500/10 px-2 py-0.5 font-mono text-[11px] text-violet-300"
+                      >react-ecosystem</span
+                    >
+                  </div>
+                  <p class="amp-desc text-[13px] leading-6 text-doc-text2">
+                    Architecture rules for React, Next.js, and React Native
+                    covering hooks, services, state, naming, and performance.
+                  </p>
+                </div>
+              </div>
+              <div class="px-5 pb-5 pt-3">
+                <ul class="mt-1 flex flex-wrap gap-1.5" aria-label="Tags">
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    react
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    next.js
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    react-native
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    typescript
+                  </li>
+                  <li
+                    class="rounded border border-white/15 bg-doc-surface2 px-2 py-0.5 text-[11px] text-doc-muted"
+                  >
+                    frontend
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="flex items-center justify-between gap-3 border-t border-white/10 bg-doc-bg2 px-5 py-3"
+              >
+                <span class="text-xs text-doc-muted"
+                  >react-ecosystem/SKILL.md</span
+                >
+                <a
+                  href="../amplifiers/react-ecosystem/SKILL.md"
+                  class="rounded-md border border-violet-400/30 bg-violet-500/10 px-3 py-1.5 text-xs font-semibold text-violet-300 transition hover:border-violet-300 hover:bg-violet-500/20"
+                  >View SKILL.md ↗</a
+                >
+              </div>
+            </article>
+          </section>
+
+          <section
+            id="usage"
+            class="doc-section"
+            aria-labelledby="usage-heading"
+          >
+            <h2
+              id="usage-heading"
+              class="mb-4 border-b border-white/10 pb-2 text-2xl font-bold tracking-tight"
+            >
+              Quick start
+              <a href="#usage" class="ml-1 text-doc-muted hover:text-violet-300"
+                >#</a
+              >
+            </h2>
+            <p class="mb-6 text-doc-text2">
+              No packages. No CLI. Pick one, paste it, done.
+            </p>
+
+            <ol class="relative ml-2 space-y-0 pl-12">
+              <span
+                class="pointer-events-none absolute left-[18px] top-6 h-[calc(100%-3rem)] w-px bg-white/10"
+                aria-hidden="true"
+              ></span>
+              <li class="relative pb-5">
+                <span
+                  class="absolute -left-12 top-0 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-doc-surface font-mono text-xs font-bold text-violet-300"
+                  >01</span
+                >
+                <h3 class="text-sm font-bold">Pick an amplifier</h3>
+                <p class="mt-1 text-sm text-doc-text2">
+                  Find the one that matches what your agent needs to be better
+                  at.
+                </p>
+              </li>
+              <li class="relative pb-5">
+                <span
+                  class="absolute -left-12 top-0 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-doc-surface font-mono text-xs font-bold text-violet-300"
+                  >02</span
+                >
+                <h3 class="text-sm font-bold">Open the SKILL.md</h3>
+                <p class="mt-1 text-sm text-doc-text2">
+                  One file. The full instruction set is in there.
+                </p>
+              </li>
+              <li class="relative pb-5">
+                <span
+                  class="absolute -left-12 top-0 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-doc-surface font-mono text-xs font-bold text-violet-300"
+                  >03</span
+                >
+                <h3 class="text-sm font-bold">Paste into your agent</h3>
+                <p class="mt-1 text-sm text-doc-text2">
+                  Into the system prompt,
+                  <code
+                    class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-violet-300"
+                    >AGENTS.md</code
+                  >, or
+                  <code
+                    class="rounded border border-white/10 bg-doc-surface2 px-1.5 py-0.5 font-mono text-[0.85em] text-violet-300"
+                    >CLAUDE.md</code
+                  >.
+                </p>
+              </li>
+              <li class="relative pb-0">
+                <span
+                  class="absolute -left-12 top-0 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-doc-surface font-mono text-xs font-bold text-violet-300"
+                  >04</span
+                >
+                <h3 class="text-sm font-bold">Stack as many as you need</h3>
+                <p class="mt-1 text-sm text-doc-text2">
+                  Multiple amplifiers in the same prompt work fine. They are
+                  built to coexist.
+                </p>
+              </li>
+            </ol>
+
+            <div
+              class="mt-7 overflow-hidden rounded-2xl border border-white/10 bg-doc-surface shadow-soft"
+            >
+              <div
+                class="flex items-center border-b border-white/10 bg-doc-bg2 px-2"
+              >
+                <span
+                  class="border-b-2 border-violet-400 px-3 py-2 font-mono text-xs text-violet-300"
+                  >AGENTS.md</span
+                >
+                <span class="px-3 py-2 font-mono text-xs text-doc-muted"
+                  >CLAUDE.md</span
+                >
+                <div class="ml-auto px-2">
+                  <button
+                    id="copy-code-btn"
+                    type="button"
+                    aria-label="Copy code example"
+                    class="inline-flex items-center gap-1 rounded border border-white/15 px-2 py-1 text-[11px] text-doc-muted transition hover:border-violet-400/40 hover:text-doc-text"
+                  >
+                    <svg
+                      width="11"
+                      height="11"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"
+                      />
+                      <path
+                        d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"
+                      />
+                    </svg>
+                    Copy
+                  </button>
+                </div>
+              </div>
+              <pre
+                class="overflow-x-auto p-5 font-mono text-[13px] leading-7 text-doc-text"
+              ><code id="example-code"># My Agent Instructions
+
+## Writing style
+# ↓ paste contents of humanize-writing/SKILL.md
+# [Humanize Writing skill content goes here]
+
+## Backend architecture
+# ↓ paste contents of django-drf/SKILL.md
+# [Django + DRF skill content goes here]</code></pre>
+            </div>
+
+            <aside
+              role="note"
+              class="mt-6 flex gap-3 rounded-lg border border-sky-400/30 bg-sky-500/10 px-4 py-3 text-sm leading-6 text-sky-200"
+            >
+              <span aria-hidden="true">ℹ️</span>
+              <span>
+                The amplifiers are plain text. If your model takes a system
+                prompt, they work. Claude, GPT, Gemini, local models.
+              </span>
+            </aside>
+          </section>
+
+          <div class="mt-14 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div></div>
+            <a
+              href="https://github.com/treblahq/amplifiers"
+              class="rounded-2xl border border-white/10 px-5 py-4 text-right transition hover:border-violet-400/40 hover:bg-violet-500/10"
+            >
+              <p
+                class="text-[11px] font-semibold uppercase tracking-widest text-doc-muted"
+              >
+                Next →
+              </p>
+              <p class="text-sm font-semibold text-violet-300">
+                Contributing on GitHub
+              </p>
+            </a>
+          </div>
+
+          <footer
+            class="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-doc-muted"
+          >
+            <p>
+              Built by
+              <a
+                class="text-violet-300 hover:underline"
+                href="https://github.com/treblahq"
+                >Trebla</a
+              >
+              · MIT License
+            </p>
+            <p>
+              <a
+                class="text-violet-300 hover:underline"
+                href="https://github.com/treblahq/amplifiers"
+                >Contribute on GitHub</a
+              >
+            </p>
+          </footer>
+        </div>
+      </main>
+
+      <aside
+        class="toc fixed bottom-0 right-0 top-[60px] hidden w-[224px] overflow-y-auto border-l border-white/10 px-4 py-8 xl:block"
+        aria-label="On this page"
+      >
+        <p
+          class="mb-3 text-[11px] font-bold uppercase tracking-wider text-doc-muted"
+        >
+          On this page
+        </p>
+        <ul class="space-y-1">
+          <li>
+            <a
+              href="#overview"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-3 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              >Overview</a
+            >
+          </li>
+          <li>
+            <a
+              href="#amplifiers"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-3 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              >Available amplifiers</a
+            >
+          </li>
+          <li>
+            <a
+              href="#humanize-writing"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              >Humanize Writing</a
+            >
+          </li>
+          <li>
+            <a
+              href="#prompt-engineering"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              >Prompt Engineering</a
+            >
+          </li>
+          <li>
+            <a
+              href="#knowledge-writing"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              >Knowledge Writing</a
+            >
+          </li>
+          <li>
+            <a
+              href="#sales-copywriting"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              >Sales Copywriting</a
+            >
+          </li>
+          <li>
+            <a
+              href="#django-drf"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              >Django + DRF</a
+            >
+          </li>
+          <li>
+            <a
+              href="#react-ecosystem"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-6 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              >React Ecosystem</a
+            >
+          </li>
+          <li>
+            <a
+              href="#usage"
+              class="toc-link block border-l-2 border-white/10 py-1 pl-3 text-xs text-doc-text2 transition hover:border-violet-400 hover:text-doc-text [&.active]:border-violet-400 [&.active]:text-violet-300"
+              >Quick start</a
+            >
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </body>
 </html>

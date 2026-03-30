@@ -1,6 +1,4 @@
-# Amplifiers
-
-![trebla-amplifiers.png](trebla-amplifiers.png)
+![Amplifiers logo](docs/assets/images/logo.png)
 
 # Amplifiers
 
@@ -42,14 +40,14 @@ Amplifiers gives you that structure. Each module is:
 
 ## Available Amplifiers
 
-| Amplifier | Description | Tags |
-| --- | --- | --- |
-| [humanize-writing](amplifiers/humanize-writing/SKILL.md) | Remove AI writing patterns — restore voice, rhythm, and personality | writing, editing |
-| [prompt-engineering](amplifiers/prompt-engineering/SKILL.md) | Turn ideas into optimized prompts for any AI platform or media type | prompting, multimodal |
-| [knowledge-writing](amplifiers/knowledge-writing/SKILL.md) | Map and document a codebase into modular, factual knowledge files | documentation |
-| [sales-copywriting](amplifiers/sales-copywriting/SKILL.md) | Write conversion-focused copy for any offer, channel, or funnel stage | copywriting, marketing |
-| [django-drf](amplifiers/django-drf/SKILL.md) | Architecture and patterns for Django REST Framework APIs | django, python, backend |
-| [react-ecosystem](amplifiers/react-ecosystem/SKILL.md) | Architecture and patterns for React, Next.js, and React Native projects | react, typescript, frontend |
+| Amplifier                                                    | Description                                                             | Tags                        |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------- | --------------------------- |
+| [humanize-writing](amplifiers/humanize-writing/SKILL.md)     | Remove AI writing patterns — restore voice, rhythm, and personality     | writing, editing            |
+| [prompt-engineering](amplifiers/prompt-engineering/SKILL.md) | Turn ideas into optimized prompts for any AI platform or media type     | prompting, multimodal       |
+| [knowledge-writing](amplifiers/knowledge-writing/SKILL.md)   | Map and document a codebase into modular, factual knowledge files       | documentation               |
+| [sales-copywriting](amplifiers/sales-copywriting/SKILL.md)   | Write conversion-focused copy for any offer, channel, or funnel stage   | copywriting, marketing      |
+| [django-drf](amplifiers/django-drf/SKILL.md)                 | Architecture and patterns for Django REST Framework APIs                | django, python, backend     |
+| [react-ecosystem](amplifiers/react-ecosystem/SKILL.md)       | Architecture and patterns for React, Next.js, and React Native projects | react, typescript, frontend |
 
 ---
 
