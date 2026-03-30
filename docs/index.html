@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amplifiers — Reusable AI Capabilities</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0f;
+      --surface: #16161a;
+      --surface-2: #1e1e24;
+      --border: #2a2a33;
+      --text: #e8e8f0;
+      --muted: #72728a;
+      --accent: #7c6af7;
+      --accent-soft: #1e1a3a;
+      --green: #4ade80;
+      --blue: #60a5fa;
+      --orange: #fb923c;
+      --pink: #f472b6;
+      --yellow: #facc15;
+      --teal: #2dd4bf;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Nav ─────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13, 13, 15, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-logo span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── Hero ────────────────────────────── */
+    .hero {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 5rem 2rem 3rem;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border: 1px solid rgba(124, 106, 247, 0.3);
+      border-radius: 100px;
+      padding: 0.3rem 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #7c6af7 0%, #a78bfa 50%, #60a5fa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover { background: #6b59e8; transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover { background: var(--surface-2); transform: translateY(-1px); }
+
+    /* ── Section ─────────────────────────── */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .section-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .section-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.4rem;
+    }
+
+    .section-header p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* ── Amplifier Grid ──────────────────── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: border-color 0.15s, transform 0.15s;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .card-arrow {
+      color: var(--muted);
+      font-size: 1.1rem;
+      transition: color 0.15s, transform 0.15s;
+    }
+
+    .card:hover .card-arrow {
+      color: var(--accent);
+      transform: translate(2px, -2px);
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.2rem;
+    }
+
+    .card-slug {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: "SF Mono", "Fira Code", monospace;
+    }
+
+    .card p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* ── How it works ────────────────────── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+      counter-reset: steps;
+    }
+
+    .step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      position: relative;
+      counter-increment: steps;
+    }
+
+    .step::before {
+      content: counter(steps, decimal-leading-zero);
+      font-size: 0.7rem;
+      font-weight: 700;
+      font-family: "SF Mono", "Fira Code", monospace;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    .step h4 {
+      font-size: 0.925rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.01em;
+    }
+
+    .step p {
+      font-size: 0.825rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ── Code block ──────────────────────── */
+    .code-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .code-header {
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .code-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    .code-title {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: "SF Mono", "Fira Code", monospace;
+      margin-left: auto;
+    }
+
+    .code-block pre {
+      padding: 1.25rem;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.825rem;
+      line-height: 1.65;
+      color: var(--text);
+      overflow-x: auto;
+    }
+
+    .code-block code .c { color: var(--muted); }
+    .code-block code .s { color: var(--green); }
+    .code-block code .k { color: var(--accent); }
+
+    /* ── Divider ─────────────────────────── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── Footer ──────────────────────────── */
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ──────────────────────── */
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      .hero { padding: 3.5rem 1.25rem 2rem; }
+      section { padding: 3rem 1.25rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="#" class="nav-logo">trebla / <span>amplifiers</span></a>
+    <ul class="nav-links">
+      <li><a href="#amplifiers">Amplifiers</a></li>
+      <li><a href="#usage">Usage</a></li>
+      <li><a href="https://github.com/trebla/amplifiers">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-badge">Open Source · MIT</div>
+    <h1>Reusable capabilities<br/>for <em>AI agents</em></h1>
+    <p>
+      Amplifiers is a collection of modular skill definitions — ready-to-use instruction
+      blocks that extend what any AI agent can do. Drop one into a system prompt and go.
+    </p>
+    <div class="hero-actions">
+      <a href="#amplifiers" class="btn btn-primary">Browse amplifiers ↓</a>
+      <a href="https://github.com/trebla/amplifiers" class="btn btn-ghost">View on GitHub</a>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Amplifiers -->
+  <section id="amplifiers">
+    <div class="section-header">
+      <h2>Available amplifiers</h2>
+      <p>Each amplifier is a self-contained <code>SKILL.md</code> — paste it into any agent's system prompt.</p>
+    </div>
+
+    <div class="grid">
+
+      <a href="../amplifiers/humanize-writing/SKILL.md" class="card">
+        <div class="card-top">
+          <div>
+            <div class="card-icon" style="background: rgba(250,204,21,0.12);">✍️</div>
+          </div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div>
+          <h3>Humanize Writing</h3>
+          <div class="card-slug">humanize-writing</div>
+        </div>
+        <p>Remove AI writing patterns and restore voice, rhythm, and personality. Covers 23 documented anti-patterns from Wikipedia's Signs of AI Writing guide.</p>
+        <div class="tags">
+          <span class="tag">writing</span>
+          <span class="tag">editing</span>
+          <span class="tag">content</span>
+          <span class="tag">ai-patterns</span>
+        </div>
+      </a>
+
+      <a href="../amplifiers/prompt-engineering/SKILL.md" class="card">
+        <div class="card-top">
+          <div>
+            <div class="card-icon" style="background: rgba(96,165,250,0.12);">⚡</div>
+          </div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div>
+          <h3>Prompt Engineering</h3>
+          <div class="card-slug">prompt-engineering</div>
+        </div>
+        <p>Turn unstructured ideas into optimized prompts for any AI platform or media type — image, video, audio, or text. Covers Gemini, Suno, Runway, and general models.</p>
+        <div class="tags">
+          <span class="tag">prompting</span>
+          <span class="tag">ai</span>
+          <span class="tag">multimodal</span>
+          <span class="tag">image</span>
+          <span class="tag">audio</span>
+        </div>
+      </a>
+
+      <a href="../amplifiers/knowledge-writing/SKILL.md" class="card">
+        <div class="card-top">
+          <div>
+            <div class="card-icon" style="background: rgba(45,212,191,0.12);">📚</div>
+          </div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div>
+          <h3>Knowledge Writing</h3>
+          <div class="card-slug">knowledge-writing</div>
+        </div>
+        <p>Map a codebase and produce modular, factual documentation separated by topic. Outputs clean English markdown in snake_case, indexed through a README.</p>
+        <div class="tags">
+          <span class="tag">documentation</span>
+          <span class="tag">technical-writing</span>
+          <span class="tag">knowledge-base</span>
+        </div>
+      </a>
+
+      <a href="../amplifiers/sales-copywriting/SKILL.md" class="card">
+        <div class="card-top">
+          <div>
+            <div class="card-icon" style="background: rgba(244,114,182,0.12);">💬</div>
+          </div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div>
+          <h3>Sales Copywriting</h3>
+          <div class="card-slug">sales-copywriting</div>
+        </div>
+        <p>Turn a raw brief into strategic, conversion-focused copy. Covers ads, VSLs, landing pages, emails, and full funnel sequences with A/B variations.</p>
+        <div class="tags">
+          <span class="tag">copywriting</span>
+          <span class="tag">sales</span>
+          <span class="tag">marketing</span>
+          <span class="tag">conversion</span>
+        </div>
+      </a>
+
+      <a href="../amplifiers/django-drf/SKILL.md" class="card">
+        <div class="card-top">
+          <div>
+            <div class="card-icon" style="background: rgba(74,222,128,0.12);">🐍</div>
+          </div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div>
+          <h3>Django + DRF</h3>
+          <div class="card-slug">django-drf</div>
+        </div>
+        <p>Architecture and patterns for Django REST Framework APIs. Services/selectors separation, naming conventions, project structure, and anti-patterns to avoid.</p>
+        <div class="tags">
+          <span class="tag">django</span>
+          <span class="tag">python</span>
+          <span class="tag">drf</span>
+          <span class="tag">backend</span>
+          <span class="tag">api</span>
+        </div>
+      </a>
+
+      <a href="../amplifiers/react-ecosystem/SKILL.md" class="card">
+        <div class="card-top">
+          <div>
+            <div class="card-icon" style="background: rgba(96,165,250,0.12);">⚛️</div>
+          </div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div>
+          <h3>React Ecosystem</h3>
+          <div class="card-slug">react-ecosystem</div>
+        </div>
+        <p>Architecture and patterns for React, Next.js, and React Native projects. Covers hooks, services, state management, naming conventions, and performance rules.</p>
+        <div class="tags">
+          <span class="tag">react</span>
+          <span class="tag">next.js</span>
+          <span class="tag">react-native</span>
+          <span class="tag">typescript</span>
+          <span class="tag">frontend</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Usage -->
+  <section id="usage">
+    <div class="section-header">
+      <h2>How to use an amplifier</h2>
+      <p>No installation. No dependencies. Just text instructions.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <h4>Pick an amplifier</h4>
+        <p>Browse the list above and find the capability that matches your task.</p>
+      </div>
+      <div class="step">
+        <h4>Open the SKILL.md</h4>
+        <p>Each amplifier has a single <code>SKILL.md</code> file with the full instruction set.</p>
+      </div>
+      <div class="step">
+        <h4>Paste into your agent</h4>
+        <p>Copy the content into your agent's system prompt, custom instructions, or AGENTS.md.</p>
+      </div>
+      <div class="step">
+        <h4>Combine freely</h4>
+        <p>Multiple amplifiers can live in the same prompt — they're designed to compose.</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 2rem;">
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dot"></div>
+          <div class="code-dot"></div>
+          <div class="code-dot"></div>
+          <span class="code-title">example · AGENTS.md</span>
+        </div>
+        <pre><code><span class="c"># My Agent Instructions</span>
+
+<span class="c">## Writing</span>
+<span class="c"># Paste contents of humanize-writing/SKILL.md here</span>
+
+<span class="c">## Architecture</span>
+<span class="c"># Paste contents of django-drf/SKILL.md here</span>
+</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Footer -->
+  <footer>
+    <p>Built by <a href="https://github.com/trebla">trebla</a> · MIT License</p>
+    <p>Powered by community · <a href="https://github.com/trebla/amplifiers">Contribute on GitHub</a></p>
+  </footer>
+
+</body>
+</html>
