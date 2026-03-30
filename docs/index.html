@@ -902,8 +902,8 @@
           </div>
           <h1>Amplifiers</h1>
           <p>
-            Reusable, modular skill definitions for AI agents. Each amplifier is a single
-            <code>SKILL.md</code> — drop it into any system prompt to extend what your agent can do.
+            Instruction blocks you paste into any AI agent to make it better at one specific thing.
+            No packages. No config. Just a <code>SKILL.md</code> and a system prompt.
           </p>
           <div class="page-meta">
             <span class="badge badge-purple">Open Source</span>
@@ -915,13 +915,13 @@
         <!-- Overview callout -->
         <div class="callout callout-tip">
           <span class="callout-icon">💡</span>
-          <span><strong>No installation required.</strong> Amplifiers are plain text instructions. Copy the contents of any <code>SKILL.md</code> directly into your agent's system prompt, <code>AGENTS.md</code>, or <code>CLAUDE.md</code>.</span>
+          <span><strong>No installation.</strong> Every amplifier is plain text. Paste the contents of any <code>SKILL.md</code> into your agent's system prompt, <code>AGENTS.md</code>, or <code>CLAUDE.md</code> and it works on any model — Claude, GPT, Gemini, anything that takes a system prompt.</span>
         </div>
 
         <!-- Available amplifiers -->
         <div class="doc-section" id="amplifiers">
           <h2>Available amplifiers <a href="#amplifiers" class="anchor">#</a></h2>
-          <p>Each amplifier is self-contained and can be combined freely with others.</p>
+          <p>Each one does one thing. They stack — multiple amplifiers in the same prompt work fine.</p>
 
           <!-- Humanize Writing -->
           <div class="amp-entry" id="humanize-writing">
@@ -932,7 +932,7 @@
                   <span class="amp-title">Humanize Writing</span>
                   <span class="amp-slug">humanize-writing</span>
                 </div>
-                <p class="amp-desc">Remove AI writing patterns and restore voice, rhythm, and personality. Covers 23 documented anti-patterns from Wikipedia's Signs of AI Writing guide.</p>
+                <p class="amp-desc">Strips 24 documented AI writing patterns and puts voice back in. Significance inflation, vague attributions, em dash overuse, sycophantic tone — each one caught and fixed. Based on Wikipedia's Signs of AI Writing guide.</p>
               </div>
             </div>
             <div class="amp-entry-body">
@@ -961,7 +961,7 @@
                   <span class="amp-title">Prompt Engineering</span>
                   <span class="amp-slug">prompt-engineering</span>
                 </div>
-                <p class="amp-desc">Turn unstructured ideas into optimized prompts for any AI platform or media type — image, video, audio, or text. Covers Gemini, Suno, Runway, and general models.</p>
+                <p class="amp-desc">Takes a rough idea and turns it into a prompt that works. Covers image, video, audio, and text generation — Gemini, Suno, Runway, and general LLMs. Knows what each platform responds to.</p>
               </div>
             </div>
             <div class="amp-entry-body">
@@ -991,7 +991,7 @@
                   <span class="amp-title">Knowledge Writing</span>
                   <span class="amp-slug">knowledge-writing</span>
                 </div>
-                <p class="amp-desc">Map a codebase and produce modular, factual documentation separated by topic. Outputs clean English markdown in snake_case, indexed through a README.</p>
+                <p class="amp-desc">Maps a codebase and writes documentation by topic — one file per concern, no sprawl. Outputs clean markdown in snake_case, indexed through a README. Factual only, no filler.</p>
               </div>
             </div>
             <div class="amp-entry-body">
@@ -1019,7 +1019,7 @@
                   <span class="amp-title">Sales Copywriting</span>
                   <span class="amp-slug">sales-copywriting</span>
                 </div>
-                <p class="amp-desc">Turn a raw brief into strategic, conversion-focused copy. Covers ads, VSLs, landing pages, emails, and full funnel sequences with A/B variations.</p>
+                <p class="amp-desc">Writes conversion copy from a brief. Ads, VSLs, landing pages, emails, full funnel sequences. Knows the difference between a hook and a headline, and when to use each.</p>
               </div>
             </div>
             <div class="amp-entry-body">
@@ -1048,7 +1048,7 @@
                   <span class="amp-title">Django + DRF</span>
                   <span class="amp-slug">django-drf</span>
                 </div>
-                <p class="amp-desc">Architecture and patterns for Django REST Framework APIs. Services/selectors separation, naming conventions, project structure, and anti-patterns to avoid.</p>
+                <p class="amp-desc">Architecture rules for Django REST Framework. Services/selectors pattern, naming conventions, project structure. Includes the anti-patterns that get written over and over and shouldn't be.</p>
               </div>
             </div>
             <div class="amp-entry-body">
@@ -1078,7 +1078,7 @@
                   <span class="amp-title">React Ecosystem</span>
                   <span class="amp-slug">react-ecosystem</span>
                 </div>
-                <p class="amp-desc">Architecture and patterns for React, Next.js, and React Native projects. Covers hooks, services, state management, naming conventions, and performance rules.</p>
+                <p class="amp-desc">Architecture rules for React, Next.js, and React Native. Hooks, services, state management, naming, performance. The decisions you'd make anyway — already made.</p>
               </div>
             </div>
             <div class="amp-entry-body">
@@ -1104,35 +1104,35 @@
         <!-- Quick start -->
         <div class="doc-section" id="usage">
           <h2>Quick start <a href="#usage" class="anchor">#</a></h2>
-          <p>No packages to install. Just copy and paste.</p>
+          <p>No packages. No CLI. Pick one, paste it, done.</p>
 
           <div class="steps-list">
             <div class="step-row">
               <div class="step-num">01</div>
               <div class="step-content">
                 <h4>Pick an amplifier</h4>
-                <p>Browse the list above and find the capability you need.</p>
+                <p>Find the one that matches what your agent needs to be better at.</p>
               </div>
             </div>
             <div class="step-row">
               <div class="step-num">02</div>
               <div class="step-content">
                 <h4>Open the SKILL.md</h4>
-                <p>Each amplifier has a single <code>SKILL.md</code> with the complete instruction set.</p>
+                <p>One file. The full instruction set is in there.</p>
               </div>
             </div>
             <div class="step-row">
               <div class="step-num">03</div>
               <div class="step-content">
                 <h4>Paste into your agent</h4>
-                <p>Copy the contents into your agent's system prompt, <code>AGENTS.md</code>, or <code>CLAUDE.md</code>.</p>
+                <p>Into the system prompt, <code>AGENTS.md</code>, or <code>CLAUDE.md</code>. Works on any model.</p>
               </div>
             </div>
             <div class="step-row">
               <div class="step-num">04</div>
               <div class="step-content">
-                <h4>Combine freely</h4>
-                <p>Multiple amplifiers can live in the same prompt — they're designed to compose.</p>
+                <h4>Stack as many as you need</h4>
+                <p>Multiple amplifiers in the same prompt work fine. They're built to coexist.</p>
               </div>
             </div>
           </div>
@@ -1162,7 +1162,7 @@
 
           <div class="callout callout-info">
             <span class="callout-icon">ℹ️</span>
-            <span>Amplifiers work with any LLM — Claude, GPT-4, Gemini, or any model that accepts a system prompt. They're just text.</span>
+            <span>The amplifiers are plain text. If your model takes a system prompt, they work. Claude, GPT, Gemini, local models — no difference.</span>
           </div>
         </div>
 
