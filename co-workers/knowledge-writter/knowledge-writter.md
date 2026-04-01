@@ -1,6 +1,6 @@
 ---
 name: knowledge-writter
-description: Use esta skill para mapear, estruturar e escrever documentação de projetos em formato modular, em inglês, com arquivos separados por tema e nomes em snake_case.
+description: Use this skill to map, structure, and write project documentation in modular format, in English, with files separated by topic and names in snake_case.
 ---
 
 # Knowledge Writer

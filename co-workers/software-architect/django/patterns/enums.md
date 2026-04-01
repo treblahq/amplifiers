@@ -28,19 +28,19 @@ class AdditionalGroupType(models.TextChoices):
 
 
 class DeliveryType(models.TextChoices):
-    FREE = "free_delivery", "Frete Grátis"
-    FIXED = "fixed_delivery", "Frete Fixo"
-    DYNAMIC = "dynamic_delivery", "Frete Dinâmico"
+    FREE = "free_delivery", "Free Shipping"
+    FIXED = "fixed_delivery", "Fixed Shipping"
+    DYNAMIC = "dynamic_delivery", "Dynamic Shipping"
 
 
 class WeekDay(models.TextChoices):
-    MONDAY = "monday", "Segunda-feira"
-    TUESDAY = "tuesday", "Terça-feira"
-    WEDNESDAY = "wednesday", "Quarta-feira"
-    THURSDAY = "thursday", "Quinta-feira"
-    FRIDAY = "friday", "Sexta-feira"
-    SATURDAY = "saturday", "Sábado"
-    SUNDAY = "sunday", "Domingo"
+    MONDAY = "monday", "Monday"
+    TUESDAY = "tuesday", "Tuesday"
+    WEDNESDAY = "wednesday", "Wednesday"
+    THURSDAY = "thursday", "Thursday"
+    FRIDAY = "friday", "Friday"
+    SATURDAY = "saturday", "Saturday"
+    SUNDAY = "sunday", "Sunday"
 ```
 
 ## Using in Models
@@ -81,11 +81,11 @@ establishments = Establishment.objects.filter(delivery_type="free_delivery")
 
 ```python
 class OrderStatus(models.IntegerChoices):
-    PENDING = 1, "Pendente"
-    CONFIRMED = 2, "Confirmado"
-    PREPARING = 3, "Em preparo"
-    DELIVERED = 4, "Entregue"
-    CANCELLED = 5, "Cancelado"
+    PENDING = 1, "Pending"
+    CONFIRMED = 2, "Confirmed"
+    PREPARING = 3, "Preparing"
+    DELIVERED = 4, "Delivered"
+    CANCELLED = 5, "Cancelled"
 
 
 class Order(models.Model):

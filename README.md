@@ -1,8 +1,12 @@
-![Amplifiers logo](docs/assets/images/logo.png)
+<p align="center">
+  <img src="docs/assets/images/logo.png" alt="Amplifiers logo" width="240" />
+</p>
 
-# Amplifiers
+<h1 align="center">Amplifiers</h1>
 
-> A collection of reusable skills, capabilities, and superpowers for AI agents and co-workers.
+<p align="center">
+  A collection of reusable skills, capabilities, and superpowers for AI agents and co-workers.
+</p>
 
 ---
 
@@ -53,15 +57,6 @@ Amplifiers gives you that structure. Each module is:
 
 ## Quick Start
 
-```bash
-# Clone the repository
-git clone https://github.com/trebla/amplifiers.git
-cd amplifiers
-
-# Browse available amplifiers
-ls amplifiers/
-```
-
 Each amplifier lives in its own folder with a `SKILL.md` definition — a ready-to-use instruction block.
 
 ---
@@ -71,9 +66,11 @@ Each amplifier lives in its own folder with a `SKILL.md` definition — a ready-
 Each amplifier is a self-contained module. To use one, include its `SKILL.md` in your agent's system prompt or configuration:
 
 ```
+
 amplifiers/
-  humanize-writing/
-    SKILL.md        <- paste this into your agent's system prompt
+humanize-writing/
+SKILL.md <- paste this into your agent's system prompt
+
 ```
 
 ---
@@ -110,3 +107,7 @@ MIT. Use freely, contribute openly.
 ---
 
 _Built for agents. Powered by community._
+
+```
+
+```

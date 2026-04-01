@@ -94,11 +94,11 @@ export const formatTime = (date: Date): string => {
 };
 
 /**
- * Returns relative time (Hoje, Ontem, or date)
+ * Returns relative time (Today, Yesterday, or date)
  */
 export const getRelativeDate = (date: Date): string => {
-  if (isToday(date)) return "Hoje";
-  if (isYesterday(date)) return "Ontem";
+  if (isToday(date)) return "Today";
+  if (isYesterday(date)) return "Yesterday";
 
   const daysDiff = differenceInDays(new Date(), date);
   if (daysDiff <= 7) {
@@ -114,9 +114,9 @@ export const getRelativeDate = (date: Date): string => {
 export const getGreetingByTime = (): string => {
   const hour = new Date().getHours();
 
-  if (hour < 12) return "Bom dia";
-  if (hour < 18) return "Boa tarde";
-  return "Boa noite";
+  if (hour < 12) return "Good morning";
+  if (hour < 18) return "Good afternoon";
+  return "Good evening";
 };
 ```
 

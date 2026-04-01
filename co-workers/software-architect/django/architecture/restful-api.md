@@ -49,11 +49,11 @@ All responses should be consistent. Success:
 ```json
 {
   "id": 1,
-  "name": "Hamburguer Clássico",
+  "name": "Classic Burger",
   "price": 25.90,
   "category": {
     "id": 3,
-    "name": "Lanches"
+    "name": "Snacks"
   },
   "created_at": "2024-01-15T10:30:00Z"
 }

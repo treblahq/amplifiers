@@ -1,70 +1,70 @@
 ---
 name: copywritter
-description: Use esta skill para criar, revisar e otimizar copy focada em vendas para qualquer nicho, oferta, canal ou idioma.
+description: Use this skill to create, review, and optimize sales-focused copy for any niche, offer, channel, or language.
 ---
 
-# Copywriting de Vendas (Agnóstico)
+# Sales Copywriting (Agnostic)
 
-## Objetivo
+## Objective
 
-Transformar briefing bruto em copy estratégica, clara e orientada a conversão, sem depender de mercado, persona ou método proprietário específico.
+Transform raw briefings into strategic, clear, conversion-oriented copy without depending on a specific market, persona, or proprietary method.
 
-## Escopo de entrega
+## Delivery Scope
 
-- Anúncios (vídeo e estático)
-- VSL e scripts de vídeo curto
-- Páginas de vendas e páginas de captura
-- E-mails e sequências de nutrição/fechamento
-- Ofertas, stacks e CTAs
-- Mensagens de funil por etapa (topo, meio e fundo)
+- Ads (video and static)
+- VSLs and short video scripts
+- Sales pages and landing pages
+- Emails and nurture/closing sequences
+- Offers, stacks, and CTAs
+- Funnel messages by stage (top, middle, and bottom)
 
-## Fluxo de trabalho padrão
+## Standard Workflow
 
-1. Diagnosticar contexto: oferta, público, estágio de consciência, canal e meta.
-2. Escolher o formato com melhor chance de conversão para o cenário.
-3. Definir tese persuasiva: ângulo dominante, promessa, mecanismo e prova.
-4. Escrever a peça com ritmo, clareza e uma CTA principal.
-5. Revisar para reduzir fricção, alinhar expectativa e evitar promessas frágeis.
-6. Entregar variações A/B e hipóteses de teste quando fizer sentido.
+1. Diagnose context: offer, audience, awareness stage, channel, and goal.
+2. Choose the format with the best conversion potential for the scenario.
+3. Define the persuasive thesis: dominant angle, promise, mechanism, and proof.
+4. Write the piece with rhythm, clarity, and one primary CTA.
+5. Review to reduce friction, align expectations, and avoid fragile promises.
+6. Deliver A/B variations and test hypotheses when appropriate.
 
-## Padrão mínimo de resposta
+## Minimum Response Standard
 
-Sempre que possível, entregar:
+Whenever possible, deliver:
 
-1. Ângulo dominante
-2. Big idea (ou tese central)
-3. Estrutura utilizada
-4. Copy final pronta para uso
-5. CTA principal
-6. 2 a 5 variações de abertura/título
-7. Variante A/B com hipótese
+1. Dominant angle
+2. Big idea (or central thesis)
+3. Structure used
+4. Final copy ready to use
+5. Primary CTA
+6. 2 to 5 opening/headline variations
+7. A/B variant with hypothesis
 
-## Regras de qualidade
+## Quality Rules
 
-- Priorizar clareza e conversão, não texto rebuscado.
-- Manter uma mensagem central por peça.
-- Conectar promessa, mecanismo, prova e CTA sem lacunas.
-- Adequar intensidade de linguagem ao canal, temperatura do tráfego e nível de consciência.
-- Evitar exagero, ambiguidade e jargão desnecessário.
-- Não entregar texto genérico; sempre contextualizar.
+- Prioritize clarity and conversion, not flowery language.
+- Keep one central message per piece.
+- Connect promise, mechanism, proof, and CTA without gaps.
+- Adapt language intensity to channel, traffic temperature, and awareness level.
+- Avoid exaggeration, ambiguity, and unnecessary jargon.
+- Never deliver generic copy; always contextualize.
 
-## Quando faltar contexto
+## When Context Is Missing
 
-Antes de escrever, coletar o mínimo necessário:
+Before writing, collect the minimum required:
 
-1. Qual é a oferta e a transformação prometida?
-2. Quem é o público e qual dor principal?
-3. Qual é o próximo passo desejado (CTA)?
+1. What is the offer and the promised transformation?
+2. Who is the audience and what is their main pain point?
+3. What is the desired next step (CTA)?
 
-## Atalhos por pedido direto
+## Shortcuts by Direct Request
 
-- Se o pedido for "short/reel", entregar: hook, desenvolvimento, pontos de corte, ritmo, CTA, título e texto de capa.
-- Se o pedido for "VSL", entregar: hook, estrutura por blocos, transições, mecanismo, provas, oferta, garantia (se houver) e CTA.
-- Se o pedido for apenas um tema, sugerir o formato com maior potencial de conversão e justificar em 1 linha.
+- If the request is "short/reel", deliver: hook, development, cut points, rhythm, CTA, title, and cover text.
+- If the request is "VSL", deliver: hook, block structure, transitions, mechanism, proof, offer, guarantee (if any), and CTA.
+- If the request is just a topic, suggest the format with the highest conversion potential and justify it in 1 line.
 
-## Referências internas
+## Internal References
 
-Use os playbooks da pasta `knowledge/` conforme o objetivo:
+Use the playbooks from the `knowledge/` folder according to the goal:
 
 - `direct_response_foundations.md`
 - `conversion_psychology.md`
