@@ -15,11 +15,7 @@ const config = {
   projectName: 'amplifiers',
   trailingSlash: false,
   onBrokenLinks: 'throw',
-  markdown: {
-    hooks: {
-      onBrokenMarkdownLinks: 'warn'
-    }
-  },
+  onBrokenMarkdownLinks: 'warn',
   i18n: {
     defaultLocale: 'en',
     locales: ['en']
