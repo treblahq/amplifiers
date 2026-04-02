@@ -76,6 +76,7 @@ skills/<skill-name>/
 ├── assets/             # optional
 └── agents/
     └── openai.yaml     # optional
+    └── claude.yaml     # optional
 ```
 
 Rules:
