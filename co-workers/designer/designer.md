@@ -79,3 +79,4 @@ Use the knowledge files in `knowledge/` according to the task:
 - `implementation_awareness.md`
 - `visual_storytelling_and_repertoire.md`
 - `simplification_and_detail_quality.md`
+- `prompting_for_frontend_aesthetics.md`

@@ -5,6 +5,8 @@ Thanks for helping improve Amplifiers.
 ## Ways to contribute
 
 - Add a new amplifier (`amplifiers/<name>/SKILL.md`)
+- Add a new superpower (`superpowers/<name>/README.md`)
+- Add a new agent (`agents/<name>/README.md`)
 - Improve an existing amplifier
 - Improve docs in `README.md`, `CONTRIBUTING.md`, or `WRITING_STANDARD.md`
 - Report bugs, broken links, or unclear instructions
@@ -15,6 +17,14 @@ Thanks for helping improve Amplifiers.
 amplifiers/
   <amplifier-name>/
     SKILL.md
+superpowers/
+  <superpower-name>/
+    README.md
+agents/
+  <agent-name>/
+    README.md
+co-workers/
+  README.md
 WRITING_STANDARD.md
 ```
 
@@ -36,6 +46,15 @@ WRITING_STANDARD.md
 3. Add `README.md` only if the amplifier needs extra human-facing onboarding.
 4. Keep the amplifier single-purpose.
 5. Update `README.md` (Available Amplifiers table) when relevant.
+
+## Publishing from co-workers
+
+1. Start from an existing co-worker or a new co-worker-level source package.
+2. Publish an amplifier only when there is one clear reusable runtime capability.
+3. Publish a superpower when multiple amplifiers form a repeatable workflow.
+4. Publish an agent when the composition is stable enough to describe as a
+   collaborator.
+5. Do not force every co-worker to produce every artifact type.
 
 ## Writing and structure standard
 

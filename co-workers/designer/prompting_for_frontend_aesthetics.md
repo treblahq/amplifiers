@@ -55,14 +55,14 @@ Without guidance, Claude often defaults to simplistic designs with white and pur
 
 **Without Aesthetics Prompt**
 
-![Baseline output without aesthetics guidance](../images/frontend_aesthetics/baseline_saas.png)
+![Baseline output without aesthetics guidance](https://raw.githubusercontent.com/anthropics/claude-cookbooks/main/images/frontend_aesthetics/baseline_saas.png)
 
 </td>
 <td width="50%" valign="top">
 
 **With Aesthetics Prompt**
 
-![Enhanced output with distilled aesthetics prompt](../images/frontend_aesthetics/distilled_saas.png)
+![Enhanced output with distilled aesthetics prompt](https://raw.githubusercontent.com/anthropics/claude-cookbooks/main/images/frontend_aesthetics/distilled_saas.png)
 
 </td>
 </tr>
@@ -77,14 +77,14 @@ Without guidance, Claude often defaults to simplistic designs with white and pur
 
 **Without Aesthetics Prompt**
 
-![Baseline portfolio without aesthetics guidance](../images/frontend_aesthetics/baseline_portfolio.png)
+![Baseline portfolio without aesthetics guidance](https://raw.githubusercontent.com/anthropics/claude-cookbooks/main/images/frontend_aesthetics/baseline_portfolio.png)
 
 </td>
 <td width="50%" valign="top">
 
 **With Aesthetics Prompt**
 
-![Enhanced portfolio with distilled aesthetics prompt](../images/frontend_aesthetics/distilled_portfolio.png)
+![Enhanced portfolio with distilled aesthetics prompt](https://raw.githubusercontent.com/anthropics/claude-cookbooks/main/images/frontend_aesthetics/distilled_portfolio.png)
 
 </td>
 </tr>
@@ -99,14 +99,14 @@ Without guidance, Claude often defaults to simplistic designs with white and pur
 
 **Without Aesthetics Prompt**
 
-![Baseline dashboard without aesthetics guidance](../images/frontend_aesthetics/baseline_dashboard.png)
+![Baseline dashboard without aesthetics guidance](https://raw.githubusercontent.com/anthropics/claude-cookbooks/main/images/frontend_aesthetics/baseline_dashboard.png)
 
 </td>
 <td width="50%" valign="top">
 
 **With Aesthetics Prompt**
 
-![Enhanced dashboard with distilled aesthetics prompt](../images/frontend_aesthetics/distilled_dashboard.png)
+![Enhanced dashboard with distilled aesthetics prompt](https://raw.githubusercontent.com/anthropics/claude-cookbooks/main/images/frontend_aesthetics/distilled_dashboard.png)
 
 </td>
 </tr>

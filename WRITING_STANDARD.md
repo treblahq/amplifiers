@@ -21,6 +21,20 @@ If a new artifact type is introduced, define its audience first. The primary
 audience decides whether the canonical file should be a runtime instruction file
 or a human guide.
 
+## Repository publishing flow
+
+In this repository, `co-workers/` is the upstream source layer. It stores
+broader role instructions, research, and reference material.
+
+Published artifacts are distilled from that source layer:
+
+- `amplifiers/` publish reusable runtime skills
+- `superpowers/` publish repeatable multi-skill workflows
+- `agents/` publish stable assembled collaborators
+
+Do not force a one-to-one mapping. A co-worker should only become an amplifier,
+superpower, or agent when the source material supports a clear reusable unit.
+
 ## `SKILL.md` versus `README.md`
 
 Use `SKILL.md` when the file is meant to be imported, pasted, or executed as a

@@ -33,12 +33,27 @@ Amplifiers gives you that structure. Each module is:
 
 ## Concepts
 
-| Term           | Meaning                                                |
-| -------------- | ------------------------------------------------------ |
-| **Amplifier**  | A single, self-contained capability module             |
-| **Skill**      | A reusable logic block (e.g. "search the web")         |
-| **Superpower** | A high-level capability composed of one or more skills |
-| **Agent**      | Any AI system that uses amplifiers to act in the world |
+| Term           | Meaning                                                   |
+| -------------- | --------------------------------------------------------- |
+| **Amplifier**  | A single, self-contained capability module                |
+| **Skill**      | A reusable logic block (e.g. "search the web")            |
+| **Superpower** | A high-level capability composed of one or more skills    |
+| **Agent**      | Any AI system that uses amplifiers to act in the world    |
+| **Co-worker**  | The broader source material used to distill new artifacts |
+
+---
+
+## Repository model
+
+Amplifiers now follows a publishing pipeline:
+
+1. `co-workers/` stores the broader source material, role guidance, and deeper references.
+2. `amplifiers/` publishes distilled runtime skills as reusable `SKILL.md` modules.
+3. `superpowers/` combines multiple amplifiers into repeatable workflows.
+4. `agents/` assembles stable combinations into opinionated collaborators.
+
+Not every co-worker needs a one-to-one amplifier, superpower, or agent. Publish
+new artifacts only when the source material supports a clear reusable unit.
 
 ---
 
@@ -52,12 +67,43 @@ Amplifiers gives you that structure. Each module is:
 | [sales-copywriting](amplifiers/sales-copywriting/SKILL.md)   | Write conversion-focused copy for any offer, channel, or funnel stage   | copywriting, marketing      |
 | [django-drf](amplifiers/django-drf/SKILL.md)                 | Architecture and patterns for Django REST Framework APIs                | django, python, backend     |
 | [react-ecosystem](amplifiers/react-ecosystem/SKILL.md)       | Architecture and patterns for React, Next.js, and React Native projects | react, typescript, frontend |
+| [product-design](amplifiers/product-design/SKILL.md)         | Design interfaces, landing pages, and systems with UX and hierarchy     | design, ui, ux              |
+| [laravel-api](amplifiers/laravel-api/SKILL.md)               | Architecture and implementation rules for Laravel APIs                  | laravel, php, backend       |
+| [html-architecture](amplifiers/html-architecture/SKILL.md)   | Semantic, accessible, and maintainable structure for HTML projects      | html, accessibility         |
+
+---
+
+## Available Superpowers
+
+| Superpower                                                                                   | Description                                                                          | Composes                                                                                   |
+| -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| [frontend-feature-delivery](superpowers/frontend-feature-delivery/README.md)                 | Ship frontend features with design, React architecture, writing polish, and docs     | product-design, react-ecosystem, humanize-writing, knowledge-writing                       |
+| [landing-page-delivery](superpowers/landing-page-delivery/README.md)                         | Deliver landing pages with copy, design, HTML structure, and prompt assets           | sales-copywriting, product-design, html-architecture, humanize-writing, prompt-engineering |
+| [repository-documentation-delivery](superpowers/repository-documentation-delivery/README.md) | Improve README, contribution docs, standards, and repository documentation structure | knowledge-writing, humanize-writing, html-architecture, product-design                     |
+| [co-worker-publication](superpowers/co-worker-publication/README.md)                         | Distill source material into published amplifiers, superpowers, and agents           | knowledge-writing, prompt-engineering, humanize-writing                                    |
+
+---
+
+## Available Agents
+
+| Agent                                                                   | Description                                                                              | Uses                                                     |
+| ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| [frontend-product-builder](agents/frontend-product-builder/README.md)   | Product-facing frontend collaborator for React feature delivery                          | frontend-feature-delivery                                |
+| [conversion-launch-builder](agents/conversion-launch-builder/README.md) | Launch-focused collaborator for landing pages and campaign assets                        | landing-page-delivery                                    |
+| [open-source-publisher](agents/open-source-publisher/README.md)         | Repository-focused collaborator for docs, standards, README polish, and publication flow | repository-documentation-delivery, co-worker-publication |
 
 ---
 
 ## Quick Start
 
-Each amplifier lives in its own folder with a `SKILL.md` definition — a ready-to-use instruction block.
+Browse the repository by layer:
+
+```bash
+ls co-workers/
+ls amplifiers/
+ls superpowers/
+ls agents/
+```
 
 ---
 
@@ -65,13 +111,18 @@ Each amplifier lives in its own folder with a `SKILL.md` definition — a ready-
 
 Each amplifier is a self-contained module. To use one, include its `SKILL.md` in your agent's system prompt or configuration:
 
-```
-
+```text
 amplifiers/
-humanize-writing/
-SKILL.md <- paste this into your agent's system prompt
-
+  humanize-writing/
+    SKILL.md
 ```
+
+---
+
+## Source Material
+
+Use [co-workers/README.md](co-workers/README.md) to see how source material maps
+to published amplifiers, superpowers, and agents.
 
 ---
 
@@ -107,7 +158,3 @@ MIT. Use freely, contribute openly.
 ---
 
 _Built for agents. Powered by community._
-
-```
-
-```
