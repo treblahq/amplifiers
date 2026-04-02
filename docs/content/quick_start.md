@@ -5,10 +5,10 @@ sidebar_position: 2
 
 # Quick Start
 
-Use Amplifiers by starting from the delivery you need, then attaching the
-specialist skills that match that work.
+Start from the delivery you need, then attach the specialists that should shape
+that work.
 
-## 1. Browse the runtime layer
+## 1. Find the runtime skill
 
 The canonical runtime skills live in `skills/`.
 
@@ -24,8 +24,7 @@ skills/
     SKILL.md
 ```
 
-Attach a `SKILL.md` directly when you want one specialist to influence the
-task.
+Attach a `SKILL.md` directly when one specialist should influence the task.
 
 ## 2. Reuse stacks when combinations repeat
 
@@ -60,10 +59,23 @@ That file explains that:
 - `references/` inside each skill is the deep material layer
 - no second authored copy of skills should be created under `.agents/`
 
-## 5. Go deeper only when needed
+## 5. Open deep references only when needed
 
 Use a skill's `references/` folder when you need the broader supporting material
 behind the runtime instruction.
 
 Use `knowledge/` when you need internal repository governance and maintainer
 notes.
+
+## 6. Understand the docs site
+
+The documentation site is static.
+
+- Docusaurus source lives in `docs/content/`, `docs/src/`, and `docs/static/`
+- `npm run build` generates plain static files in `docs/build/`
+- GitHub Actions uploads `docs/build/` to GitHub Pages
+- production does not depend on a running Node server
+
+That matters because GitHub Pages only needs the generated HTML, CSS,
+JavaScript, and assets. Docusaurus is the authoring tool; `docs/build/` is the
+published site.

@@ -13,6 +13,9 @@ It follows the
 skills ecosystem, including
 [OpenAI Codex](https://developers.openai.com/codex/skills).
 
+The contribution rule is straightforward: put the material where the runtime
+will expect to find it, and keep the public model easy to understand.
+
 ## Ways to contribute
 
 - add a new skill under `skills/<name>/SKILL.md`
@@ -45,3 +48,10 @@ Use `WRITING_STANDARD.md` for project-wide rules on:
 - `SKILL.md` versus `README.md`
 - folder shapes for `skills/`, `stacks/`, and `knowledge/`
 - tone and minimum quality expectations
+
+If you are unsure where something belongs, ask this first:
+
+- is this one attachable specialist
+- is this a recurring combination of specialists
+- is this deep supporting material for one skill
+- is this public documentation about the repository itself

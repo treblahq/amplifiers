@@ -13,16 +13,19 @@ ecosystem, including
 one folder per skill, with the runtime entrypoint and optional support
 material colocated.
 
+That is the core discipline behind this repository: each skill is a small,
+self-contained package instead of a loose collection of prompts and notes.
+
 ## Default shape
 
 ```text
 my-skill/
-├── SKILL.md
-├── scripts/
-├── references/
-├── assets/
+├── SKILL.md          # required: instructions + metadata
+├── scripts/          # optional: executable code
+├── references/       # optional: documentation
+├── assets/           # optional: templates, resources
 └── agents/
-    └── openai.yaml
+    └── openai.yaml   # optional: OpenAI/Codex metadata
 ```
 
 Only `SKILL.md` is required.

@@ -7,6 +7,10 @@ sidebar_position: 1
 
 Skills are the canonical runtime layer of Amplifiers.
 
+Think of a skill as the smallest attachable specialist package in the
+repository. If you want one clear expert voice, constraint set, or modifier to
+shape the work, you attach a skill.
+
 Each skill is named after the specialist or effect you want to attach to a
 task.
 
@@ -17,7 +21,7 @@ task.
 | `designer`                    | specialist | Design interfaces, pages, and visual systems with hierarchy, UX judgment, and implementation awareness |
 | `humanizer`                   | modifier   | Remove AI writing patterns and restore natural voice, rhythm, and personality                          |
 | `sales-copywriter`            | specialist | Write conversion-focused sales copy for offers, pages, emails, and campaigns                           |
-| `dopamine-driven-copywritter` | modifier   | Increase rhythm, curiosity, and tension in copy without collapsing into hype                           |
+| `dopamine-driven-copywritter` | modifier   | Increase rhythm, curiosity, and tension in copy without collapsing into empty hype                     |
 | `prompt-engineer`             | specialist | Turn rough ideas into optimized prompts for specific AI platforms and media types                      |
 | `knowledge-writer`            | specialist | Map a codebase into modular, factual, navigable documentation                                          |
 | `react-architect`             | specialist | Define component boundaries, hooks, services, and architecture patterns for React projects             |
@@ -34,9 +38,17 @@ task.
 - name the skill after the attachable specialist or effect
 - avoid creating a new skill only because the final output file changes
 
-## Examples
+## Typical use
 
-- use `designer` when you need visual direction and layout judgment
-- use `sales-copywriter` when the task is conversion-focused
-- use `humanizer` when the text needs a more natural voice
-- use `react-architect` when the work needs React code structure and boundaries
+- use `designer` when the job needs visual judgment, layout direction, or UI
+  structure
+- use `sales-copywriter` when the output needs stronger conversion logic
+- use `humanizer` when the writing is correct but still sounds templated
+- use `react-architect` when the work needs React structure, component
+  boundaries, and implementation discipline
+
+## Practical rule
+
+Create a new skill only when the way of thinking changes in a meaningful way.
+Do not create a separate skill just because the final artifact changed from a
+page to an email or from a doc to a post.

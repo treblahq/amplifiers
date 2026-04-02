@@ -7,8 +7,8 @@ sidebar_position: 2
 
 Stacks are human-facing composition guides for recurring delivery types.
 
-They do not replace the runtime skill layer. They explain which combinations
-make sense when the same delivery pattern happens repeatedly.
+They do not replace the runtime skill layer. They show which combinations make
+sense when the same delivery pattern keeps appearing in real work.
 
 ## Current catalog
 
@@ -29,3 +29,7 @@ Create a stack when:
 - the delivery type is stable enough to deserve a reusable guide
 
 Do not create a stack just because two skills can technically work together.
+
+If the reusable unit is still a single specialist, keep it as a skill. If the
+reusable unit is a sequence of specialists around one delivery, that is a
+stack.

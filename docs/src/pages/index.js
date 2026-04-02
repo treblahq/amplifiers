@@ -17,13 +17,15 @@ function HomePage() {
           <div className={styles.heroGlow} />
           <div className={styles.heroInner}>
             <div className={styles.heroCopy}>
-              <div className={styles.kicker}>Composable skill library</div>
+              <div className={styles.kicker}>Agent Skills library</div>
               <h1>Attach the right specialist to the task.</h1>
               <p>
-                Amplifiers is a library of reusable specialist skills, recurring
-                delivery stacks, and skill-local reference material for agent
-                workflows, written in the Agent Skills package style used by
-                Anthropic, OpenAI Codex, and related tools.
+                Amplifiers packages specialist instructions, deep references,
+                and optional helpers the way modern skill runtimes expect:
+                one skill per folder, one clear runtime entrypoint, and deeper
+                material loaded only when needed. The model follows the Agent
+                Skills pattern used across Anthropic, OpenAI Codex, and related
+                tooling.
               </p>
               <div className={styles.actions}>
                 <Link className="button button--primary button--lg" to="/docs/intro">
@@ -53,22 +55,22 @@ function HomePage() {
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
             <span>Repository model</span>
-            <h2>One canonical runtime layer, no duplicated trees.</h2>
+            <h2>One canonical skill layer. Everything else supports it.</h2>
           </div>
           <div className={styles.grid}>
             <article className={styles.card}>
               <h3>Skills</h3>
-              <p>Directly attachable specialists and modifiers used at runtime.</p>
+              <p>Attachable specialists and modifiers that directly shape runtime work.</p>
               <Link to="/docs/catalog/skills">See the skill catalog</Link>
             </article>
             <article className={styles.card}>
               <h3>Stacks</h3>
-              <p>Reusable combinations for work that regularly needs multiple skills.</p>
+              <p>Reusable combinations for delivery types that repeatedly need multiple specialists.</p>
               <Link to="/docs/catalog/stacks">See the stack catalog</Link>
             </article>
             <article className={styles.card}>
               <h3>Skill packages</h3>
-              <p>Each skill keeps its own references, scripts, and packaged resources.</p>
+              <p>Each skill keeps its own references, scripts, assets, and optional runtime metadata.</p>
               <Link to="/docs/catalog/skill_packages">See the package anatomy</Link>
             </article>
           </div>
@@ -82,7 +84,7 @@ function HomePage() {
           <div className={styles.steps}>
             <div className={styles.step}>
               <strong>1</strong>
-              <p>Choose a single skill when the task is narrow and specialized.</p>
+              <p>Choose a single skill when the task is narrow and needs one clear specialist.</p>
             </div>
             <div className={styles.step}>
               <strong>2</strong>
@@ -90,7 +92,7 @@ function HomePage() {
             </div>
             <div className={styles.step}>
               <strong>3</strong>
-              <p>Reuse a stack when the same combination keeps appearing in daily work.</p>
+              <p>Reuse a stack when the same combination keeps showing up in daily work.</p>
             </div>
           </div>
         </section>

@@ -14,18 +14,23 @@ ecosystem, including
 [OpenAI Codex](https://developers.openai.com/codex/skills) and
 [Anthropic's Claude skill guidance](https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf).
 
-The repository is organized around how the library is actually used in daily
+The goal is simple: keep the runtime layer clean, make specialist context easy
+to attach, and stop scattering prompts, references, and helper material across
+unrelated folders.
+
+The repository is organized around how this library is actually used in daily
 work:
 
 - attach one specialist skill to a task
 - attach multiple skills when the work spans multiple disciplines
 - reuse named stacks when the same combinations happen repeatedly
 
-The core idea is simple:
+In practice, that means:
 
 - `skills/` stores directly attachable runtime specialists and modifiers
 - `stacks/` stores recurring combinations of skills for delivery types
-- `references/`, `scripts/`, and `assets/` live inside each skill package when needed
+- `references/`, `scripts/`, and `assets/` live inside each skill package when
+  needed
 
 If you are new to the project, start with:
 
@@ -36,11 +41,12 @@ If you are new to the project, start with:
 
 ## What lives where
 
-Amplifiers currently works through four primary top-level layers:
+Amplifiers works through four primary top-level layers:
 
 1. `skills/`
 2. `stacks/`
 3. `knowledge/`
 4. `docs/`
 
-The public site you are reading now is powered by Docusaurus inside `docs/`.
+The public site you are reading now is powered by Docusaurus inside `docs/`,
+then built into a static site for GitHub Pages.
