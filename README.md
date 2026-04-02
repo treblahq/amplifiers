@@ -1,160 +1,192 @@
 <p align="center">
-  <img src="docs/assets/images/logo.png" alt="Amplifiers logo" width="240" />
+  <img src="docs/static/img/logo.png" alt="Amplifiers logo" width="240" />
 </p>
 
 <h1 align="center">Amplifiers</h1>
 
 <p align="center">
-  A collection of reusable skills, capabilities, and superpowers for AI agents and co-workers.
+  A composable library of attachable specialist skills for agent workflows.
 </p>
 
 ---
 
-## What is Amplifiers?
+## What Amplifiers is
 
-Amplifiers is an open-source library of modular, reusable capabilities designed to extend what AI agents can do. Think of it as a toolkit of intelligence modules. Each one is a self-contained superpower that any agent, workflow, or AI co-worker can plug into and use.
+Amplifiers is an open-source library of reusable specialist skills that you can
+attach directly to a task.
 
-Instead of building the same logic from scratch every time, you drop in an Amplifier. It handles the heavy lifting so your agent focuses on what matters.
+The repository is organized around how the library is actually used in daily
+work:
 
----
+- attach one specialist skill to a task
+- attach multiple skills when the task spans multiple disciplines
+- reuse named stacks when the same combinations happen repeatedly
 
-## Why Amplifiers?
-
-Modern AI agents are powerful but raw. They need structure to be reliable: consistent ways to search the web, reason about files, manage memory, call APIs, and more.
-
-Amplifiers gives you that structure. Each module is:
-
-- **Composable:** combine multiple amplifiers in a single agent
-- **Reusable:** works across different agents, frameworks, and use cases
-- **Focused:** one capability per module, done well
-- **Open:** community-driven, freely available, easy to extend
-
----
-
-## Concepts
-
-| Term           | Meaning                                                   |
-| -------------- | --------------------------------------------------------- |
-| **Amplifier**  | A single, self-contained capability module                |
-| **Skill**      | A reusable logic block (e.g. "search the web")            |
-| **Superpower** | A high-level capability composed of one or more skills    |
-| **Agent**      | Any AI system that uses amplifiers to act in the world    |
-| **Co-worker**  | The broader source material used to distill new artifacts |
+This repository writes skills in the
+[Agent Skills](https://agentskills.io/) package style used across the broader
+ecosystem, including
+[OpenAI Codex skills](https://developers.openai.com/codex/skills) and
+[Anthropic's Claude skill guidance](https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf).
 
 ---
 
 ## Repository model
 
-Amplifiers now follows a publishing pipeline:
+Amplifiers now follows four primary top-level layers:
 
-1. `co-workers/` stores the broader source material, role guidance, and deeper references.
-2. `amplifiers/` publishes distilled runtime skills as reusable `SKILL.md` modules.
-3. `superpowers/` combines multiple amplifiers into repeatable workflows.
-4. `agents/` assembles stable combinations into opinionated collaborators.
+1. `skills/` stores the canonical attachable runtime skills.
+2. `stacks/` documents recurring combinations of skills for common deliveries.
+3. `knowledge/` stores internal markdown documentation about the repository.
+4. `docs/` is reserved for the Docusaurus documentation site published via GH Pages.
 
-Not every co-worker needs a one-to-one amplifier, superpower, or agent. Publish
-new artifacts only when the source material supports a clear reusable unit.
+Deep supporting material now lives inside each skill package, next to the
+runtime file:
 
----
-
-## Available Amplifiers
-
-| Amplifier                                                    | Description                                                             | Tags                        |
-| ------------------------------------------------------------ | ----------------------------------------------------------------------- | --------------------------- |
-| [humanize-writing](amplifiers/humanize-writing/SKILL.md)     | Remove AI writing patterns — restore voice, rhythm, and personality     | writing, editing            |
-| [prompt-engineering](amplifiers/prompt-engineering/SKILL.md) | Turn ideas into optimized prompts for any AI platform or media type     | prompting, multimodal       |
-| [knowledge-writing](amplifiers/knowledge-writing/SKILL.md)   | Map and document a codebase into modular, factual knowledge files       | documentation               |
-| [sales-copywriting](amplifiers/sales-copywriting/SKILL.md)   | Write conversion-focused copy for any offer, channel, or funnel stage   | copywriting, marketing      |
-| [django-drf](amplifiers/django-drf/SKILL.md)                 | Architecture and patterns for Django REST Framework APIs                | django, python, backend     |
-| [react-ecosystem](amplifiers/react-ecosystem/SKILL.md)       | Architecture and patterns for React, Next.js, and React Native projects | react, typescript, frontend |
-| [product-design](amplifiers/product-design/SKILL.md)         | Design interfaces, landing pages, and systems with UX and hierarchy     | design, ui, ux              |
-| [laravel-api](amplifiers/laravel-api/SKILL.md)               | Architecture and implementation rules for Laravel APIs                  | laravel, php, backend       |
-| [html-architecture](amplifiers/html-architecture/SKILL.md)   | Semantic, accessible, and maintainable structure for HTML projects      | html, accessibility         |
+- `scripts/` for executable helpers when a skill needs them
+- `references/` for documentation loaded as needed
+- `assets/` for templates and packaged resources
+- `agents/openai.yaml` for optional OpenAI/Codex-specific metadata
 
 ---
 
-## Available Superpowers
+## Core naming rule
 
-| Superpower                                                                                   | Description                                                                          | Composes                                                                                   |
-| -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| [frontend-feature-delivery](superpowers/frontend-feature-delivery/README.md)                 | Ship frontend features with design, React architecture, writing polish, and docs     | product-design, react-ecosystem, humanize-writing, knowledge-writing                       |
-| [landing-page-delivery](superpowers/landing-page-delivery/README.md)                         | Deliver landing pages with copy, design, HTML structure, and prompt assets           | sales-copywriting, product-design, html-architecture, humanize-writing, prompt-engineering |
-| [repository-documentation-delivery](superpowers/repository-documentation-delivery/README.md) | Improve README, contribution docs, standards, and repository documentation structure | knowledge-writing, humanize-writing, html-architecture, product-design                     |
-| [co-worker-publication](superpowers/co-worker-publication/README.md)                         | Distill source material into published amplifiers, superpowers, and agents           | knowledge-writing, prompt-engineering, humanize-writing                                    |
+Skills are named after the specialist or effect you want to attach.
+
+Examples:
+
+- `designer`
+- `humanizer`
+- `sales-copywriter`
+- `react-architect`
+- `dopamine-driven-copywritter`
+
+Stacks are named after the recurring delivery type:
+
+- `landing-page`
+- `landing-page-react`
+- `frontend-feature`
+- `repository-docs`
 
 ---
 
-## Available Agents
+## Available skills
 
-| Agent                                                                   | Description                                                                              | Uses                                                     |
-| ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| [frontend-product-builder](agents/frontend-product-builder/README.md)   | Product-facing frontend collaborator for React feature delivery                          | frontend-feature-delivery                                |
-| [conversion-launch-builder](agents/conversion-launch-builder/README.md) | Launch-focused collaborator for landing pages and campaign assets                        | landing-page-delivery                                    |
-| [open-source-publisher](agents/open-source-publisher/README.md)         | Repository-focused collaborator for docs, standards, README polish, and publication flow | repository-documentation-delivery, co-worker-publication |
+| Skill                                                                      | Type       | Description                                                                                            |
+| -------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------ |
+| [designer](skills/designer/SKILL.md)                                       | specialist | Design interfaces, pages, and visual systems with hierarchy, UX judgment, and implementation awareness |
+| [humanizer](skills/humanizer/SKILL.md)                                     | modifier   | Remove AI writing patterns and restore natural voice, rhythm, and personality                          |
+| [sales-copywriter](skills/sales-copywriter/SKILL.md)                       | specialist | Write conversion-focused sales copy for offers, pages, emails, and campaigns                           |
+| [dopamine-driven-copywritter](skills/dopamine-driven-copywritter/SKILL.md) | modifier   | Increase rhythm, curiosity, and tension in copy without collapsing into hype                           |
+| [prompt-engineer](skills/prompt-engineer/SKILL.md)                         | specialist | Turn rough ideas into optimized prompts for specific AI platforms and media types                      |
+| [knowledge-writer](skills/knowledge-writer/SKILL.md)                       | specialist | Map a codebase into modular, factual, navigable documentation                                          |
+| [react-architect](skills/react-architect/SKILL.md)                         | specialist | Define component boundaries, hooks, services, and architecture patterns for React projects             |
+| [django-architect](skills/django-architect/SKILL.md)                       | specialist | Structure Django and DRF backends with clear layers, selectors, services, and view rules               |
+| [laravel-architect](skills/laravel-architect/SKILL.md)                     | specialist | Structure Laravel backends with clean controllers, services, requests, resources, and integrations     |
+| [html-architect](skills/html-architect/SKILL.md)                           | specialist | Structure semantic, maintainable, accessible HTML projects and marketing pages                         |
+| [using-amplifiers](skills/using-amplifiers/SKILL.md)                       | meta-skill | Explain what is available in the library and how to combine it                                         |
+| [writing-amplifiers](skills/writing-amplifiers/SKILL.md)                   | meta-skill | Explain how to create or update skills and stacks in this repository                                   |
 
 ---
 
-## Quick Start
+## Available stacks
+
+| Stack                                                     | Description                                                                                 | Uses                                                                             |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| [frontend-feature](stacks/frontend-feature/README.md)     | Ship product-facing frontend work with design, React architecture, and writing polish       | `designer`, `react-architect`, `humanizer`, `knowledge-writer`                   |
+| [landing-page](stacks/landing-page/README.md)             | Build a landing page with copy, design, semantic structure, and prompt support              | `sales-copywriter`, `designer`, `html-architect`, `humanizer`, `prompt-engineer` |
+| [landing-page-react](stacks/landing-page-react/README.md) | Build a React-based landing page with conversion design, sales copy, and frontend structure | `designer`, `sales-copywriter`, `humanizer`, `react-architect`                   |
+| [repository-docs](stacks/repository-docs/README.md)       | Improve repository docs, standards, and public-facing structure                             | `knowledge-writer`, `humanizer`, `html-architect`, `designer`                    |
+| [publication](stacks/publication/README.md)               | Distill source material into reusable published skills and stacks                           | `knowledge-writer`, `prompt-engineer`, `humanizer`                               |
+
+---
+
+## Quick start
 
 Browse the repository by layer:
 
 ```bash
-ls co-workers/
-ls amplifiers/
-ls superpowers/
-ls agents/
+ls skills/
+ls stacks/
+ls knowledge/
 ```
 
----
+Use a skill directly by attaching its `SKILL.md` to the task context.
 
-## Using an Amplifier
-
-Each amplifier is a self-contained module. To use one, include its `SKILL.md` in your agent's system prompt or configuration:
+Example:
 
 ```text
-amplifiers/
-  humanize-writing/
-    SKILL.md
+my-skill/
+├── SKILL.md
+├── scripts/
+├── references/
+├── assets/
+└── agents/
+    └── openai.yaml
 ```
+
+If you are not sure which skill or combination to use, start with
+[using-amplifiers](skills/using-amplifiers/SKILL.md).
 
 ---
 
-## Source Material
+## Installation notes
 
-Use [co-workers/README.md](co-workers/README.md) to see how source material maps
-to published amplifiers, superpowers, and agents.
+- `.agents/README.md` points Codex-style runtimes to the canonical runtime
+  skills in `skills/`.
+- Claude Code installation is handled through `.claude/INSTALL.md` and
+  `.claude/install_skills.sh`.
+
+## Docs deployment
+
+The Docusaurus site in `docs/` is built and deployed by GitHub Actions:
+
+- `.github/workflows/test-docs.yml` validates the build on pull requests
+- `.github/workflows/deploy-docs.yml` publishes `docs/build` to GitHub Pages on
+  pushes to `main`
+- `docs/.nvmrc` pins the Node version used locally and in CI
+
+---
+
+## Skill package anatomy
+
+Amplifiers follows the same skill-package anatomy documented by Agent Skills,
+Anthropic, and OpenAI Codex:
+
+```text
+my-skill/
+├── SKILL.md
+├── scripts/
+├── references/
+├── assets/
+└── agents/
+    └── openai.yaml
+```
+
+In this structure:
+
+- `SKILL.md` is the required runtime entrypoint
+- `scripts/` is optional executable code
+- `references/` is optional deep documentation
+- `assets/` is optional templates and packaged resources
+- `agents/openai.yaml` is optional metadata for OpenAI/Codex tooling
 
 ---
 
 ## Contributing
 
-Amplifiers is community-driven. If you have built a useful capability for your agents, share it here.
+The main authoring flow is:
 
-1. Fork the repository
-2. Create a new folder under `amplifiers/your-amplifier-name/`
-3. Add a `SKILL.md` with a clear description, usage instructions, and examples
-4. Open a pull request
+1. Published runtime behavior lives in `skills/`.
+2. Deep supporting references stay inside the relevant skill package.
+3. Recurring combinations live in `stacks/`.
+4. Internal repository docs live in `knowledge/`.
+5. Public site output lives in `docs/`.
 
-Please follow the [contribution guide](CONTRIBUTING.md) to keep modules consistent and high quality.
-
----
-
-## Design Principles
-
-**One thing, done well.** Each amplifier has a single, clear purpose. No bloat.
-
-**Agent-agnostic.** Amplifiers are not tied to any specific framework, model, or platform.
-
-**Plain language first.** Skills are written in clear, readable instructions, not code.
-
-**Community over perfection.** A rough amplifier that works beats a perfect one that never ships.
+Follow [WRITING_STANDARD.md](WRITING_STANDARD.md) before publishing new content.
 
 ---
 
 ## License
 
 MIT. Use freely, contribute openly.
-
----
-
-_Built for agents. Powered by community._

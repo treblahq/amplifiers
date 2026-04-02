@@ -2,29 +2,37 @@
 
 Thanks for helping improve Amplifiers.
 
+Amplifiers authors skills in the
+[Agent Skills](https://agentskills.io/) package style used across tools like
+[OpenAI Codex](https://developers.openai.com/codex/skills) and the broader
+Claude skill ecosystem.
+
 ## Ways to contribute
 
-- Add a new amplifier (`amplifiers/<name>/SKILL.md`)
-- Add a new superpower (`superpowers/<name>/README.md`)
-- Add a new agent (`agents/<name>/README.md`)
-- Improve an existing amplifier
-- Improve docs in `README.md`, `CONTRIBUTING.md`, or `WRITING_STANDARD.md`
+- Add a new skill under `skills/<name>/SKILL.md`
+- Add a new stack under `stacks/<name>/README.md`
+- Improve an existing skill
+- Improve an existing skill's `references/`, `scripts/`, or `assets/`
+- Improve repository docs in `README.md`, `CONTRIBUTING.md`,
+  `WRITING_STANDARD.md`, or `knowledge/`
 - Report bugs, broken links, or unclear instructions
 
 ## Project structure
 
 ```text
-amplifiers/
-  <amplifier-name>/
+skills/
+  <skill-name>/
     SKILL.md
-superpowers/
-  <superpower-name>/
+    scripts/
+    references/
+    assets/
+    agents/
+      openai.yaml
+stacks/
+  <stack-name>/
     README.md
-agents/
-  <agent-name>/
-    README.md
-co-workers/
-  README.md
+knowledge/
+docs/
 WRITING_STANDARD.md
 ```
 
@@ -32,45 +40,36 @@ WRITING_STANDARD.md
 
 1. Keep each change focused.
 2. Use clear English in docs and skill text.
-3. Avoid breaking existing amplifier names or paths.
-4. Read `WRITING_STANDARD.md` before adding new documentation or changing
-   package structure.
+3. Avoid introducing new architectural layers unless the use case is proven.
+4. Read `WRITING_STANDARD.md` before adding new content or changing package
+   structure.
 5. Confirm links still work.
 
-## Adding a new amplifier
+## Adding a new skill
 
-1. Create a folder under `amplifiers/` using `kebab-case`.
-2. Add `SKILL.md` as the runtime source of truth. It should include objective
-   and scope, workflow or steps, constraints or safety notes, and examples when
-   useful.
-3. Add `README.md` only if the amplifier needs extra human-facing onboarding.
-4. Keep the amplifier single-purpose.
-5. Update `README.md` (Available Amplifiers table) when relevant.
+1. Create a folder under `skills/` using `kebab-case`.
+2. Add `SKILL.md` as the runtime source of truth.
+3. Keep the skill single-purpose.
+4. Move long references into `references/` when needed.
+5. Update `README.md` and any relevant stack docs when needed.
 
-## Publishing from co-workers
+## Publishing inside a skill package
 
-1. Start from an existing co-worker or a new co-worker-level source package.
-2. Publish an amplifier only when there is one clear reusable runtime capability.
-3. Publish a superpower when multiple amplifiers form a repeatable workflow.
-4. Publish an agent when the composition is stable enough to describe as a
-   collaborator.
-5. Do not force every co-worker to produce every artifact type.
+1. Start from the target skill under `skills/<name>/`.
+2. Publish a skill only when there is one clear attachable specialist or
+   modifier.
+3. Move deep supporting material into `references/` when the main runtime file gets too large.
+4. Add `scripts/` only when executable helpers are genuinely useful.
+5. Publish a stack when multiple skills form a recurring delivery pattern.
 
 ## Writing and structure standard
 
-Follow [WRITING_STANDARD.md](WRITING_STANDARD.md) for the project-wide rules on:
+Follow [WRITING_STANDARD.md](WRITING_STANDARD.md) for project-wide rules on:
 
-- When to use `SKILL.md` versus `README.md`
-- How to structure amplifiers, co-workers, superpowers, and agents
-- Naming conventions for folders and documentation files
-- Tone, heading style, and minimum quality expectations
-
-## Writing guidelines
-
-- Prefer practical, direct instructions.
-- Avoid vague claims and filler text.
-- Keep language tool-agnostic when possible.
-- If a skill depends on a specific tool, state it explicitly.
+- when to use `SKILL.md` versus `README.md`
+- how to structure `skills/`, `stacks/`, and `knowledge/`
+- naming conventions for folders and documentation files
+- tone, heading style, and minimum quality expectations
 
 ## Pull request checklist
 
@@ -80,15 +79,7 @@ Follow [WRITING_STANDARD.md](WRITING_STANDARD.md) for the project-wide rules on:
 - [ ] Docs updated when needed
 - [ ] No unrelated files included
 
-## Reporting issues
-
-Open a GitHub issue with:
-
-- What happened
-- What you expected
-- Steps to reproduce
-- Suggested fix (optional)
-
 ## Code of Conduct
 
-By participating, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+By participating, you agree to follow the
+[Code of Conduct](CODE_OF_CONDUCT.md).
