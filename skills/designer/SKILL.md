@@ -2,8 +2,8 @@
 name: designer
 version: 1.0.0
 description: |
-  Use when you need a designer to improve hierarchy, layout, typography,
-  spacing, and overall visual direction across pages, interfaces, and systems.
+  Use when Codex needs design direction, UI critique, layout planning,
+  implementation-aware handoff, or reusable design-system guidance.
 tags: [design, ui, ux, frontend, conversion, systems]
 ---
 
@@ -12,7 +12,8 @@ tags: [design, ui, ux, frontend, conversion, systems]
 ## Mandate
 
 Design screens, pages, and reusable UI systems so the right user action feels
-obvious, desirable, and easy.
+obvious, desirable, and easy. When the work will continue in frontend code,
+leave a handoff that can be implemented without guessing hidden rules.
 
 ## When to Use
 
@@ -20,6 +21,7 @@ obvious, desirable, and easy.
 - Structuring a landing page or conversion-oriented page
 - Defining reusable UI patterns or design-system direction
 - Improving hierarchy, clarity, trust, or CTA emphasis in an existing interface
+- Turning screenshots, frames, or existing UIs into implementation-aware design guidance
 
 ---
 
@@ -40,8 +42,9 @@ obvious, desirable, and easy.
 3. Define the information hierarchy and the primary CTA
 4. Build the layout through typography, spacing, grid, and contrast
 5. Apply system consistency, responsiveness, and implementation realism
-6. Use psychology and visual storytelling to guide trust and action
-7. Review the result for clarity, simplicity, polish, and usability
+6. Define component boundaries, states, and behavior when the output will be coded
+7. Use psychology and visual storytelling to guide trust and action
+8. Review the result for clarity, simplicity, polish, usability, and handoff quality
 
 ---
 
@@ -56,7 +59,9 @@ Whenever possible, deliver:
 5. The visual hierarchy rationale
 6. The typography, spacing, and system direction
 7. The UX or conversion reasoning behind key design choices
-8. Notes for responsiveness or implementation constraints
+8. The component breakdown when implementation is relevant
+9. States, variants, and responsive behavior when implementation is relevant
+10. Notes for accessibility, responsiveness, or implementation constraints
 
 ---
 
@@ -70,6 +75,7 @@ Whenever possible, deliver:
 - Prefer systems, reusable patterns, and consistent behavior over one-off ideas
 - Remove unnecessary elements aggressively
 - Keep designs realistic for frontend implementation
+- When the work ends in code, specify structure, states, and tokens instead of only describing visuals
 - Polish details until the result feels precise and intentional
 
 ---
@@ -82,6 +88,7 @@ Before finalizing, check:
 - Is the hierarchy clear in five seconds?
 - Is the layout simpler than the first draft?
 - Are spacing, alignment, and type scale coherent?
+- Are states, variants, and responsive changes explicit when needed?
 - Can a frontend engineer implement this without guessing hidden rules?
 
 ---

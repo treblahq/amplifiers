@@ -2,8 +2,9 @@
 name: react-architect
 version: 1.0.0
 description: |
-  Use when you need a React architect to define component boundaries, hooks,
-  services, state patterns, and clean frontend architecture rules.
+  Use when Codex needs React architecture decisions, runtime-specific frontend
+  patterns, or design-to-code conversion for React web, Next.js, React Native,
+  or Expo projects.
 tags: [react, next.js, react-native, expo, typescript, frontend, architecture]
 ---
 
@@ -11,203 +12,79 @@ tags: [react, next.js, react-native, expo, typescript, frontend, architecture]
 
 ## Mandate
 
-Build React web and React Native applications with a component-based architecture that separates UI, logic, and data into clear, composable layers. Code must be self-documenting, testable, and easy to extend.
+Build React systems with clear boundaries between route or screen composition,
+presentation, application logic, and data. Match the runtime before choosing
+libraries, styling, and file structure.
 
 ## When to Use
 
-- Starting or reviewing a React / Next.js / React Native project
-- Writing new screens, components, hooks, or services
-- Code review of frontend code
+- Starting or reviewing React / Next.js / React Native / Expo work
+- Writing or refactoring screens, pages, components, hooks, services, or contexts
+- Converting screenshots or Figma frames into production-ready React components
+- Reviewing frontend architecture, maintainability, naming, or accessibility
+
+---
+
+## Operating Rules
+
+- Identify the runtime first: React web / Next.js or React Native / Expo
+- Keep UI, logic, and data separate
+- Keep components small, composable, and explicitly typed
+- Prefer named exports and clear module boundaries
+- Avoid barrel files inside internal feature folders
+- Match styling and component patterns to the runtime-specific references
+- Make accessibility and state coverage explicit in interactive components
+
+---
+
+## Runtime Routing
+
+### React Web / Next.js
+
+- Use React 19 patterns without `forwardRef` unless a dependency requires it
+- Prefer Tailwind CSS v4 with semantic tokens, `tailwind-variants`, and `tailwind-merge`
+- Use Base UI React when headless primitives reduce implementation risk
+- Load `references/patterns/design-to-component-conversion.md` for screenshot or Figma conversion
+- Load `references/best-practices/web-component-generation.md` for stack, structure, and accessibility rules
+
+### React Native / Expo
+
+- Use the native styling and file-organization guidance in `references/best-practices/styling.md`
+- Keep native component styling in `styles.ts` with `styled-components/native`
+- Use native-specific screen, navigation, and persistence patterns from the references
 
 ---
 
 ## Architecture Layers
 
 ```
-Navigation Layer
-     │
-     ▼
-Screen Layer          ← Orchestrates UI and logic via hooks
-     │
-     ▼
-Presentation Layer    ← Reusable components + theme
-     │
-     ▼
-Application Layer     ← Hooks, services, contexts
-     │
-     ▼
-Data Layer            ← API cache, local DB, simple KV storage
+Route / Navigation Layer
+        │
+        ▼
+Page / Screen Layer     ← Orchestrates UI via hooks and feature modules
+        │
+        ▼
+Presentation Layer      ← Reusable components, slots, theme primitives
+        │
+        ▼
+Application Layer       ← Hooks, services, contexts, feature state
+        │
+        ▼
+Data Layer              ← API cache, persistence, local storage, database
 ```
 
 ### Layer Responsibilities
 
-| Layer      | What it contains                                      | What it never contains                  |
-|------------|-------------------------------------------------------|-----------------------------------------|
-| Screen     | Composition of components, calls hooks                | Business logic, inline data fetching    |
-| Component  | UI rendering, accepts props                           | Business logic, direct API calls        |
-| Hook       | Stateful logic, side effects, data fetching           | UI rendering                            |
-| Helper     | Pure functions: calculations, formatting, transforms  | State, side effects                     |
-| Service    | API communication, data transformation                | State, UI, direct component calls       |
-| Context    | Global shared state (auth, theme, config)             | Complex computation, business logic     |
+| Layer | What it contains | What it never contains |
+|-------|------------------|------------------------|
+| Route / Navigation | Routing, page or screen entrypoints, guards | Visual business rules, API code |
+| Page / Screen | Composition, feature wiring, loading and empty states | Raw data fetching details, low-level styling |
+| Component | UI rendering, slots, variants, semantic markup | API calls, cross-feature business rules |
+| Hook | Stateful logic, side effects, orchestration | JSX output |
+| Service | API communication and data transformation | UI state, rendering |
+| Context / Store | Shared application state | Screen-specific branching that belongs in a hook |
 
 ---
-
-## Folder Structure
-
-```
-src/
-├── app/
-│   ├── constants/         # App-wide constants
-│   ├── contexts/          # Global state (auth, theme, etc.)
-│   ├── hooks/             # Global custom hooks
-│   ├── helpers/           # Pure utility functions
-│   ├── services/          # API integrations
-│   ├── enums/             # Type-safe enumerations
-│   └── entities/          # Shared type definitions
-├── screens/
-│   └── screen-name/
-│       ├── index.tsx      # Main screen component
-│       ├── components/    # Screen-specific components
-│       ├── hooks/         # Screen-specific hooks
-│       ├── helpers/       # Screen-specific helpers
-│       └── types/         # Screen-specific types
-├── resources/
-│   ├── components/        # Global reusable components
-│   └── theme/             # Theme configuration
-└── navigators/            # Navigation configuration
-```
-
-**Key rule:** Always use `@` path aliases. Never use relative imports (`../../`).
-
----
-
-## Hooks Pattern
-
-Hooks encapsulate **stateful logic and side effects**.
-
-**Rules:**
-- One responsibility per hook — no "god hooks"
-- Extract all stateful logic out of components
-- Use `useCallback`/`useMemo` to prevent unnecessary re-renders
-- Never put UI rendering inside a hook
-- Use refs for tracking flags (not state)
-
-**Naming:** `use` + PascalCase → `useDiscoverReel`, `useAuth`, `useProductList`
-**File:** `entity-name.hook.ts` in kebab-case
-
-```typescript
-// screens/discover/hooks/use-discover-reel.hook.ts
-export function useDiscoverReel() {
-  const { data, isLoading } = useQuery({
-    queryKey: [QueryTypes.REELS],
-    queryFn: fetchReels,
-  });
-
-  return { reels: data ?? [], isLoading };
-}
-```
-
----
-
-## Services Pattern
-
-Services handle **API communication only**.
-
-**Rules:**
-- One service per API domain
-- Transform raw API responses into typed entities
-- No state, no side effects beyond the HTTP call
-- Always typed return values
-
-**Naming:** `entity.service.ts`
-
-```typescript
-// app/services/products.service.ts
-export async function fetchProducts(establishmentId: number): Promise<Product[]> {
-  const { data } = await api.get(`/products/?establishment=${establishmentId}`);
-  return data;
-}
-```
-
----
-
-## Components Pattern
-
-Components are **pure UI**.
-
-**Rules:**
-- Accept typed props — always define an interface
-- No direct API calls or business logic
-- Extract logic to hooks when the component needs state
-- Small and composable — one visual concern per component
-
-```
-user-profile/
-├── index.tsx       # Component
-├── styles.ts       # Styles
-└── types.ts        # Props interface
-```
-
----
-
-## State Management Strategy
-
-| What to store      | Where              |
-|--------------------|--------------------|
-| Server data / API  | React Query        |
-| Auth, preferences  | Context            |
-| Offline / local DB | Realm / SQLite     |
-| Simple flags/tokens | MMKV / AsyncStorage |
-| Component state    | `useState`         |
-
-**React Query** is the default for anything that comes from an API. Do not duplicate server state in a Context.
-
----
-
-## Naming Conventions
-
-| Element      | Convention         | Example                          |
-|--------------|--------------------|----------------------------------|
-| Folder       | `kebab-case`       | `user-profile/`, `post-detail/`  |
-| Component    | `PascalCase`       | `UserProfile`, `SearchInput`     |
-| Hook fn      | `use` + PascalCase | `useAuth`, `useProductList`      |
-| Hook file    | `entity.hook.ts`   | `use-auth.hook.ts`               |
-| Service file | `entity.service.ts`| `products.service.ts`            |
-| Helper file  | `entity.helper.ts` | `string.helper.ts`               |
-| Enum file    | `entity.enum.ts`   | `tab-type.enum.ts`               |
-| Screen       | `screens/name/index.tsx` | `screens/home/index.tsx`   |
-
----
-
-## TypeScript Rules
-
-- Enable strict mode
-- Type all function arguments and return values
-- Use interfaces for props and entity shapes
-- Use enums for type-safe categorical values
-- No `any` — use `unknown` when the shape is truly unknown
-
----
-
-## Performance Rules
-
-- Use `FlatList` / `VirtualizedList` for long lists — never `map` in a `ScrollView`
-- Memoize expensive computations with `useMemo`
-- Stabilize callbacks with `useCallback` when passed as props
-- Lazy-load screens on navigation
-- Avoid inline object/function creation inside `render` (causes re-renders)
-
----
-
-## Anti-Patterns to Avoid
-
-- Business logic inside components — extract to hooks
-- API calls directly in components — extract to services
-- "God hooks" that do everything — split by concern
-- Relative imports (`../../components`) — use `@` aliases
-- State for tracking booleans that don't trigger renders — use refs
-- Duplicating server state in Context — use React Query
-- Inline styles on every component — extract to `styles.ts`
 
 ## References
 
@@ -215,5 +92,5 @@ Load only what is relevant:
 
 - `references/react-architect.md`
 - `references/architecture/`
-- `references/best-practices/`
 - `references/patterns/`
+- `references/best-practices/`

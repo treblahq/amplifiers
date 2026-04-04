@@ -2,12 +2,12 @@
 
 ## Overview
 
-Ailu Mobile uses a multi-layered state management approach:
+React applications usually benefit from a layered state management approach:
 
-1. **Contexts** (use-context-selector) - Global app state
+1. **Contexts** - Shared app state
 2. **React Query** - Server state and API caching
-3. **Realm** - Local database for offline-first data
-4. **MMKV/AsyncStorage** - Simple key-value storage
+3. **Database or offline store** - Realm, SQLite, IndexedDB, or similar when persistence matters
+4. **Simple key-value storage** - MMKV, AsyncStorage, localStorage, or cookies for lightweight state
 
 ## Contexts
 
@@ -53,7 +53,7 @@ type AuthenticationContextType = AuthenticationState & AuthenticationActions;
 
 export const AuthenticationContext = createContext<AuthenticationContextType | null>(null);
 
-export const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
+export function AuthenticationProvider({ children }: PropsWithChildren) {
   const [state, setState] = useState<AuthenticationState>({
     isAuthenticated: false,
     user: null,
@@ -80,7 +80,7 @@ export const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }
       {children}
     </AuthenticationContext.Provider>
   );
-};
+}
 
 // Custom hook for easy access
 export const useAuthentication = () => {

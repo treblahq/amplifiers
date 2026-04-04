@@ -2,343 +2,161 @@
 
 ## Purpose
 
-Components are **reusable UI elements** that:
+Components are reusable UI units with clear inputs, predictable output, and
+minimal knowledge of business or data concerns.
 
-- Render visual elements
-- Accept props for customization
-- Are predictable and testable
-- Have minimal logic
+## Shared Rules
 
-## Rules
+✅ Keep components focused on one visual responsibility  
+✅ Type public props explicitly  
+✅ Prefer composition and slots over giant configurable components  
+✅ Keep API access and orchestration outside presentation components  
+✅ Make states and accessibility part of the component contract
 
-✅ **DO** keep components small and focused
-✅ **DO** use props for customization
-✅ **DO** separate UI from logic
-✅ **DO** use styled-components
-✅ **DO** extract to `@components` when reused
+❌ Do not fetch data directly in components  
+❌ Do not hide business rules inside render branches  
+❌ Do not mix unrelated concerns into one file because the UI appears together  
+❌ Do not pick styling or file organization before confirming the runtime
 
-❌ **DO NOT** put business logic in components
-❌ **DO NOT** make API calls
-❌ **DO NOT** use inline styles
-❌ **DO NOT** use variant props
+## Choose The Pattern By Runtime
 
-## File Organization
+### React Web / Next.js
 
+Use this pattern when converting screenshots or Figma frames into reusable web
+components.
+
+#### File Shape
+
+```text
+components/
+├── user-card.tsx
+├── empty-state.tsx
+└── dialog-content.tsx
 ```
+
+#### Core Rules
+
+- Use lowercase files with hyphens
+- Use named exports only
+- Use `ComponentProps<'element'>` for DOM-based components
+- Use `tailwind-variants` for variants and `tailwind-merge` for `className` merging
+- Add `data-slot` markers to identify component parts cleanly
+- Prefer compound components when a component has meaningful subregions
+- Do not use `forwardRef` by default in React 19 code
+
+#### Example
+
+```tsx
+import type { ComponentProps } from 'react'
+import { tv, type VariantProps } from 'tailwind-variants'
+import { twMerge } from 'tailwind-merge'
+
+const buttonVariants = tv({
+  base: 'inline-flex items-center justify-center rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+  variants: {
+    variant: {
+      primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
+      secondary: 'bg-secondary text-secondary-foreground hover:bg-muted',
+    },
+    size: {
+      sm: 'h-8 px-3 text-sm',
+      md: 'h-10 px-4 text-sm',
+    },
+  },
+  defaultVariants: {
+    variant: 'primary',
+    size: 'md',
+  },
+})
+
+export interface ButtonProps
+  extends ComponentProps<'button'>,
+    VariantProps<typeof buttonVariants> {}
+
+export function Button({ className, variant, size, disabled, ...props }: ButtonProps) {
+  return (
+    <button
+      type="button"
+      data-slot="button"
+      data-disabled={disabled ? '' : undefined}
+      className={twMerge(buttonVariants({ variant, size }), className)}
+      disabled={disabled}
+      {...props}
+    />
+  )
+}
+```
+
+### React Native / Expo
+
+Use this pattern when building reusable native components.
+
+#### File Shape
+
+```text
 src/resources/components/
-└── button/                   # kebab-case folder
-    ├── index.tsx            # Component logic
-    ├── styles.ts            # Styled-components
-    ├── types.ts             # Props interface (optional)
-    └── constants/           # Component constants (optional)
+└── button/
+    ├── index.tsx
+    ├── styles.ts
+    └── types.ts
 ```
 
-**CRITICAL**: Always separate into `index.tsx` and `styles.ts`
+#### Core Rules
 
-## Component Structure
+- Keep component logic in `index.tsx`
+- Keep styling in `styles.ts`
+- Use `styled-components/native`
+- Keep props narrow and explicit
+- Extract stateful behavior into hooks when the component starts orchestrating
 
-```typescript
-// src/resources/components/button/index.tsx
-import React from 'react';
-import { ActivityIndicator } from 'react-native';
-import { ButtonContainer, ButtonText } from './styles';
-import { ButtonProps } from './types';
+#### Example
 
-export const Button: React.FC<ButtonProps> = ({
+```tsx
+import { ActivityIndicator } from 'react-native'
+import { ButtonContainer, ButtonText } from './styles'
+import type { ButtonProps } from './types'
+
+export function Button({
   title,
   onPress,
   disabled = false,
   loading = false,
-  testID,
-}) => {
+}: ButtonProps) {
   return (
-    <ButtonContainer onPress={onPress} disabled={disabled || loading} testID={testID}>
-      {loading ? (
-        <ActivityIndicator color="white" />
-      ) : (
-        <ButtonText>{title}</ButtonText>
-      )}
+    <ButtonContainer onPress={onPress} disabled={disabled || loading}>
+      {loading ? <ActivityIndicator color="white" /> : <ButtonText>{title}</ButtonText>}
     </ButtonContainer>
-  );
-};
-```
-
-## Styles (styled-components)
-
-```typescript
-// src/resources/components/button/styles.ts
-import styled from "styled-components/native";
-
-export const ButtonContainer = styled.TouchableOpacity<{ disabled?: boolean }>`
-  background-color: ${({ theme, disabled }) =>
-    disabled ? theme.colors.gray : theme.colors.primary};
-  padding: 16px 32px;
-  border-radius: 8px;
-  align-items: center;
-  justify-content: center;
-  min-height: 56px;
-`;
-
-export const ButtonText = styled.Text`
-  color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.fontSizes.md}px;
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-`;
-```
-
-## Props Interface
-
-```typescript
-// src/resources/components/button/types.ts
-export interface ButtonProps {
-  title: string;
-  onPress: () => void;
-  disabled?: boolean;
-  loading?: boolean;
-  testID?: string;
+  )
 }
 ```
 
-## Component Best Practices
+## Compound Components
 
-### Use Specific Props (Not Variants)
+Use compounds when the component has stable subregions that improve readability
+and reuse.
 
-```typescript
-// ❌ WRONG - Generic variant prop
-interface ButtonProps {
-  variant: "primary" | "secondary" | "danger";
-}
+Good fits:
 
-// ✅ CORRECT - Specific props
-interface ButtonProps {
-  isPrimary?: boolean;
-  isSecondary?: boolean;
-  isDanger?: boolean;
-}
-```
+- card with header, title, content, footer
+- dialog with trigger, content, header, actions
+- table with row, cell, empty state
 
-### Extract Enums When Needed
+Avoid compounds when:
 
-```typescript
-// src/resources/components/button/types.ts
-export enum ButtonSize {
-  Small = 'small',
-  Medium = 'medium',
-  Large = 'large',
-}
+- the component is used only once
+- subregions have no independent meaning
+- splitting would create ceremonial wrappers with no clarity gain
 
-export interface ButtonProps {
-  size?: ButtonSize;
-}
+## When To Extract A Shared Component
 
-// Usage
-<Button size={ButtonSize.Large} />
-```
+Extract when:
 
-### NO Inline Styles
+- the same UI pattern appears in multiple places
+- the component has a stable contract
+- variants and states can be named clearly
 
-```typescript
-// ❌ WRONG - Inline styles
-<View style={{ flex: 1, padding: 16 }}>
+Keep local when:
 
-// ✅ CORRECT - Create styled component
-const Container = styled.View`
-  flex: 1;
-  padding: 16px;
-`;
-```
-
-## Common Component Patterns
-
-### Input Component
-
-```typescript
-// index.tsx
-import React from 'react';
-import { StyledInput, InputContainer, Label, ErrorText } from './styles';
-
-interface InputProps {
-  label?: string;
-  value: string;
-  onChangeText: (text: string) => void;
-  placeholder?: string;
-  error?: string;
-  secureTextEntry?: boolean;
-}
-
-export const Input: React.FC<InputProps> = ({
-  label,
-  value,
-  onChangeText,
-  placeholder,
-  error,
-  secureTextEntry,
-}) => {
-  return (
-    <InputContainer>
-      {label && <Label>{label}</Label>}
-      <StyledInput
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        secureTextEntry={secureTextEntry}
-        hasError={!!error}
-      />
-      {error && <ErrorText>{error}</ErrorText>}
-    </InputContainer>
-  );
-};
-```
-
-### Card Component
-
-```typescript
-import React, { ReactNode } from 'react';
-import { CardContainer, CardTitle, CardContent } from './styles';
-
-interface CardProps {
-  title?: string;
-  children: ReactNode;
-  onPress?: () => void;
-}
-
-export const Card: React.FC<CardProps> = ({ title, children, onPress }) => {
-  return (
-    <CardContainer onPress={onPress} disabled={!onPress}>
-      {title && <CardTitle>{title}</CardTitle>}
-      <CardContent>{children}</CardContent>
-    </CardContainer>
-  );
-};
-```
-
-### List Item Component
-
-```typescript
-import React from 'react';
-import { Container, Title, Subtitle, Icon } from './styles';
-
-interface ListItemProps {
-  title: string;
-  subtitle?: string;
-  icon?: string;
-  onPress?: () => void;
-}
-
-export const ListItem: React.FC<ListItemProps> = ({ title, subtitle, icon, onPress }) => {
-  return (
-    <Container onPress={onPress}>
-      {icon && <Icon source={{ uri: icon }} />}
-      <View>
-        <Title>{title}</Title>
-        {subtitle && <Subtitle>{subtitle}</Subtitle>}
-      </View>
-    </Container>
-  );
-};
-```
-
-## Conditional Rendering
-
-```typescript
-export const UserCard: React.FC<UserCardProps> = ({ user, showEmail }) => {
-  return (
-    <Container>
-      <Name>{user.name}</Name>
-      {showEmail && <Email>{user.email}</Email>}
-      {user.verified ? <VerifiedBadge /> : <UnverifiedWarning />}
-    </Container>
-  );
-};
-```
-
-## Children Pattern
-
-```typescript
-interface ContainerProps {
-  children: ReactNode;
-  centered?: boolean;
-}
-
-export const Container: React.FC<ContainerProps> = ({ children, centered }) => {
-  return (
-    <StyledContainer centered={centered}>
-      {children}
-    </StyledContainer>
-  );
-};
-```
-
-## Accessing Theme
-
-```typescript
-import { useTheme } from 'styled-components/native';
-import { AppThemeProps } from '@theme/types';
-
-export const MyComponent: React.FC = () => {
-  const theme: AppThemeProps = useTheme();
-
-  return (
-    <Container>
-      <Text style={{ color: theme.colors.primary }}>
-        Themed Text
-      </Text>
-    </Container>
-  );
-};
-```
-
-## Component Naming
-
-- **Folder**: kebab-case (`button`, `user-card`, `post-item`)
-- **File**: `index.tsx` (always)
-- **Component**: PascalCase (`Button`, `UserCard`, `PostItem`)
-- **Styles**: `styles.ts`
-- **Types**: `types.ts` (optional, only if > 3 props)
-
-## When to Create a Component
-
-Create a reusable component when:
-
-✅ UI element is used in 2+ places
-✅ Component is self-contained
-✅ Logic is minimal (just props → render)
-✅ Can be tested in isolation
-
-Keep as inline JSX when:
-
-❌ Used only once
-❌ Tightly coupled to parent
-❌ Very simple (< 10 lines)
-
-## Component Composition
-
-```typescript
-// Compose smaller components
-export const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
-  return (
-    <Card>
-      <Avatar url={user.avatar} />
-      <UserName name={user.name} />
-      <UserBio bio={user.bio} />
-      <Button title="Follow" onPress={() => followUser(user.id)} />
-    </Card>
-  );
-};
-```
-
-## Best Practices
-
-✅ **One component = one file (index.tsx)**
-✅ **Always use styled-components**
-✅ **Extract styles to styles.ts**
-✅ **Type all props**
-✅ **Keep components under 100 lines**
-✅ **Use descriptive prop names**
-✅ **Handle empty/loading states**
-
-❌ **Don't use inline styles**
-❌ **Don't use variant props**
-❌ **Don't put logic in components**
-❌ **Don't make components too complex**
-❌ **Don't mix concerns**
+- the markup is screen-specific
+- the abstraction would only hide simple JSX
+- the design is still volatile and not reusable yet

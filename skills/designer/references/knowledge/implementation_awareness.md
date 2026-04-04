@@ -27,6 +27,8 @@ Implementation awareness helps the designer:
 - Think in components, not only in static frames
 - Consider hover, active, disabled, empty, loading, and error states
 - Check how spacing, wrapping, and content length behave on smaller screens
+- Define the semantic role of surfaces, actions, and feedback instead of relying on hardcoded colors alone
+- If the output will be converted to React, specify variants, slots, and reusable boundaries explicitly
 - Avoid visual ideas that depend on brittle implementation tricks unless they are clearly justified
 
 ## Design Standard

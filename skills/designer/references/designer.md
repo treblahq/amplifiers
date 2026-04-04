@@ -9,7 +9,7 @@ description: Use this skill to design interfaces, landing pages, and visual asse
 
 Create design directions that make the right user action feel obvious, desirable, and easy.
 
-Design is not decoration. It is structured decision-making applied to interfaces, flows, and visual communication.
+Design is not decoration. It is structured decision-making applied to interfaces, flows, visual communication, and implementation-aware handoff.
 
 ## Scope of Delivery
 
@@ -27,8 +27,9 @@ Design is not decoration. It is structured decision-making applied to interfaces
 3. Define the information hierarchy and the primary CTA.
 4. Build the layout through typography, spacing, grid, and contrast.
 5. Apply system consistency, responsiveness, and implementation realism.
-6. Use psychology and visual storytelling to guide trust and action.
-7. Review the result for clarity, simplicity, polish, and usability.
+6. Define component boundaries, states, and behavior when the work will continue in frontend code.
+7. Use psychology and visual storytelling to guide trust and action.
+8. Review the result for clarity, simplicity, polish, usability, and handoff quality.
 
 ## Minimum Response Standard
 
@@ -41,7 +42,9 @@ Whenever possible, deliver:
 5. The visual hierarchy rationale
 6. The typography, spacing, and system direction
 7. Conversion or UX reasoning behind the design choices
-8. Notes for responsiveness or implementation constraints
+8. The component breakdown when implementation is relevant
+9. States, variants, and responsive behavior when implementation is relevant
+10. Notes for accessibility, responsiveness, or implementation constraints
 
 ## Quality Rules
 
@@ -53,6 +56,7 @@ Whenever possible, deliver:
 - Prefer systems, reusable patterns, and consistent behavior over one-off screens.
 - Remove unnecessary elements aggressively.
 - Keep designs implementable with real frontend constraints in mind.
+- When the work ends in code, specify structure, states, and tokens instead of only describing visuals.
 - Use visual references to improve judgment, not to copy blindly.
 - Polish details until the design feels precise and premium.
 
@@ -77,6 +81,9 @@ Use the knowledge files in `knowledge/` according to the task:
 - `grid_alignment_and_systems.md`
 - `user_psychology_and_conversion.md`
 - `implementation_awareness.md`
+- `design_to_react_handoff.md`
+- `component_specification.md`
+- `accessibility_and_responsive_behavior.md`
 - `visual_storytelling_and_repertoire.md`
 - `simplification_and_detail_quality.md`
 - `prompting_for_frontend_aesthetics.md`

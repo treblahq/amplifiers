@@ -1,165 +1,91 @@
 # Architecture Overview
 
-## Project Architecture
+React systems should keep route composition, UI, logic, and data distinct
+across both web and native runtimes.
 
-Ailu Mobile follows a **Component-Based Architecture with Clean Code principles** for React Native + Expo.
-
-```
-┌─────────────────────────────────────────┐
-│        Navigation Layer                 │
-│  - Stack Navigator (React Navigation)   │
-│  - Deep Linking Configuration           │
-│  - Route Guards (useNextBehavior)       │
-└────────────┬────────────────────────────┘
-             │
-┌────────────▼────────────────────────────┐
-│         Screen Layer                    │
-│  - Screen Components (index.tsx)        │
-│  - Screen-specific components/          │
-│  - Screen-specific hooks/               │
-│  - Screen-specific helpers/             │
-└────────────┬────────────────────────────┘
-             │
-┌────────────▼────────────────────────────┐
-│      Presentation Layer                 │
-│  - Reusable Components (@components)    │
-│  - Styled Components (styles.ts)        │
-│  - Theme System (@theme)                │
-└────────────┬────────────────────────────┘
-             │
-┌────────────▼────────────────────────────┐
-│       Application Layer                 │
-│  - Custom Hooks (@hooks)                │
-│  - Services (@services)                 │
-│  - Contexts (@contexts)                 │
-└────────────┬────────────────────────────┘
-             │
-┌────────────▼────────────────────────────┐
-│         Data Layer                      │
-│  - Realm Database (local)               │
-│  - React Query (API cache)              │
-│  - MMKV/AsyncStorage (simple KV)        │
-└─────────────────────────────────────────┘
-```
-
-## Core Principles
-
-1. **Separation of Concerns**: UI, Logic, Data are cleanly separated
-2. **Component Composition**: Small, reusable components over large monoliths
-3. **Clean Code**: Self-documenting code, no inline logic
-4. **Extract Logic**: All pure logic goes to helpers, all stateful logic to hooks
-5. **Path Aliases**: Always use @ aliases, never relative imports
-6. **Type Safety**: TypeScript strict mode, typed everything
-
-## Folder Structure
+## Shared Layer Model
 
 ```
+Route / Navigation
+        │
+        ▼
+Page / Screen
+        │
+        ▼
+Presentation
+        │
+        ▼
+Application
+        │
+        ▼
+Data
+```
+
+## Layer Responsibilities
+
+| Layer | Contains | Avoids |
+|-------|----------|--------|
+| Route / Navigation | App routes, navigators, guards, entrypoints | Feature-specific visual rules |
+| Page / Screen | Composition, orchestration, loading or empty states | Raw HTTP details, reusable low-level markup |
+| Presentation | Reusable components, compounds, slots, theme primitives | API calls, cross-feature business logic |
+| Application | Hooks, actions, services, contexts, feature state | Route definitions, raw visual markup |
+| Data | API clients, cache, local persistence, database access | UI branching |
+
+## Runtime Notes
+
+### React Web / Next.js
+
+- Pages and route segments orchestrate feature modules.
+- Reusable UI should favor semantic HTML, headless primitives when helpful, and theme tokens.
+- Styling should be driven by Tailwind CSS v4 and semantic CSS variables when the project uses that stack.
+
+### React Native / Expo
+
+- Screens orchestrate feature modules through hooks.
+- Presentation components map onto native primitives and keep styles in `styles.ts`.
+- Platform differences should stay near the presentation layer, not leak into services.
+
+## Example Folder Shapes
+
+### React Web / Next.js
+
+```text
+src/
+├── app/                  # routes or app router segments
+├── features/
+│   └── billing/
+│       ├── components/
+│       ├── hooks/
+│       ├── services/
+│       └── utils/
+├── components/           # shared UI
+└── lib/                  # clients, helpers, shared infrastructure
+```
+
+### React Native / Expo
+
+```text
 src/
 ├── app/
-│   ├── constants/         # App-wide constants
-│   ├── contexts/          # Global state (auth, realm, etc.)
-│   ├── hooks/             # Global custom hooks
-│   ├── helpers/           # Pure utility functions
-│   ├── services/          # API calls and data fetching
-│   ├── enums/             # Type-safe enumerations
-│   └── entities/          # Type definitions
-├── screens/               # Screen components
-│   └── screen-name/
-│       ├── index.tsx      # Main screen
-│       ├── components/    # Screen-specific components
-│       ├── hooks/         # Screen-specific hooks
-│       ├── helpers/       # Screen-specific helpers
-│       └── types/         # Screen-specific types
+│   ├── contexts/
+│   ├── hooks/
+│   ├── helpers/
+│   └── services/
+├── screens/
+│   └── home/
+│       ├── components/
+│       ├── hooks/
+│       └── helpers/
 ├── resources/
-│   ├── components/        # Global reusable components
-│   └── theme/             # Theme configuration
-├── navigators/            # Navigation configuration
-├── configuration/         # App configuration (Sentry, etc.)
-└── databases/             # Realm schemas and queries
+│   ├── components/
+│   └── theme/
+└── navigators/
 ```
 
-## Request Flow
+## Core Rules
 
-### API Request Flow
-
-```
-Component → Hook → Service → API → Response
-    ↓         ↓        ↓
-  Render   State   Transform → React Query Cache
-```
-
-### Local Data Flow (Realm)
-
-```
-Component → Hook → Realm Method → Database
-    ↓         ↓         ↓
-  Render   State   realm.write(() => {})
-```
-
-## Key Patterns
-
-- **Screen**: Main view component, orchestrates UI and business logic via hooks
-- **Component**: Reusable UI element, accepts props, minimal logic
-- **Hook**: Encapsulates stateful logic, side effects, data fetching
-- **Helper**: Pure functions for calculations, transformations, formatting
-- **Service**: API communication, data transformation
-- **Context**: Global state accessible throughout the app
-
-## Navigation Architecture
-
-### Stack Navigator
-
-- **Public Stack**: Welcome, SignIn, SignUp, ForgotPassword
-- **Private Stack**: Home, Profile, Settings, etc.
-- **Common Stack**: Webview (shared between public/private)
-
-### Route Guards
-
-- `useBootstrap()`: Pre-navigation checks (auth, versioning, config)
-- `useNextBehavior()`: Priority-based forced flows (updates, onboarding)
-
-### Deep Linking
-
-- Configured in `NavigationProvider`
-- Pattern: `ailu://screen-name/:param`
-- Handles: Password reset, external links, notifications
-
-## State Management Strategy
-
-### Use Contexts for:
-
-- Authentication state
-- User preferences
-- App configuration
-- Theme
-- Navigation reference
-
-### Use React Query for:
-
-- API data fetching
-- Server state caching
-- Background refetching
-- Optimistic updates
-
-### Use Realm for:
-
-- Offline-first data
-- Chat messages
-- User context
-- Persistent local data
-
-### Use MMKV/AsyncStorage for:
-
-- Simple key-value storage
-- Tokens, flags
-- User preferences
-
-## Performance Considerations
-
-- **Lazy Loading**: Screens loaded on demand
-- **Memoization**: `useMemo`, `useCallback` for expensive operations
-- **FlatList**: Virtualized lists for large datasets
-- **Image Optimization**: Proper resizeMode and caching
-- **Bundle Size**: Code splitting, tree shaking
-
-See detailed documentation in the `patterns/` directory for each layer.
+1. Route or screen files compose. They do not absorb every concern.
+2. Components render. Hooks orchestrate. Services fetch or transform.
+3. Shared abstractions should exist because they are reused or stabilize complexity, not because a pattern looks elegant in theory.
+4. State belongs at the lowest level that still satisfies the feature.
+5. Runtime-specific libraries belong behind runtime-specific guidance.
